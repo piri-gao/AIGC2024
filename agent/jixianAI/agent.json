@@ -1,0 +1,29 @@
+
+{
+  "DBSCAN": {
+    "eps": 25000,
+    "min_sample": 2
+  },
+
+  "init_target_up": {
+    "X": 0,
+    "Y": 65000,
+    "Z": 9500,
+    "pos2d_dic": {"X": 0, "Y": 65000},
+    "pos3d_dic": {"X": 0, "Y": 65000, "Z": 9500}
+  },
+
+  "init_target_down": {
+    "X": 0,
+    "Y": -75000,
+    "Z": 9500,
+    "pos2d_dic": {"X": 0, "Y": -65000},
+    "pos3d_dic": {"X": 0, "Y": -65000, "Z": 9500}
+  },
+
+  "formation_attack": {
+    "attack_dis": 60000,
+    "attack_angle": 110
+  }
+
+}
