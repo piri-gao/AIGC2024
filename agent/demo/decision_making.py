@@ -192,7 +192,7 @@ class DemoDecision():
             cmd_list.append(
                 env_cmd.make_entityinitinfo(leader_plane_1.ID, -145000 * self.side, 75000, 9500, 200, init_direction))
             cmd_list.append(
-                env_cmd.make_entityinitinfo(leader_plane_1.ID, -145000 * self.side, -75000, 9500, 200, init_direction))
+                env_cmd.make_entityinitinfo(leader_plane_2.ID, -145000 * self.side, -75000, 9500, 200, init_direction))
 
             for key, value in self.first_leader_formation.items():
                 if key == "up_plane":
@@ -202,7 +202,7 @@ class DemoDecision():
                     cmd_list.append(
                         env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, 65000, 9500, 200, init_direction))
 
-            for key, value in self.first_leader_formation.items():
+            for key, value in self.sec_leader_formation.items():
                 if key == "up_plane":
                     cmd_list.append(
                         env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, -65000, 9500, 200, init_direction))
