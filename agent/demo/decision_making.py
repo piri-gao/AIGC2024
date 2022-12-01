@@ -133,7 +133,6 @@ class DemoDecision():
             self.init_pos(sim_time, cmd_list)
         else:
             self.init_move(cmd_list)
-
             # 更新敌人的被打击列表
             undetected_list = self.update_hit_list()
 
@@ -167,8 +166,13 @@ class DemoDecision():
                         dis = tmp_dis
 
                 if guide_plane is not None:
+                    z_point = enemy_plane[1]["Z"]
+                    if z_point > 10000:
+                        z_point = 10000
+                    if z_point < 2000:
+                        z_point = 2000
                     cmd_list.append(env_cmd.make_areapatrolparam(guide_plane.ID, enemy_plane[1]["X"], enemy_plane[1]["Y"],
-                                                                 enemy_plane[1]["Z"], 200, 100, 300, 1, 6))
+                                                                 z_point, 200, 100, 300, 1, 6))
 
             # 躲避模块
             self.update_evade()
@@ -240,8 +244,8 @@ class DemoDecision():
                 sec_formation_route = {"up_plane": [{"X": 40000 * self.side, "Y": -65000, "Z": 9500}],
                                        "down_plane": [{"X": 40000 * self.side, "Y": -85000, "Z": 9500}],
                                        "leader_plane": [{"X": 25000 * self.side, "Y": -75000, "Z": 9500}],
-                                       "uav_1": [{"X": 30000 * self.side, "Y": -45000, "Z": 9500}],
-                                       "uav_2": [{"X": 30000 * self.side, "Y": -55000, "Z": 9500}]
+                                       "uav_1": [{"X": 30000 * self.side, "Y": -55000, "Z": 9500}],
+                                       "uav_2": [{"X": 30000 * self.side, "Y": -45000, "Z": 9500}]
                                        }
                 for plane, route in first_formation_route.items():
                     cmd_list.append(env_cmd.make_linepatrolparam(self.first_formation[plane].ID, route, 240, 1, 6))

@@ -43,7 +43,7 @@ def growCluster(D, labels, P, NeighborPts, C, eps, MinPts):
 def regionQuery(D, P, eps):
     neighbors = []
     for Pn in range(0, len(D)):
-        if np.linalg.norm(D[P] - D[Pn]) < eps:
+        if np.linalg.norm(np.array(D[P]) - np.array(D[Pn])) < eps:
             neighbors.append(Pn)
 
     return neighbors

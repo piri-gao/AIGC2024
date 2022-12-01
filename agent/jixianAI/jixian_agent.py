@@ -9,7 +9,7 @@ from agent.agent import Agent
 #from agent.jixianAI_demo.observation import GlobalObservation
 from agent.jixianAI.observation import GlobalObservation
 #from agent.jixianAI_demo.decision_making import JixianDecision
-from agent.jixianAI.decision_making import JixianDecision
+#from agent.jixianAI.decision_making import JixianDecision
 
 """
 战术思路：

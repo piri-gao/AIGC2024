@@ -112,11 +112,11 @@ class JixianXsimAI():
             else:
                 enemy_missile.append(missile)
 
-            missile_active = (missile["ID"] != 0 and missile["Availability"] > 0.0001)
+            missile_active = (missile.ID != 0 and missile.Availability > 0.0001)
             if not missile_active:
                 continue
-            launch_id = missile["LauncherID"]
-            target_id = missile["EngageTargetID"]
+            launch_id = missile.LauncherID
+            target_id = missile.EngageTargetID
             launch_jet = self.find_jet_by_given(launch_id, True)
             target_jet = self.find_jet_by_given(target_id, True)
             if launch_jet is not None:
@@ -275,42 +275,47 @@ class JixianXsimAI():
         if self.side == -1:
             init_direction = 270
 
+        if self.side == 1:
+            pre = "红"
+        elif self.side == -1:
+            pre = "蓝"
+
         # 初始化有人机位置
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红有人机1"].ID, -145000 * self.side, 75000, 9500, 200, init_direction))
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"有人机1"].ID, -145000 * self.side, 75000, 9500, 200, init_direction))
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红有人机2"].ID, -145000 * self.side, -75000, 9500, 200, init_direction))
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"有人机2"].ID, -145000 * self.side, -75000, 9500, 200, init_direction))
 
         # 初始化无人机位置
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机1"].ID, -125000 * self.side, 85000, 9500, 200, init_direction))
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机1"].ID, -125000 * self.side, 85000, 9500, 200, init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机2"].ID, -125000 * self.side, 65000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机2"].ID, -125000 * self.side, 65000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机3"].ID, -125000 * self.side, 55000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机3"].ID, -125000 * self.side, 55000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机4"].ID, -125000 * self.side, 45000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机4"].ID, -125000 * self.side, 45000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机5"].ID, -125000 * self.side, -85000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机5"].ID, -125000 * self.side, -85000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机6"].ID, -125000 * self.side, -65000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机6"].ID, -125000 * self.side, -65000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机7"].ID, -125000 * self.side, -55000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机7"].ID, -125000 * self.side, -55000, 9500, 200,
                                         init_direction))
 
         self.cmd_list.append(
-            CmdEnv.make_entityinitinfo(self.my_jets_dic["红无人机8"].ID, -125000 * self.side, -45000, 9500, 200,
+            CmdEnv.make_entityinitinfo(self.my_jets_dic[pre+"无人机8"].ID, -125000 * self.side, -45000, 9500, 200,
                                         init_direction))
 
     def update_track_target(self):# todo
@@ -344,7 +349,7 @@ class JixianXsimAI():
                     squad = attack_jet.squad
                     for jet in self.my_jets:
                         if jet.squad == squad:
-                            jet.target =
+                            jet.target = target
 
     def tactical_track(self, jet):
         # 无目标时，朝假目标列队飞行
@@ -368,7 +373,7 @@ class JixianXsimAI():
             if not follow:
                 return
 
-            nolaunched_missile = len([ms for ms in self.my_missile if ms.LauncherID == jet.ID] == 0)
+            nolaunched_missile = len([ms for ms in self.my_missile if ms.LauncherID == jet.ID]) == 0
 
 
             # 列举一些特殊情况，这下情况下我方战机不会正常跟随敌机
@@ -376,7 +381,7 @@ class JixianXsimAI():
             if jet.LeftWeapon == 0 and nolaunched_missile and jet.Type == 2 and jet.target.Type == 1 and get_dis(jet, jet.target)<14e3:
                 dest_loaction = jet.close_target_tracking(jet.target)
                 self.cmd_list.append(check_and_make_linepatrolparam(
-                    jet.ID,
+                    jet,
                     dest_loaction,
                     jet.max_speed,
                     jet.max_acc,
@@ -386,7 +391,7 @@ class JixianXsimAI():
             else:
                 # 无特殊情况，有人机调整速度朝目标大致位置飞行， 无人机直接跟随目标飞行
                 if jet.Type == 1:
-                    _, threat_distance = jet.get_nearest_threat()
+                    _, threat_distance = jet.get_nearest_threat(self.enemy_jets)
                     if threat_distance < 30e3:
                         speed= 400
                     elif threat_distance < 40e3:
@@ -398,11 +403,11 @@ class JixianXsimAI():
                         "X": jet.target.X, "Y": jet.target.Y, "Z": jet.max_alt*0.9
                     }]
                     self.cmd_list.append(check_and_make_linepatrolparam(
-                        jet.ID,
+                        jet,
                         dest_location,
                         speed,
                         jet.max_acc,
-                        jet.mac_g
+                        jet.max_g
                     ))
 
                 else:
@@ -545,7 +550,7 @@ class JixianXsimAI():
         return None
 
     def find_missile_by_id(self, id):
-        for missile in self.ms:
+        for missile in self.total_missile_list:
             if missile.ID == id:
                 return missile
         return None
@@ -581,7 +586,7 @@ class JixianXsimAI():
 
         for pos_c, jet in enumerate(self.enemy_jets):
             if enemy_pos_cluster[pos_c]  == -1:
-                enemy_pos_list.append(jet)
+                enemy_pos_list.append([jet])
 
         self.enemy_pos_list = enemy_pos_list
 

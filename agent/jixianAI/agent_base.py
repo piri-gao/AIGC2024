@@ -76,8 +76,10 @@ class MyJet(object):
 
     def init_battle_info(self):
         # 初始化jet所属的编队，待测试
-        formation_1st = ["红有人机1", "红无人机1", "红无人机2", "红无人机3", "红无人机4"]
-        formation_2nd = ["红有人机2", "红无人机5", "红无人机6", "红无人机7", "红无人机8"]
+        formation_1st = ["红有人机1", "红无人机1", "红无人机2", "红无人机3", "红无人机4",
+                         "蓝有人机1", "蓝无人机1", "蓝无人机2", "蓝无人机3", "蓝无人机4"]
+        formation_2nd = ["红有人机2", "红无人机5", "红无人机6", "红无人机7", "红无人机8",
+                         "蓝有人机2", "蓝无人机5", "蓝无人机6", "蓝无人机7", "蓝无人机8"]
         if self.Name in formation_1st:
             self.formation = "first"
         else:
@@ -105,9 +107,9 @@ class MyJet(object):
         # 更新探测敌机信息情况
         # 雷达探测分为两种距离，有人机举例，雷达探测到可攻击是60e3，较好的开火距离是58e3
         # 更新可攻击距离雷达探测情况
-        self.in_attack_rader = self.get_in_attack_rader_enemy()
+        #self.in_attack_rader = self.get_in_attack_rader_enemy()
         # 更新较好开火距离内雷达探测情况
-        self.in_rader = self.get_in_rader_enemy()
+        #self.in_rader = self.get_in_rader_enemy()
 
         self.previous_attacked_missile_list = copy.copy(self.attacked_missile_list)
         # 清零，然后在decision——making里面更新
@@ -240,7 +242,7 @@ class MyJet(object):
     def close_target_tracking(self, target):
         dest_location = adjust_angle_to_target(my_jet=self, vip=target, angle=110)
         return dest_location
-
+    '''
     def abort_attack(self, force=False):
         """
         放弃攻击的条件：
@@ -282,18 +284,19 @@ class MyJet(object):
             else:
                 cmd_list_new.append(cmd)
         return cmd_list_new
+    '''
 
     def get_target_dis(self, target):
         pos1 = self.pos3d_dic
         pos2 = target.pos3d_dic
         return TSVector3.distance(pos1, pos2)
 
-    def get_nearest_threat(self):
+    def get_nearest_threat(self, enemy_jets):
         # 获取最近的威胁目标，可能是导弹或敌机
         threat_target = None
         threat_dis = 9999999
         nearest_ms = self.get_nearest_ms()
-        nearest_jet = self.get_nearest_enemy_jet(self.enemy_jets)
+        nearest_jet = self.get_nearest_enemy_jet(enemy_jets)
 
         if nearest_ms is not None and threat_dis > self.get_target_dis(nearest_ms):
             threat_target = nearest_ms
@@ -309,10 +312,10 @@ class MyJet(object):
         index = np.argmin(np.array([self.get_target_dis(ms)]) for ms in self.attacked_missile_list)
         return self.attacked_missile_list[index]
 
-    def get_nearest_enemy_jet(self,):
-        dis = np.array([self.get_target_dis(enemy_jet) for enemy_jet in self.enemy_jets if enemy_jet.LeftWeapon > 0])
+    def get_nearest_enemy_jet(self, enemy_jets):
+        dis = np.array([self.get_target_dis(enemy_jet) for enemy_jet in enemy_jets if enemy_jet.EnemyLeftWeapon > 0])
         if len(dis) > 0:
-            return self.enemy_jets[np.argmin(dis)]
+            return enemy_jets[np.argmin(dis)]
         else:
             return None
 
@@ -392,13 +395,14 @@ class EnemyJet(object):
         self.pos3d = np.array([self.X, self.Y, self.Z])
         # 被几发导弹瞄准
         self.num_locked_missile = 0
-
+        # 发射的导弹列表
+        self.my_launch_missile = []
         self.attacked_missile_list = []
         self.previous_attacked_missile_list = []
 
         self.alive = False
 
-        if self.Tyep == 1:
+        if self.Type == 1:
             self.EnemyLeftWeapon = 4
         else:
             self.EnemyLeftWeapon = 2
@@ -455,6 +459,8 @@ class Missile(object):
         self.EngageTargetID = missile_info['EngageTargetID']
         # 军别信息
         self.Identification = missile_info['Identification']
+        ## 新增导弹的可用性
+        self.Availability = missile_info['Availability']
 
         self.pos2d_dic = {"X": self.X, "Y": self.Y}
         self.pos3d_dic = {"X": self.X, "Y": self.Y, "Z": self.Z}
