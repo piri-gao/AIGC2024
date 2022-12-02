@@ -342,6 +342,7 @@ class JixianXsimAI():
                 else:
                     my_jet.target = self.fake_target2
         else:
+            print("已探测到敌人")
             for cluster in self.enemy_pos_list:
                 # 找到离当前cluster最近我方编队, 和当前cluster距离最近的敌人，这里可能需要考虑对这个cluster做一个威胁排序
                 attack_jet, target = self.get_nearest_jet(cluster, self.my_jets)
@@ -350,6 +351,12 @@ class JixianXsimAI():
                     for jet in self.my_jets:
                         if jet.squad == squad:
                             jet.target = target
+                            if jet.Type == 1:
+                                self.cmd_list.append(CmdEnv.make_attackparam(jet.ID, target.ID, 0.8))
+                            else:
+                                self.cmd_list.append(CmdEnv.make_attackparam(jet.ID, target.ID, 1))
+
+
 
     def tactical_track(self, jet):
         # 无目标时，朝假目标列队飞行
