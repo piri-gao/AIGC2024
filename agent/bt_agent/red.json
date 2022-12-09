@@ -1,0 +1,25 @@
+{
+	"type": "Parallel",
+	"name": "rootNode",
+	"label": "根节点",
+	"childNodes": [
+		{
+			"type": "Sequence",
+			"label": "决策1",
+			"childNodes": [
+				{
+					"type": "demo_action1"
+				}
+			]
+		},
+		{
+			"type": "Sequence",
+			"label": "决策2",
+			"childNodes": [
+				{
+					"type": "demo_action2"
+				}
+			]
+		}
+	]
+}

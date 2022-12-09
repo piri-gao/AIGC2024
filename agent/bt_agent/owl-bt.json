@@ -1,0 +1,132 @@
+{
+    "nodes": [
+        {
+            "name": "Selector",
+            "icon": "question",
+            "isComposite": true
+        },
+        {
+            "name": "Sequence",
+            "icon": "arrow-right",
+            "isComposite": true
+        },
+        {
+            "name": "Parallel",
+            "isComposite": true,
+            "color": "green",
+            "icon": "bars"
+        },
+        {
+            "name": "ProtectShip",
+            "icon": "plus-square",
+            "color": "blue"
+        },
+        {
+            "name": "AttackMissileUnit",
+            "icon": "fire",
+            "color": "blue"
+        },
+        {
+            "name": "BomberTarget",
+            "icon": "bomb",
+            "color": "blue"
+        },
+        {
+            "name": "Prepare",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "Find_Target",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "demo_action1",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "demo_action2",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "If_In_Time",
+            "icon": "question-circle",
+            "properties": [
+                {
+                    "name":"start_time",
+                    "default": 0,
+                    "type": "int"
+                },
+                {
+                    "name":"end_time",
+                    "default": 14000,
+                    "type": "int"
+                }
+            ]
+        },
+        {
+            "name": "set_path",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "take_off",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "attack_aircraft",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "near_target",
+            "icon": "square",
+            "color": "blue"
+        },
+        {
+            "name": "assign_target",
+            "icon": "square",
+            "color": "blue"
+        },
+
+        {
+            "name": "returen_base",
+            "icon": "square",
+            "color": "blue"
+        }
+    ],
+    "decorators": [
+        {
+            "name": "Failure",
+            "icon": "frown"
+        },
+        {
+            "name": "Invert",
+            "icon": "truck"
+        },
+        {
+            "name": "Success",
+            "icon": "smile"
+        },
+        {
+            "name": "IsBlackboardValueSet",
+            "icon": "table",
+            "description": "Is blackboard value \"{{Field}}\" set",
+            "properties": [
+                {
+                    "name": "Field",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "IfExecuted",
+            "icon": "star",
+            "description": "if the node has executed"
+        }
+    ]
+}
