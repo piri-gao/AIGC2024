@@ -209,7 +209,7 @@ class Missile(object):
         self.EngageTargetID = missile_info['EngageTargetID']
         # 军别信息
         self.Identification = missile_info['Identification']
-
+        self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
     def update_missile_info(self, missile_info):
         self.X = missile_info['X']
         self.Y = missile_info['Y']
@@ -219,3 +219,4 @@ class Missile(object):
         self.Roll = missile_info['Roll']
         self.LauncherID = missile_info['LauncherID']
         self.EngageTargetID = missile_info['EngageTargetID']
+        self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}

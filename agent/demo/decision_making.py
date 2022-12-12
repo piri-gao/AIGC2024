@@ -151,7 +151,7 @@ class DemoDecision():
                     threat_plane.num_locked_missile += 1
 
             # 制导
-            evade_plane_id = [plane.ID for plane in self.evade_list]
+            evade_plane_id = [plane["plane_entity"].ID for plane in self.evade_list]
             for enemy_plane in undetected_list:
                 free_plane = []
                 for my_plane in self.my_plane:
@@ -261,8 +261,7 @@ class DemoDecision():
     def update_evade(self):
         missile_list = self.global_observation.missile_observation.get_missile_list()
         # missile_id = [missile.ID for missile in missile_list]
-        evade_list = copy.deepcopy(self.evade_list)
-        evade_id = [comb["missile_entity"].ID for comb in evade_list]
+        evade_id = [comb["missile_entity"].ID for comb in self.evade_list]
 
         # 统计所有被导弹瞄准的飞机
         if len(missile_list) != 0:
@@ -274,13 +273,10 @@ class DemoDecision():
                     evade_comb = {}
                     evade_comb["plane_entity"] = attacked_plane
                     evade_comb["missile_entity"] = missile
-                    evade_list.append(evade_comb)
+                    self.evade_list.append(evade_comb)
             # 给危险程度分类 TODO
-
-
         # 将不需要躲避的移除列表
-        evade_list = copy.deepcopy(self.evade_list)
-        for attacked_plane in evade_list:
+        for attacked_plane in self.evade_list:
             missile = attacked_plane["missile_entity"]
             plane = attacked_plane["plane_entity"]
             missile_gone, over_target, safe_distance = False, False, False
@@ -306,10 +302,7 @@ class DemoDecision():
                 safe_distance = True
 
             if any([missile_gone, over_target, safe_distance]):
-                evade_list.remove(attacked_plane)
-
-        self.evade_list = evade_list
-
+                self.evade_list.remove(attacked_plane)
 
     def update_attack(self):
         pass
