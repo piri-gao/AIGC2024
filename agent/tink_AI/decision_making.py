@@ -56,6 +56,8 @@ class DemoDecision():
 
         # 躲避列表
         self.evade_list = []
+        # 干扰列表
+        self.need_jam_list = []
 
     def reset(self):
         """当引擎重置会调用,选手需要重写此方法"""
@@ -125,7 +127,7 @@ class DemoDecision():
         self.sec_formation["uav_2"] = self.my_uav_plane[7]
 
         # 干扰
-        self.jam_list = [[plane, 0] for plane in self.my_leader_plane]
+        self.jam_list = [[plane, 0, 0] for plane in self.my_leader_plane]
 
     def update_decision(self, sim_time, cmd_list):
         self.update_entity_info(sim_time)
@@ -133,15 +135,20 @@ class DemoDecision():
             self.init_pos(sim_time, cmd_list)
         else:
             self.init_move(cmd_list)
+            # 开火模块
             # 更新敌人的被打击列表
             undetected_list = self.update_hit_list()
-
-            # 开火模块
             threat_plane_list = self.get_threat_target_list()
+            #更新躲避信息
+            need_jam_list = self.update_evade()
+            evade_plane_id = [plane["plane_entity"].ID for plane in self.evade_list]
+            free_plane = []
+            for my_plane in self.my_plane:
+                if my_plane.ID not in evade_plane_id and my_plane.Availability:
+                    free_plane.append(my_plane)
 
             for threat_plane in threat_plane_list:
-                attack_plane = self.can_attack_plane(threat_plane)
-
+                attack_plane = self.can_attack_plane(threat_plane,evade_plane_id,free_plane)
                 if attack_plane is not None:
                     if attack_plane.Type == 1:
                         cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_plane.ID, 0.8))
@@ -150,54 +157,62 @@ class DemoDecision():
                     self.hit_enemy_list.append([threat_plane, None])
                     threat_plane.num_locked_missile += 1
                     threat_plane_list.remove(threat_plane)
-
+            
             # 制导
-            evade_plane_id = [plane["plane_entity"].ID for plane in self.evade_list]
-            free_plane = []
-            for my_plane in self.my_plane:
-                if my_plane.ID not in evade_plane_id and my_plane.Availability:
-                    free_plane.append(my_plane)
             for enemy_plane in undetected_list:
                 dis = 999999
                 guide_plane = None
                 for my_plane in free_plane:
-                    tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane[0].pos3d)
-                    if tmp_dis < dis:
+                    tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)
+                    if tmp_dis < dis and my_plane.can_see(enemy_plane):
                         guide_plane = my_plane
                         dis = tmp_dis
 
                 if guide_plane is not None:
                     free_plane.remove(guide_plane)
-                    z_point = enemy_plane[1]["Z"]
-                    if z_point > 10000:
-                        z_point = 10000
-                    if z_point < 2000:
-                        z_point = 2000
-                    # cmd_list.append(env_cmd.make_areapatrolparam(guide_plane.ID, enemy_plane[1]["X"], enemy_plane[1]["Y"],
-                    #                                              z_point, 200, 100, 300, 1, 6))
-                    cmd_list.append(env_cmd.make_followparam(guide_plane.ID, enemy_plane[0].ID, 300, 1, 6))
-            # # 追击模块
-            # if len(free_plane)>0 and len(threat_plane_list)>0:
+                    if 150<enemy_plane.Speed<300:
+                        follow_speed = enemy_plane.Speed
+                    else:
+                        follow_speed = guide_plane.performance()["move_max_speed"]
+                        follow_route_list = [enemy_plane.pos3d]
+                        cmd_list.append(env_cmd.make_linepatrolparam(guide_plane.ID, follow_route_list, follow_speed,
+                                                guide_plane.performance()["move_max_acc"], guide_plane.performance()["move_max_g"]))
+                        cmd_list.append(env_cmd.make_followparam(guide_plane.ID, enemy_plane.ID, follow_speed, 1, 6))
+            # # 制导
+            # if free_plane:
+            #     self.find_connect(free_plane,undetected_list)
             #     for my_plane in free_plane:
-            #         dis = 9999999
-            #         follow_plane = None
-            #         if my_plane.LeftWeapon>0 and my_plane.Type!=1:
-            #             for enemy_plane in threat_plane_list:
-            #                 tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)
-            #                 if tmp_dis < dis:
-            #                     follow_plane = enemy_plane
-            #                     dis = tmp_dis
-            #         if follow_plane is not None:
-            #             cmd_list.append(env_cmd.make_followparam(my_plane.ID, follow_plane.ID, 300, 1, 6))
+            #         straight_follow_route_list = self.ans[my_plane.ID]
+            #         if straight_follow_route_list != {"X": 0, "Y": 0, "Z": 0}:
+            #             distance = 100 * my_plane.performance()["move_max_speed"]
+            #             follow_speed = my_plane.performance()["move_max_speed"]
+            #             straight_follow_route_list = TSVector3.plus(my_plane.pos3d, straight_follow_route_list)
+            #             straight_follow_route_list = [straight_follow_route_list]
+            #             cmd_list.append(env_cmd.make_linepatrolparam(my_plane.ID, straight_follow_route_list, follow_speed,
+            #                                     my_plane.performance()["move_max_acc"], my_plane.performance()["move_max_g"]))
+
+            # 追击模块
+            if len(free_plane)>0 and len(threat_plane_list)>0:
+                for my_plane in free_plane:
+                    dis = 9999999
+                    follow_plane = None
+                    if my_plane.LeftWeapon>0 and my_plane.Type!=1:
+                        for enemy_plane in threat_plane_list:
+                            tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)
+                            if tmp_dis < dis:
+                                follow_plane = enemy_plane
+                                dis = tmp_dis
+                    if follow_plane is not None:
+                        cmd_list.append(env_cmd.make_followparam(my_plane.ID, follow_plane.ID, my_plane.performance()["move_max_speed"], 1, 6))
+                        
             # 躲避模块
-            self.update_evade()
             for comba in self.evade_list:
                 plane = comba["plane_entity"]
                 enemy = comba["missile_entity"]
                 plane.evade(enemy, cmd_list)
             # 干扰模块
-            if len(self.evade_list):
-                self.activate_jam(cmd_list)
+            if len(need_jam_list):
+                self.activate_jam(cmd_list, need_jam_list, sim_time)
 
     def init_pos(self, sim_time, cmd_list):
         self.formation()
@@ -281,7 +296,7 @@ class DemoDecision():
         missile_list = self.enemy_missile
         # missile_id = [missile.ID for missile in missile_list]
         evade_id = [comb["missile_entity"].ID for comb in self.evade_list]
-
+        need_jam_list = []
         # 统计所有被导弹瞄准的飞机
         if len(missile_list) != 0:
             for missile in missile_list:
@@ -292,12 +307,14 @@ class DemoDecision():
                     evade_comb = {}
                     evade_comb["plane_entity"] = attacked_plane
                     evade_comb["missile_entity"] = missile
+                    evade_comb["distance"] = TSVector3.distance(missile.pos3d,attacked_plane.pos3d)
                     self.evade_list.append(evade_comb)
             # 给危险程度分类 TODO
         # 将不需要躲避的移除列表
         for attacked_plane in self.evade_list:
             missile = attacked_plane["missile_entity"]
             plane = attacked_plane["plane_entity"]
+            distance = attacked_plane["distance"]
             missile_gone, over_target, safe_distance = False, False, False
             # 导弹已爆炸
             if not self.global_observation.missile_observation.get_missile_info_by_rocket_id(missile.ID):
@@ -316,12 +333,15 @@ class DemoDecision():
             if abs(dir) > 90:
                 over_target = True
             # 飞到安全距离
-            distance = TSVector3.distance(missile.pos3d, plane.pos3d)
-            if distance >= 100000:
+            if distance > 60000:
                 safe_distance = True
-
+            # 需要干扰
+            if distance < 60000:
+                need_jam_list.append(attacked_plane["plane_entity"])
             if any([missile_gone, over_target, safe_distance]):
                 self.evade_list.remove(attacked_plane)
+        need_jam_list = sorted(need_jam_list, key=lambda d: d.Type, reverse=True)
+        return need_jam_list
 
     def update_attack(self):
         pass
@@ -354,24 +374,37 @@ class DemoDecision():
             if hit_enemy[0].num_locked_missile == 1 and hit_enemy[0].Type == 1:
                 leader_hit = True
             for threat_plane in threat_plane_list:
-                if hit_enemy[0] == threat_plane and not leader_hit:
+                if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
                     threat_plane_list.remove(threat_plane)
         return threat_plane_list
 
-    def can_attack_plane(self, enemy_plane):
-        attack_plane = None
+    def can_attack_plane(self, enemy_plane,evade_plane_id,free_plane):
+        
         dis = 9999999
+        can_attack_dict = {}
         for my_plane in self.my_plane:
+            attack_plane = None
             tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)
-            # if my_plane.Type == 1:
-            #     left_weapon = my_plane.LeftWeapon > 1
-            # else:
-                # left_weapon = my_plane.LeftWeapon > 0
             left_weapon = my_plane.LeftWeapon > 0
             in_range = my_plane.can_attack(tmp_dis)
-            if (in_range and left_weapon) and tmp_dis < dis:
-                dis = tmp_dis
+            is_dead = self._is_dead(my_plane)
+            if (in_range and left_weapon) and not is_dead:
                 attack_plane = my_plane
+                if attack_plane.ID not in can_attack_dict:
+                    can_attack_dict[attack_plane.ID] = tmp_dis
+            if attack_plane is not None and attack_plane.ID in evade_plane_id:# 打出去的导弹要有空闲飞机能制导
+                    guide_plane = None
+                    for plane in free_plane:
+                        if plane.can_see(enemy_plane):
+                            guide_plane = plane
+                    missile_dis = TSVector3.distance(attack_plane.pos3d, enemy_plane.pos3d)
+                    if guide_plane is None and missile_dis>20000:
+                        can_attack_dict.pop(attack_plane.ID)
+        can_attack_list = [key for key, value in sorted(can_attack_dict.items(), key=lambda d: d[1])]
+        if can_attack_list:
+            attack_plane = self.global_observation.observation.get_agent_info_by_id(can_attack_list[0])
+        else:
+            attack_plane = None      
         return attack_plane
 
     def update_hit_list(self):
@@ -382,23 +415,120 @@ class DemoDecision():
                         comba[1] = my_missile
         undetected_list = []
         for comba in self.hit_enemy_list:
-            is_dead = False
+            is_dead = True
             if self.global_observation.perception_observation.get_agent_info_by_id(comba[0].ID):
                 is_dead = self._is_dead(comba[0])
-            else:
-                undetected_list.append((comba[0], comba[0].pos3d))
-            missile_gone = False
+            missile_gone = True
             if comba[1] is not None:
-                if not self.global_observation.missile_observation.get_missile_info_by_rocket_id(comba[1].ID):
-                    missile_gone = True
+                if self.global_observation.missile_observation.get_missile_info_by_rocket_id(comba[1].ID):
+                    missile_gone = False
             if is_dead or missile_gone:
                 self.hit_enemy_list.remove(comba)
+            elif not is_dead and not missile_gone:
+                if TSVector3.distance(comba[0].pos3d, comba[1].pos3d) > 20000*0.9:
+                    undetected_list.append(comba[0])
+        undetected_list = sorted(undetected_list, key=lambda d: d.Type, reverse=True)
         return undetected_list
 
-    def activate_jam(self, cmd_list):
+    def activate_jam(self, cmd_list, need_jam_list,sim_time):
+        # for comba in self.jam_list:
+        #     if sim_time - comba[2]>60 or comba[1]==0 and need_jam_list:
+        #         tmp_dir = TSVector3.minus(need_jam_list[0].pos3d,comba[0].pos3d)
+        #         total_dir = {"X": 0, "Y": 0, "Z": 0}
+        #         for need_jam in need_jam_list:
+        #             tmp_dir2 = TSVector3.minus(need_jam.pos3d,comba[0].pos3d)
+        #             tmp_dir2 = TSVector3.plus(tmp_dir2,total_dir)
+        #             if abs(TSVector3.angle(tmp_dir,tmp_dir2)) < np.math.pi/3:
+        #                 total_dir = tmp_dir2.copy()
+        #                 need_jam_list.remove(need_jam)
+        #         distance = 300 * comba[0].performance()["move_max_speed"]
+        #         jam_pos = TSVector3.plus(comba[0].pos3d, total_dir)
+        #         straight_jam_route_list = [{"X": jam_pos["X"], "Y": jam_pos["Y"], "Z": jam_pos["Z"]}, ]
+        #         comba[1] = 1
+        #         comba[2] = sim_time+3
+        #         cmd_list.append(
+        #             env_cmd.make_linepatrolparam(comba[0].ID, straight_jam_route_list, comba[0].performance()["move_max_speed"], comba[0].performance()["move_max_acc"], comba[0].performance()["move_max_g"]))
+        #         cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
+        #         break
+        #     else:
+        #         comba[1] = 0
+        can_jam_list = []
         for comba in self.jam_list:
-            if comba[1] > 10:
-                comba[1] = 0
-                cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
+            if sim_time - comba[2]>60 or comba[1]==0:
+                can_jam_list.append(comba[0])
             else:
-                comba[1] += 1
+                comba[1] = 0
+
+        if can_jam_list:
+            self.find_connect(can_jam_list,need_jam_list)
+            for jam in can_jam_list:
+                straight_jam_route_list = self.ans[jam.ID]
+                if straight_jam_route_list != {"X": 0, "Y": 0, "Z": 0}:
+                    for comba in self.jam_list:
+                        if comba[0].ID == jam.ID:
+                            comba[1] = 1
+                            comba[2] = sim_time+3
+                            distance = 100 * comba[0].performance()["move_max_speed"]
+                            straight_jam_route_list = TSVector3.plus(comba[0].pos3d, straight_jam_route_list)
+                            straight_jam_route_list = [straight_jam_route_list]
+                            cmd_list.append(
+                                env_cmd.make_linepatrolparam(comba[0].ID, straight_jam_route_list, comba[0].performance()["move_max_speed"], comba[0].performance()["move_max_acc"], comba[0].performance()["move_max_g"]))
+                            cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
+
+
+    def check_point(self,s,my_plane,e):
+        tmp_dir1 = TSVector3.minus(s.pos3d, my_plane.pos3d)
+        tmp_dir1 = TSVector3.normalize(tmp_dir1)
+        tmp_dir2 = TSVector3.minus(e.pos3d, my_plane.pos3d)
+        tmp_dir2 = TSVector3.normalize(tmp_dir2)
+        tmp_dir3 = TSVector3.plus(TSVector3.normalize(self.tmp_ans[my_plane.ID]),tmp_dir2)
+        if abs(TSVector3.angle(tmp_dir1,tmp_dir3)) < np.math.pi/3:
+            return TSVector3.normalize(tmp_dir2)
+        else:
+            return None
+    
+    def dfs(self,start_enemy_plane,enemy_planes,my_planes,left_num,count):
+        if left_num==0:
+            len_my_plane_now = 0
+            for k,v in self.tmp_ans.items():
+                if v != {"X": 0, "Y": 0, "Z": 0}:
+                    len_my_plane_now += 1
+            if count < self.max_enemy_plane:
+                return 
+            elif count > self.max_enemy_plane:
+                self.max_enemy_plane = count
+                self.min_my_plane = len_my_plane_now
+                self.ans = self.tmp_ans.copy()
+            else:
+                if self.min_my_plane<len_my_plane_now:
+                    return
+                self.min_my_plane = len_my_plane_now
+                self.ans = self.tmp_ans.copy()
+                return
+
+        for enemy_plane in enemy_planes:
+            # if enemy_plane.ID != start_enemy_plane.ID:
+            for my_plane in my_planes:
+                tmp_dir = self.check_point(start_enemy_plane,my_plane,enemy_plane)
+                if self.checked[enemy_plane.ID]==0 and tmp_dir:
+                    distance = my_plane.performance()["move_max_speed"] * 100
+                    self.tmp_ans[my_plane.ID] = TSVector3.plus(self.tmp_ans[my_plane.ID], TSVector3.multscalar(tmp_dir, distance))
+                    self.checked[enemy_plane.ID] = 1
+                    self.dfs(start_enemy_plane,enemy_planes,my_planes,left_num-1,count+1)
+                    self.checked[enemy_plane.ID] = 0
+                    self.tmp_ans[my_plane.ID] = TSVector3.minus(self.tmp_ans[my_plane.ID], TSVector3.multscalar(tmp_dir, distance))
+
+    def find_connect(self, my_planes, enemy_planes):
+        self.ans = {}
+        for my_plane in my_planes:
+            self.ans[my_plane.ID] = {"X": 0, "Y": 0, "Z": 0}
+        self.min_my_plane = len(my_planes)
+        self.max_enemy_plane = 0
+        self.tmp_ans = {}
+        self.checked = {}
+        for enemy_plane in enemy_planes:
+            for enemy_plane in enemy_planes:
+                self.checked[enemy_plane.ID] = 0 
+            for my_plane in my_planes:
+                self.tmp_ans[my_plane.ID] = {"X": 0, "Y": 0, "Z": 0}
+            self.dfs(enemy_plane,enemy_planes,my_planes,len(enemy_planes),1)
