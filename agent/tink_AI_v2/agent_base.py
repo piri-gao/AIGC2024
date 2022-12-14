@@ -68,7 +68,8 @@ class MyPlane(object):
             para["area_max_alt"] = 15000
             para["area_min_alt"] = 2000
             para["attack_range"] = 0.8
-            para["launch_range"] = 80000 * 0.8
+            para['radar_range'] = 80000
+            para["launch_range"] = 60000 * 0.8
         else:
             para["move_max_speed"] = 300
             para["move_min_speed"] = 100
@@ -78,33 +79,42 @@ class MyPlane(object):
             para["area_max_alt"] = 10000
             para["area_min_alt"] = 2000
             para["attack_range"] = 1
-            para["launch_range"] = 60000
+            para['radar_range'] = 60000
+            para["launch_range"] = 60000 * 0.8
         return para
 
     def evade(self, enemy, cmd_list):
         EntityPos = {"X": self.X, "Y": self.Y, "Z": self.Z}
         EnemyPos = {"X": enemy.X, "Y": enemy.Y, "Z": enemy.Z}
-        
         performance = self.performance()
-
         dis = TSVector3.distance(EntityPos, EnemyPos)
-        alt = random.random()*7000 + 2000
-
-        EnemyPos["Z"] = EntityPos["Z"]
         vector = TSVector3.minus(EntityPos, EnemyPos)
-        dir = TSVector3.normalize(vector)
+        relative_pitch = TSVector3.calpitch(vector)
+        if abs(relative_pitch) < np.math.pi / 10:
+            relative_pitch = relative_pitch / abs(relative_pitch) * np.math.pi / 4
+        # 选择与敌方导弹相反为仰角
+        dir = TSVector3.calorientation(enemy.Heading, -relative_pitch)
+        alt = random.random()*7000 + 2000
         distance = 300 * performance["move_max_speed"]
         evade_pos = TSVector3.plus(EntityPos, TSVector3.multscalar(dir, distance))
+        if evade_pos['Z']<2000 or evade_pos['Z'] > performance["area_max_alt"]:
+            evade_pos['Z'] = alt
         straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": EnemyPos["Z"]}, ]
 
         # 选择90度后的单位
         heading = TSVector3.calheading(dir)
-        new_heading = heading + np.math.pi / 2
-        new_dir = TSVector3.calorientation(new_heading, 0)
+        if self.Heading < enemy.Heading:
+            new_heading = enemy.Heading - np.math.pi / 2
+        else:
+            new_heading = enemy.Heading + np.math.pi / 2
+        # 选择与敌方导弹相反为仰角
+        new_dir = TSVector3.calorientation(new_heading, -relative_pitch)
         new_evade_pos = TSVector3.plus(EntityPos, TSVector3.multscalar(new_dir, distance))
+        if new_evade_pos['Z']<2000 or new_evade_pos['Z'] > performance["area_max_alt"]:
+            new_evade_pos['Z'] = alt
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": alt}, ]
 
-        if dis > 20000:
+        if dis > 3000:
             # 盘旋或反方向远离敌方位置
             if abs(evade_pos["X"]) > 150000 or abs(evade_pos["Y"]) > 150000 or evade_pos["Z"] > performance["area_max_alt"] or \
                     evade_pos["Z"] < 2000:
@@ -129,6 +139,12 @@ class MyPlane(object):
     def can_attack(self, dis):
         performance = self.performance()
         if performance["launch_range"] > dis:
+            return True
+        return False
+
+    def can_see(self, enemy):
+        dis = TSVector3.distance(self.pos3d, enemy.pos3d)
+        if dis < self.performance()['radar_range']*0.8:
             return True
         return False
 
@@ -158,7 +174,6 @@ class EnemyPlane(object):
         self.CurTime = agent['CurTime']
         # 军别信息
         self.Identification = agent['Identification']
-
         # 坐标
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         # 被几发导弹瞄准
