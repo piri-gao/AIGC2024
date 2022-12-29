@@ -1,4 +1,4 @@
-from agent.tink_AI_v2.agent_base import MyPlane, EnemyPlane, Missile
+from agent.tink_AI_v3.agent_base import MyPlane, EnemyPlane, Missile
 
 # 全局态势信息
 class GlobalObservation(object):

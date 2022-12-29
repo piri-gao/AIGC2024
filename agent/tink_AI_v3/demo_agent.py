@@ -1,8 +1,8 @@
 from typing import List
 
 from agent.agent import Agent
-from agent.tink_AI_v2.observation import GlobalObservation
-from agent.tink_AI_v2.decision_making import DemoDecision
+from agent.tink_AI_v3.observation import GlobalObservation
+from agent.tink_AI_v3.decision_making import DemoDecision
 
 class DemoAgent(Agent):
     """
