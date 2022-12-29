@@ -42,6 +42,8 @@ class MyPlane(object):
         self.num_locked_missile = 0
 
     def __eq__(self, other):
+        if other == None:
+            return True
         return True if self.ID == other.ID else False
 
     def update_agent_info(self, agent):
