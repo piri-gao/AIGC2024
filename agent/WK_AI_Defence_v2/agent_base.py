@@ -1,6 +1,6 @@
 from env.env_cmd import CmdEnv
 from utils.utils_math import TSVector3
-from agent.WK_AI_v2.utils import reg_rad, dir2rad, adjust_angle_to_target, check_dis
+from agent.WK_AI_Defence_v2.utils import reg_rad, dir2rad, adjust_angle_to_target, check_dis
 import numpy as np
 import copy
 

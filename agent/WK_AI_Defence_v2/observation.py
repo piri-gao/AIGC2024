@@ -1,4 +1,4 @@
-from agent.WK_AI_v2.agent_base import MyJet, EnemyJet, Missile
+from agent.WK_AI_Defence_v2.agent_base import MyJet, EnemyJet, Missile
 
 # 全局态势信息
 class GlobalObservation(object):

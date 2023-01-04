@@ -2,8 +2,8 @@ import copy
 import numpy as np
 from env.env_cmd import CmdEnv
 import json
-from agent.WK_AI_v2.algorithm.dbscan import DBSCAN
-from agent.WK_AI_v2.utils import get_dis, dir2rad, reg_rad_at, check_and_make_linepatrolparam
+from agent.WK_AI_Defence_v2.algorithm.dbscan import DBSCAN
+from agent.WK_AI_Defence_v2.utils import get_dis, dir2rad, reg_rad_at, check_and_make_linepatrolparam
 from utils.utils_math import TSVector3
 
 
