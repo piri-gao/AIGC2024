@@ -1,8 +1,79 @@
 import copy
 import numpy as np
-
+import math
 from env.env_cmd import CmdEnv as env_cmd
 from utils.utils_math import TSVector3
+
+#定义 一个 TSVector3D
+class BaseTSVector3:
+    # 初始化
+    def __init__(self,x:float,y:float,z:float):
+        return {"X": x, "Y":y, "Z": z}
+
+    # 矢量a + 矢量b
+    @staticmethod
+    def plus(a, b):
+        return {"X": a["X"] + b["X"], "Y": a["Y"] + b["Y"], "Z": a["Z"] + b["Z"]}
+
+    # 矢量a - 矢量b
+    @staticmethod
+    def minus(a, b):
+        return {"X": a["X"] - b["X"], "Y": a["Y"] - b["Y"], "Z": a["Z"] - b["Z"]}
+
+    # 矢量a * 标量scal
+    @staticmethod
+    def multscalar(a, scal):
+        return {"X": a["X"] * scal, "Y": a["Y"] * scal, "Z": a["Z"] * scal}
+
+    # 矢量a / 标量scal
+    @staticmethod
+    def divdbyscalar(a, scal):
+        if scal == 0:
+            return {"X": 1.633123935319537e+16, "Y": 1.633123935319537e+16, "Z": 1.633123935319537e+16}
+        else:
+            return {"X": a["X"] / scal, "Y": a["Y"] / scal, "Z": a["Z"] / scal}
+
+    # 矢量a 点乘 矢量b
+    @staticmethod
+    def dot(a, b):
+        return a["X"] * b["X"] + a["Y"] * b["Y"] + a["Z"] * b["Z"]
+
+    # 矢量a 叉乘 矢量b
+    @staticmethod
+    def cross(a, b):
+        val = {"X": a["Y"] * b["Z"] - a["Z"] * b["Y"], \
+               "Y": a["Z"] * b["X"] - a["X"] * b["Z"], \
+               "Z": a["X"] * b["Y"] - a["Y"] * b["X"]}
+        return val
+
+    # 判断矢量a是否为0矢量
+    @staticmethod
+    def iszero(a):
+        if a["X"] == 0 and a["Y"] == 0 and a["Z"] == 0:
+            return True
+        else:
+            return False
+
+    # 矢量a归一化
+    @staticmethod
+    def normalize(a):
+        vallen = math.sqrt(a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"])
+        val = {"X": 0, "Y": 0, "Z": 0}
+        if vallen > 0:
+            val = {"X": a["X"] / vallen, "Y": a["Y"] / vallen, "Z": a["Z"] / vallen}
+        return val
+
+    # 计算矢量a的长度
+    @staticmethod
+    def length(a):
+        if a["X"] == 0 and a["Y"] == 0 and a["Z"] == 0:
+            return 0
+        return math.sqrt(a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"])
+
+    # 计算矢量a的长度平方
+    @staticmethod
+    def lengthsqr(a):
+        return a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"]
 
 class DemoDecision():
 
@@ -475,6 +546,18 @@ class DemoDecision():
                                 env_cmd.make_linepatrolparam(comba[0].ID, straight_jam_route_list, comba[0].performance()["move_max_speed"], comba[0].performance()["move_max_acc"], comba[0].performance()["move_max_g"]))
                             cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
 
+    def angle(self, a, b):
+        if BaseTSVector3.iszero(a) or BaseTSVector3.iszero(b):
+            return 0
+        else:
+            ma = BaseTSVector3.length(a)
+            mb = BaseTSVector3.length(b)
+            mab = BaseTSVector3.dot(a, b)
+            if mab / ma / mb>1:
+                tmp_ans = 1
+            else:
+                tmp_ans = mab / ma / mb
+        return math.acos(tmp_ans)
 
     def check_point(self,s,my_plane,e):
         tmp_dir1 = TSVector3.minus(s.pos3d, my_plane.pos3d)
@@ -482,7 +565,7 @@ class DemoDecision():
         tmp_dir2 = TSVector3.minus(e.pos3d, my_plane.pos3d)
         tmp_dir2 = TSVector3.normalize(tmp_dir2)
         tmp_dir3 = TSVector3.plus(TSVector3.normalize(self.tmp_ans[my_plane.ID]),tmp_dir2)
-        if abs(TSVector3.angle(tmp_dir1,tmp_dir3)) < np.math.pi/3:
+        if abs(self.angle(tmp_dir1,tmp_dir3)) < np.math.pi/3:
             return TSVector3.normalize(tmp_dir2)
         else:
             return None
