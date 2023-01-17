@@ -1,15 +1,85 @@
 import copy
 import numpy as np
-
+import math
+import random
 from env.env_cmd import CmdEnv as env_cmd
 from utils.utils_math import TSVector3
+#定义 一个 TSVector3D
+
+class BaseTSVector3:
+    # 初始化
+    def __init__(self,x:float,y:float,z:float):
+        return {"X": x, "Y":y, "Z": z}
+
+    # 矢量a + 矢量b
+    @staticmethod
+    def plus(a, b):
+        return {"X": a["X"] + b["X"], "Y": a["Y"] + b["Y"], "Z": a["Z"] + b["Z"]}
+
+    # 矢量a - 矢量b
+    @staticmethod
+    def minus(a, b):
+        return {"X": a["X"] - b["X"], "Y": a["Y"] - b["Y"], "Z": a["Z"] - b["Z"]}
+
+    # 矢量a * 标量scal
+    @staticmethod
+    def multscalar(a, scal):
+        return {"X": a["X"] * scal, "Y": a["Y"] * scal, "Z": a["Z"] * scal}
+
+    # 矢量a / 标量scal
+    @staticmethod
+    def divdbyscalar(a, scal):
+        if scal == 0:
+            return {"X": 1.633123935319537e+16, "Y": 1.633123935319537e+16, "Z": 1.633123935319537e+16}
+        else:
+            return {"X": a["X"] / scal, "Y": a["Y"] / scal, "Z": a["Z"] / scal}
+
+    # 矢量a 点乘 矢量b
+    @staticmethod
+    def dot(a, b):
+        return a["X"] * b["X"] + a["Y"] * b["Y"] + a["Z"] * b["Z"]
+
+    # 矢量a 叉乘 矢量b
+    @staticmethod
+    def cross(a, b):
+        val = {"X": a["Y"] * b["Z"] - a["Z"] * b["Y"], \
+               "Y": a["Z"] * b["X"] - a["X"] * b["Z"], \
+               "Z": a["X"] * b["Y"] - a["Y"] * b["X"]}
+        return val
+
+    # 判断矢量a是否为0矢量
+    @staticmethod
+    def iszero(a):
+        if a["X"] == 0 and a["Y"] == 0 and a["Z"] == 0:
+            return True
+        else:
+            return False
+
+    # 矢量a归一化
+    @staticmethod
+    def normalize(a):
+        vallen = math.sqrt(a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"])
+        val = {"X": 0, "Y": 0, "Z": 0}
+        if vallen > 0:
+            val = {"X": a["X"] / vallen, "Y": a["Y"] / vallen, "Z": a["Z"] / vallen}
+        return val
+
+    # 计算矢量a的长度
+    @staticmethod
+    def length(a):
+        if a["X"] == 0 and a["Y"] == 0 and a["Z"] == 0:
+            return 0
+        return math.sqrt(a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"])
+
+    # 计算矢量a的长度平方
+    @staticmethod
+    def lengthsqr(a):
+        return a["X"] * a["X"] + a["Y"] * a["Y"] + a["Z"] * a["Z"]
 
 class DemoDecision():
 
     def __init__(self, global_observation):
-
         self.global_observation = global_observation
-
         self.init_info()
 
     def init_info(self):
@@ -42,17 +112,6 @@ class DemoDecision():
         # 识别红军还是蓝军
         self.side = None
 
-
-        # 有人机第一编队
-        self.first_leader_formation = {}
-        # 有人机第二编队
-        self.sec_leader_formation = {}
-
-        # 无人机第一编队
-        self.first_uav_formation = [0, 0]
-        # 无人机第二编队
-        self.sec_uav_formation = [0, 0]
-
         # 第一编队
         self.first_formation = {}
         # 第二编队
@@ -64,8 +123,20 @@ class DemoDecision():
         self.need_jam_list = []
 
     def reset(self):
-        """当引擎重置会调用,选手需要重写此方法"""
         self.init_info()
+
+    def angle(self, a, b):
+        if BaseTSVector3.iszero(a) or BaseTSVector3.iszero(b):
+            return 0
+        else:
+            ma = BaseTSVector3.length(a)
+            mb = BaseTSVector3.length(b)
+            mab = BaseTSVector3.dot(a, b)
+            if mab / ma / mb>1:
+                tmp_ans = 1
+            else:
+                tmp_ans = mab / ma / mb
+        return math.acos(tmp_ans)
 
     def update_entity_info(self, sim_time):
         # 己方所有飞机信息
@@ -101,23 +172,7 @@ class DemoDecision():
         self.enemy_missile = enemy_missile
         self.my_missile = my_missile
 
-        # 编队并更新编队信息（待测试）
-        # self.formation()
-
     def formation(self):
-        self.first_leader_formation["up_plane"] = self.my_uav_plane[0]
-        self.first_leader_formation["down_plane"] = self.my_uav_plane[1]
-        self.first_leader_formation["leader"] = self.my_leader_plane[0]
-        self.sec_leader_formation["up_plane"] = self.my_uav_plane[2]
-        self.sec_leader_formation["down_plane"] = self.my_uav_plane[3]
-        self.sec_leader_formation["leader"] = self.my_leader_plane[1]
-
-        self.first_uav_formation[0] = self.my_uav_plane[4]
-        self.first_uav_formation[1] = self.my_uav_plane[5]
-
-        self.sec_uav_formation[0] = self.my_uav_plane[6]
-        self.sec_uav_formation[1] = self.my_uav_plane[7]
-
         self.first_formation["up_plane"] = self.my_uav_plane[0]
         self.first_formation["down_plane"] = self.my_uav_plane[1]
         self.first_formation["leader_plane"] = self.my_leader_plane[0]
@@ -150,18 +205,26 @@ class DemoDecision():
             for my_plane in self.my_plane:
                 if my_plane.ID not in evade_plane_id and my_plane.Availability:
                     free_plane.append(my_plane)
-            
-            for threat_plane in threat_plane_list:
+            threat_plane_list_copy = threat_plane_list.copy()
+            for threat_plane in threat_plane_list_copy:
                 attack_plane = self.can_attack_plane(threat_plane,evade_plane_id,free_plane)
+                attack_enemy = {enemy[0].ID: enemy[3] for enemy in self.hit_enemy_list}
                 if attack_plane is not None:
-                    if attack_plane.Type == 1:
-                        cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_plane.ID, 1))
-                    else:
-                        cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_plane.ID, 1))
-                    self.hit_enemy_list.append([threat_plane, None, None])
-                    threat_plane.num_locked_missile += 1
-                    threat_plane_list.remove(threat_plane)
-            
+                    can_attack_now = True
+                    if threat_plane.ID in attack_enemy.keys() and sim_time - attack_enemy[threat_plane.ID] < 5:
+                        can_attack_now = False
+                    if can_attack_now:
+                        if attack_plane.Type == 1:
+                            EntityPos = {"X": attack_plane.X, "Y": attack_plane.Y, "Z": attack_plane.Z}
+                            EnemyPos = {"X": threat_plane.X, "Y": threat_plane.Y, "Z": threat_plane.Z}
+                            distance = TSVector3.distance(EntityPos, EnemyPos)
+                            factor_fight = distance/attack_plane.para["launch_range"]
+                            cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_plane.ID, factor_fight))
+                        else:
+                            cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_plane.ID, 1))
+                        self.hit_enemy_list.append([threat_plane, None, None, sim_time])
+                        threat_plane.num_locked_missile += 1
+                        threat_plane_list.remove(threat_plane)
             # 制导
             for enemy_plane in self.hit_enemy_list:
                 dis = 999999
@@ -175,17 +238,17 @@ class DemoDecision():
                             guide_plane = my_plane
                             dis = tmp_dis
                     enemy_plane[2] = guide_plane
-                    
+
                 if guide_plane is not None:
                     if guide_plane in free_plane:
                         free_plane.remove(guide_plane)
                     if 150<enemy_plane[0].Speed<300:
                         follow_speed = enemy_plane[0].Speed
                     else:
-                        follow_speed = guide_plane.performance()["move_max_speed"]
+                        follow_speed = guide_plane.para["move_max_speed"]
                         follow_route_list = [enemy_plane[0].pos3d]
                         # cmd_list.append(env_cmd.make_linepatrolparam(guide_plane.ID, follow_route_list, follow_speed,
-                        #                         guide_plane.performance()["move_max_acc"], guide_plane.performance()["move_max_g"]))
+                        #                         guide_plane.para["move_max_acc"], guide_plane.para["move_max_g"]))
                         cmd_list.append(env_cmd.make_followparam(guide_plane.ID, enemy_plane[0].ID, follow_speed, 1, 6))
 
             # 追击模块
@@ -200,13 +263,16 @@ class DemoDecision():
                                 follow_plane = enemy_plane
                                 dis = tmp_dis
                     if follow_plane is not None:
-                        cmd_list.append(env_cmd.make_followparam(my_plane.ID, follow_plane.ID, my_plane.performance()["move_max_speed"], 1, 6))
+                        cmd_list.append(env_cmd.make_followparam(my_plane.ID, follow_plane.ID, my_plane.para["move_max_speed"], 1, 6))
                         
             # 躲避模块
             for comba in self.evade_list:
                 plane = comba["plane_entity"]
                 enemy = comba["missile_entity"]
-                plane.evade(enemy, cmd_list)
+                if plane.Type == 1:
+                    plane.evade_leader(enemy, cmd_list)
+                else:
+                    plane.evade(enemy, cmd_list)
 
             # 干扰模块
             if len(need_jam_list):
@@ -219,69 +285,41 @@ class DemoDecision():
             init_direction = 90
             if self.side == -1:
                 init_direction = 270
-            leader_plane_1 = self.first_leader_formation["leader"]
-            leader_plane_2 = self.sec_leader_formation["leader"]
+            leader_plane_1 = self.my_leader_plane[0]
+            leader_plane_2 = self.my_leader_plane[1]
             # 初始化有人机位置
             cmd_list.append(
-                env_cmd.make_entityinitinfo(leader_plane_1.ID, -145000 * self.side, -75000, 9500, 150, init_direction))
+                env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 60000, 9500, 400, init_direction))
             cmd_list.append(
-                env_cmd.make_entityinitinfo(leader_plane_2.ID, -145000 * self.side, -75000, 9500, 150, init_direction))
-
-            for key, value in self.first_leader_formation.items():
-                if key == "up_plane":
+                env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -60000, 9000, 400, init_direction))
+            for i, plane in enumerate(self.my_uav_plane):
+                if i % 2 ==0:
+                     cmd_list.append(
+                        env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 60000 - i%3 * random.random()*30000, 9000, 300, init_direction))
+                    
+                else:
                     cmd_list.append(
-                        env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, -85000, 9500, 200, init_direction))
-                if key == "down_plane":
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, -65000, 9500, 200, init_direction))
-
-            for key, value in self.sec_leader_formation.items():
-                if key == "up_plane":
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, -65000, 9500, 200, init_direction))
-                if key == "down_plane":
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(value.ID, -125000 * self.side, -85000, 9500, 200, init_direction))
-
-            for i, plane in enumerate(self.first_uav_formation):
-                cmd_list.append(
-                    # env_cmd.make_entityinitinfo(plane.ID, -140000 * self.side, 65000 - ((i + 1) * 10000), 9500, 200, init_direction))
-                    env_cmd.make_entityinitinfo(plane.ID, -140000 * self.side, -65000, 9500, 200, init_direction))
-
-            for i, plane in enumerate(self.sec_uav_formation):
-                cmd_list.append(
-                    # env_cmd.make_entityinitinfo(plane.ID, -140000 * self.side, -65000 + ((i + 1) * 10000), 9500, 200, init_direction))
-                    env_cmd.make_entityinitinfo(plane.ID, -140000 * self.side, -65000, 9500, 200, init_direction))
-
+                        env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, -60000 + i%3 * random.random()*30000, 9000, 300, init_direction))
 
     def init_move(self, cmd_list):
-        # 无目标移动
-        if len(self.enemy_plane) <= 1:
-            if len(self.enemy_plane) == 1:
-                if self.enemy_plane[0].Y >= 0:
-                    for p, plane in self.sec_formation.items():
-                        cmd_list.append(env_cmd.make_followparam(plane.ID, self.first_formation[p].ID, 300, 1, 6))
-                else:
-                    for p, plane in self.first_formation.items():
-                        cmd_list.append(env_cmd.make_followparam(plane.ID, self.sec_formation[p].ID, 300, 1, 6))
-            else:
-                # 没有敌人，朝中心点移动
-                first_formation_route = {"up_plane": [{"X": 40000 * self.side, "Y": -8500, "Z": 9500}],
-                                         "down_plane": [{"X": 40000 * self.side, "Y": -6500, "Z": 9500}],
-                                         "leader_plane": [{"X": 25000 * self.side, "Y": -7500, "Z": 9500}],
-                                         "uav_1": [{"X": 30000 * self.side, "Y": -5500, "Z": 9500}],
-                                         "uav_2": [{"X": 30000 * self.side, "Y": -4500, "Z": 9500}]
-                                         }
-                sec_formation_route = {"up_plane": [{"X": 40000 * self.side, "Y": -6500, "Z": 9500}],
-                                       "down_plane": [{"X": 40000 * self.side, "Y": -8500, "Z": 9500}],
-                                       "leader_plane": [{"X": 25000 * self.side, "Y": -7500, "Z": 9500}],
-                                       "uav_1": [{"X": 30000 * self.side, "Y": -5500, "Z": 9500}],
-                                       "uav_2": [{"X": 30000 * self.side, "Y": -4500, "Z": 9500}]
-                                       }
-                for plane, route in first_formation_route.items():
-                    cmd_list.append(env_cmd.make_linepatrolparam(self.first_formation[plane].ID, route, 240, 1, 6))
-                for plane, route in sec_formation_route.items():
-                    cmd_list.append(env_cmd.make_linepatrolparam(self.sec_formation[plane].ID, route, 240, 1, 6))
+        if len(self.enemy_plane) == 0:
+            # 没有敌人，朝对方中心点移动
+            first_formation_route = {"up_plane": [{"X": 40000 * self.side, "Y": -8500, "Z": 8000}],
+                                        "down_plane": [{"X": 40000 * self.side, "Y": -6500, "Z": 8000}],
+                                        "leader_plane": [{"X": 25000 * self.side, "Y": -7500, "Z": 8000}],
+                                        "uav_1": [{"X": 30000 * self.side, "Y": -5500, "Z": 8000}],
+                                        "uav_2": [{"X": 30000 * self.side, "Y": -4500, "Z": 8000}]
+                                        }
+            sec_formation_route = {"up_plane": [{"X": 40000 * self.side, "Y": -6500, "Z": 9500}],
+                                    "down_plane": [{"X": 40000 * self.side, "Y": -8500, "Z": 9500}],
+                                    "leader_plane": [{"X": 25000 * self.side, "Y": -7500, "Z": 9500}],
+                                    "uav_1": [{"X": 30000 * self.side, "Y": -5500, "Z": 9500}],
+                                    "uav_2": [{"X": 30000 * self.side, "Y": -4500, "Z": 9500}]
+                                    }
+            for plane, route in first_formation_route.items():
+                cmd_list.append(env_cmd.make_linepatrolparam(self.first_formation[plane].ID, route, 300, 1, 6))
+            for plane, route in sec_formation_route.items():
+                cmd_list.append(env_cmd.make_linepatrolparam(self.sec_formation[plane].ID, route, 300, 1, 6))
 
     def _is_dead(self, plane):
         if plane.Availability == 0:
@@ -290,9 +328,7 @@ class DemoDecision():
             return False
 
     def update_evade(self):
-        # missile_list = self.global_observation.missile_observation.get_missile_list()
         missile_list = self.enemy_missile
-        # missile_id = [missile.ID for missile in missile_list]
         evade_id = [comb["missile_entity"].ID for comb in self.evade_list]
         need_jam_list = []
         # 统计所有被导弹瞄准的飞机
@@ -309,7 +345,8 @@ class DemoDecision():
                     self.evade_list.append(evade_comb)
             # 给危险程度分类 TODO
         # 将不需要躲避的移除列表
-        for attacked_plane in self.evade_list:
+        evade_list_copy = self.evade_list.copy()
+        for attacked_plane in evade_list_copy:
             missile = attacked_plane["missile_entity"]
             plane = attacked_plane["plane_entity"]
             distance = attacked_plane["distance"]
@@ -327,18 +364,18 @@ class DemoDecision():
                               np.sqrt(np.sum(np.square(np.array(missile_mp_vector)))) + 1e-9)
             if abs(res) > 1:
                 res = res / abs(res)
-            dir = np.math.acos(res) * 180 / np.math.pi
+            dir = math.acos(res) * 180 / math.pi
             if abs(dir) > 90:
                 over_target = True
-            # 飞到安全距离
-            if distance > 30000:
-                safe_distance = True
+            # # 飞到安全距离
+            # if distance > 50000:
+            #     safe_distance = True
             # 需要干扰
-            if distance < 60000:
+            if 20000< distance < 24000:
                 need_jam_list.append({"missile_entity":missile,"distance":distance})
             if any([missile_gone, over_target, safe_distance]):
                 self.evade_list.remove(attacked_plane)
-        need_jam_list = sorted(need_jam_list, key=lambda d: d["distance"], reverse=True)
+        need_jam_list = sorted(need_jam_list, key=lambda d: d["distance"], reverse=False)
         return need_jam_list
 
     def update_attack(self):
@@ -349,7 +386,7 @@ class DemoDecision():
         threat_dict = {}
         for enemy in self.enemy_plane:
             dis = 99999999
-            for my_plane in self.my_leader_plane:
+            for my_plane in self.my_leader_plane + self.my_uav_plane:
                 dis_tmp = TSVector3.distance(my_plane.pos3d, enemy.pos3d)
                 if dis_tmp < dis:
                     dis = dis_tmp
@@ -357,7 +394,8 @@ class DemoDecision():
                 # 敌机在距离我方有人机在距离的前提下会多20000的威胁值，并且敌人是有人机会再多10000威胁值
                 dis -= 10000
             dis -= 20000
-
+            if dis>32000:
+                continue
             if dis < 0:
                 dis = 0
             if dis not in threat_dict:
@@ -366,28 +404,24 @@ class DemoDecision():
                 threat_dict[dis + 0.1] = enemy
 
         threat_plane_list = [value for key, value in sorted(threat_dict.items(), key=lambda d: d[0])]
-        enemy_leader = False
-        for threat_plane in threat_plane_list:
-            if threat_plane.Type == 1:
-                enemy_leader = True
-                break
-        # if enemy_leader:
-        threat_plane_dict = []
-        for threat_plane in threat_plane_list:
-            if threat_plane.Type == 1:
-                threat_plane_dict.append(threat_plane)
-        # if len(threat_plane_list)>2:
-        #     for threat_plane in threat_plane_list:
-        #         print(threat_plane.ID,threat_plane.Type)
-        # for hit_enemy in self.hit_enemy_list:
-        #     leader_hit = False
-        #     # 敌有人机可以打两发
-        #     if hit_enemy[0].num_locked_missile < 10 and hit_enemy[0].Type == 1:
-        #         leader_hit = True
-        #     for threat_plane in threat_plane_list:
-        #         if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
-        #             threat_plane_list.remove(threat_plane)
-        return threat_plane_dict
+        # # 去除有人机
+        # threat_plane_list_copy = threat_plane_list.copy()
+        # for threat_plane in threat_plane_list_copy:
+        #     if threat_plane.Type == 1:
+        #         threat_plane_list.remove(threat_plane)
+
+        for hit_enemy in self.hit_enemy_list:
+            leader_hit = False
+            # 敌有人机可以打两发
+            if hit_enemy[0].num_locked_missile < 3 and hit_enemy[0].Type == 2:
+                leader_hit = True
+            elif hit_enemy[0].num_locked_missile < 4 and hit_enemy[0].Type == 1:
+                leader_hit = True
+            threat_plane_list_copy = threat_plane_list.copy()
+            for threat_plane in threat_plane_list_copy:
+                if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
+                    threat_plane_list.remove(threat_plane)
+        return threat_plane_list
 
     def can_attack_plane(self, enemy_plane,evade_plane_id,free_plane):
         
@@ -425,7 +459,8 @@ class DemoDecision():
                     if my_missile.EngageTargetID == comba[0].ID:
                         comba[1] = my_missile
         undetected_list = []
-        for comba in self.hit_enemy_list:
+        hit_enemy_list_copy = self.hit_enemy_list.copy()
+        for comba in hit_enemy_list_copy:
             is_dead = True
             if comba[0].ID in self.dead_enemy_list:
                 is_dead = True
@@ -440,88 +475,48 @@ class DemoDecision():
             if is_dead or missile_gone:
                 self.hit_enemy_list.remove(comba)
             elif not is_dead and not missile_gone:
-                if TSVector3.distance(comba[0].pos3d, comba[1].pos3d) > 20000*0.9:
+                # if 25000 > TSVector3.distance(comba[0].pos3d, comba[1].pos3d) > 20000*0.9:
+                if 25000 > TSVector3.distance(comba[0].pos3d, comba[1].pos3d):
                     undetected_list.append(comba[0])
-        undetected_list = sorted(undetected_list, key=lambda d: d.Type, reverse=True)
+        undetected_list = sorted(undetected_list, key=lambda d: d.Type, reverse=False)
         return undetected_list
 
     def activate_jam(self, cmd_list, need_jam_list,sim_time):
+        # for comba in self.jam_list:
+        #     if sim_time - comba[2]>60:
+        #         comba[1] = 0
+        #     if comba[1] == 0 and need_jam_list:
+        #         tmp_dir = TSVector3.minus(need_jam_list[0]["missile_entity"].pos3d, comba[0].pos3d)
+        #         total_dir = {"X": 0, "Y": 0, "Z": 0}
+        #         need_jam_list_copy = need_jam_list.copy()
+        #         for need_jam in need_jam_list_copy:
+        #             tmp_dir2 = TSVector3.minus(need_jam["missile_entity"].pos3d, comba[0].pos3d)
+        #             tmp_dir2 = TSVector3.plus(tmp_dir2,total_dir)
+        #             if abs(self.angle(tmp_dir,tmp_dir2)) < math.pi/3:
+        #                 total_dir = tmp_dir2.copy()
+        #                 need_jam_list.remove(need_jam)
+        #         degree_jam = TSVector3.calheading(total_dir)
+        #         if abs(comba[0].Heading-degree_jam)<math.pi/3:
+        #             comba[1] = 1
+        #             comba[2] = sim_time
+        #             cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
+        #         else:
+        #             distance = 10 * comba[0].para["move_max_speed"]
+        #             jam_pos = TSVector3.plus(comba[0].pos3d, TSVector3.multscalar(total_dir, distance))
+        #             straight_jam_route_list = [{"X": jam_pos["X"], "Y": jam_pos["Y"], "Z": jam_pos["Z"]}, ]
+        #             cmd_list.append(
+        #             env_cmd.make_linepatrolparam(comba[0].ID, straight_jam_route_list, comba[0].para["move_max_speed"], comba[0].para["move_max_acc"], comba[0].para["move_max_g"]))
         for comba in self.jam_list:
-            if (sim_time - comba[2]>60 or comba[1]==0) and need_jam_list:
-                tmp_dir = TSVector3.minus(need_jam_list[0]["missile_entity"].pos3d,comba[0].pos3d)
-                total_dir = {"X": 0, "Y": 0, "Z": 0}
-                for need_jam in need_jam_list:
-                    tmp_dir2 = TSVector3.minus(need_jam["missile_entity"].pos3d,comba[0].pos3d)
-                    tmp_dir2 = TSVector3.plus(tmp_dir2,total_dir)
-                    if abs(TSVector3.angle(tmp_dir,tmp_dir2)) < np.math.pi/3:
-                        total_dir = tmp_dir2.copy()
-                        need_jam_list.remove(need_jam)
-                distance = 300 * comba[0].performance()["move_max_speed"]
-                jam_pos = TSVector3.plus(comba[0].pos3d, total_dir)
-                straight_jam_route_list = [{"X": jam_pos["X"], "Y": jam_pos["Y"], "Z": jam_pos["Z"]}, ]
-                comba[1] = 1
-                comba[2] = sim_time+3
-                cmd_list.append(
-                    env_cmd.make_linepatrolparam(comba[0].ID, straight_jam_route_list, comba[0].performance()["move_max_speed"], comba[0].performance()["move_max_acc"], comba[0].performance()["move_max_g"]))
-                cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
-                break
-            else:
+            if sim_time - comba[2]>=60:
                 comba[1] = 0
-
-
-    def check_point(self,s,my_plane,e):
-        tmp_dir1 = TSVector3.minus(s.pos3d, my_plane.pos3d)
-        tmp_dir1 = TSVector3.normalize(tmp_dir1)
-        tmp_dir2 = TSVector3.minus(e.pos3d, my_plane.pos3d)
-        tmp_dir2 = TSVector3.normalize(tmp_dir2)
-        tmp_dir3 = TSVector3.plus(TSVector3.normalize(self.tmp_ans[my_plane.ID]),tmp_dir2)
-        if abs(TSVector3.angle(tmp_dir1,tmp_dir3)) < np.math.pi/3:
-            return TSVector3.normalize(tmp_dir2)
-        else:
-            return None
-    
-    def dfs(self,start_enemy_plane,enemy_planes,my_planes,left_num,count):
-        if left_num==0:
-            len_my_plane_now = 0
-            for k,v in self.tmp_ans.items():
-                if v != {"X": 0, "Y": 0, "Z": 0}:
-                    len_my_plane_now += 1
-            if count < self.max_enemy_plane:
-                return 
-            elif count > self.max_enemy_plane:
-                self.max_enemy_plane = count
-                self.min_my_plane = len_my_plane_now
-                self.ans = self.tmp_ans.copy()
-            else:
-                if self.min_my_plane<len_my_plane_now:
-                    return
-                self.min_my_plane = len_my_plane_now
-                self.ans = self.tmp_ans.copy()
-                return
-
-        for enemy_plane in enemy_planes:
-            # if enemy_plane.ID != start_enemy_plane.ID:
-            for my_plane in my_planes:
-                tmp_dir = self.check_point(start_enemy_plane,my_plane,enemy_plane)
-                if self.checked[enemy_plane.ID]==0 and tmp_dir:
-                    distance = my_plane.performance()["move_max_speed"] * 100
-                    self.tmp_ans[my_plane.ID] = TSVector3.plus(self.tmp_ans[my_plane.ID], TSVector3.multscalar(tmp_dir, distance))
-                    self.checked[enemy_plane.ID] = 1
-                    self.dfs(start_enemy_plane,enemy_planes,my_planes,left_num-1,count+1)
-                    self.checked[enemy_plane.ID] = 0
-                    self.tmp_ans[my_plane.ID] = TSVector3.minus(self.tmp_ans[my_plane.ID], TSVector3.multscalar(tmp_dir, distance))
-
-    def find_connect(self, my_planes, enemy_planes):
-        self.ans = {}
-        for my_plane in my_planes:
-            self.ans[my_plane.ID] = {"X": 0, "Y": 0, "Z": 0}
-        self.min_my_plane = len(my_planes)
-        self.max_enemy_plane = 0
-        self.tmp_ans = {}
-        self.checked = {}
-        for enemy_plane in enemy_planes:
-            for enemy_plane in enemy_planes:
-                self.checked[enemy_plane.ID] = 0 
-            for my_plane in my_planes:
-                self.tmp_ans[my_plane.ID] = {"X": 0, "Y": 0, "Z": 0}
-            self.dfs(enemy_plane,enemy_planes,my_planes,len(enemy_planes),1)
+            if comba[1] == 0 and need_jam_list:
+                need_jam_list_copy = need_jam_list.copy()
+                need_jam = False
+                for need_jam in need_jam_list_copy:
+                    if comba[0].can_see(need_jam["missile_entity"]):
+                        need_jam_list.remove(need_jam)
+                        need_jam = True
+                if need_jam:
+                    comba[1] = 1
+                    comba[2] = sim_time+2
+                    cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
