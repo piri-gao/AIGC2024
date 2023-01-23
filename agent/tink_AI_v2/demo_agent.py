@@ -108,6 +108,11 @@ class DemoAgent(Agent):
         for plane in my_plane:
             if plane.lost_flag:
                 plane.Availability = 0
+            elif self.is_in_center(plane):
+                plane.center_time += 1
+            for missile in self.missile_list:
+                if missile.LauncherID == plane.ID and missile.ID not in plane.used_missile_list:
+                    plane.used_missile_list.append(missile.ID)
         for plane in enemy_plane:
             if plane.lost_flag: 
                 if plane.close_distance != -1 and len(plane.locked_missile_list)>0:
@@ -120,6 +125,8 @@ class DemoAgent(Agent):
                     if dead_flag:
                         plane.Availability = 0
             else:
+                if self.is_in_center(plane):
+                    plane.center_time += 1
                 plane.Availability = 1
             for missile in self.missile_list:
                 if missile.LauncherID == plane.ID and missile.ID not in plane.used_missile_list:
@@ -141,10 +148,10 @@ class DemoAgent(Agent):
         my_missile = []
         for rocket in self.missile_list:
             if rocket.Identification == self.my_plane[0].Identification:
-                if not rocket.lost_flag:
+                if rocket.lost_flag == 0:
                     my_missile.append(rocket)
             else:
-                if not rocket.lost_flag:
+                if rocket.lost_flag == 0:
                     enemy_missile.append(rocket)
         self.enemy_missile = enemy_missile
         self.my_missile = my_missile
@@ -172,6 +179,7 @@ class DemoAgent(Agent):
             for agent_info in agent_info_list:
                 if obs_agent_info['ID'] == agent_info.ID:
                     agent_info.update_agent_info(obs_agent_info)
+                    agent_info.lost_flag = 0
                     agent_in_list = True
                     break
             if not agent_in_list:
@@ -234,7 +242,7 @@ class DemoAgent(Agent):
             # 开火模块
             # 更新敌人的被打击列表
             undetected_list = self.update_hit_list()
-            threat_plane_list = self.get_threat_target_list()
+            threat_plane_list = self.get_threat_target_list(sim_time)
             #更新躲避信息
             need_jam_list = self.update_evade()
             evade_plane_id = [plane["plane_entity"].ID for plane in self.evade_list]
@@ -254,7 +262,7 @@ class DemoAgent(Agent):
                             attack_enemy[threat_plane.ID] = enemy[3]
                 if attack_plane is not None:
                     can_attack_now = True
-                    if threat_plane.ID in attack_enemy.keys() and sim_time - attack_enemy[threat_plane.ID] < 5:
+                    if threat_plane.ID in attack_enemy.keys() and sim_time - attack_enemy[threat_plane.ID] < 10:
                         can_attack_now = False
                     if can_attack_now:
                         EntityPos = {"X": attack_plane.X, "Y": attack_plane.Y, "Z": attack_plane.Z}
@@ -267,6 +275,8 @@ class DemoAgent(Agent):
             # 制导
             for enemy_plane in self.hit_enemy_list:
                 guide_plane = None
+                if enemy_plane[0].ID not in undetected_list:
+                    continue
                 if enemy_plane[2] is not None and enemy_plane[2].can_see(enemy_plane[0]):
                     enemy_plane[4] = enemy_plane[2]
                     for fre_p in free_plane.copy():
@@ -331,6 +341,7 @@ class DemoAgent(Agent):
             if len(need_jam_list):
                 self.activate_jam(cmd_list, need_jam_list, sim_time)
             self.init_move(free_plane, cmd_list)
+
     def init_pos(self, sim_time, cmd_list):
         self.formation()
         # 初始化部署
@@ -414,16 +425,50 @@ class DemoAgent(Agent):
         need_jam_list = sorted(need_jam_list, key=lambda d: d["distance"], reverse=False)
         return need_jam_list
 
-    def get_threat_target_list(self):
+    def win_now(self):
+        my_score = 0
+        enemy_score = 0
+        my_center_time = 0
+        enemy_center_time = 0
+        for plane in self.my_plane:
+            my_center_time += plane.center_time
+            if plane.Availability == 0:
+                if plane.Type == 2:
+                    enemy_score += 5
+                else:
+                    enemy_score += 60
+            else:
+                my_score += plane.LeftWeapon - len(plane.used_missile_list)
+        for plane in self.enemy_plane:
+            enemy_center_time += plane.center_time
+            if plane.Availability == 0:
+                if plane.Type == 2:
+                    my_score += 5
+                else:
+                    my_score += 60
+            else:
+                enemy_score += plane.LeftWeapon - len(plane.used_missile_list)
+        if enemy_score == my_score:
+            enemy_score += enemy_center_time
+            my_score += my_center_time
+        if enemy_score<my_score:
+            return True
+        else:
+            return False
+
+    def get_threat_target_list(self, sim_time):
         # 有人机最重要，距离，带弹数量
         threat_dict = {}
         for enemy in self.enemy_plane:
+            if enemy.Availability == 0:
+                continue
             dis = 99999999
             for my_plane in self.my_plane:
                 if my_plane.Availability:
                     dis_tmp = TSVector3.distance(my_plane.pos3d, enemy.pos3d)
                     if dis_tmp < dis:
                         dis = dis_tmp
+            enemy.close_distance = dis
             if enemy.Type == 1:
                 # 敌机在距离我方有人机在距离的前提下会多20000的威胁值，并且敌人是有人机会再多10000威胁值
                 dis -= 10000
@@ -437,22 +482,36 @@ class DemoAgent(Agent):
 
         threat_plane_list = [value for key, value in sorted(threat_dict.items(), key=lambda d: d[0])]
         # # 去除有人机
-        # threat_plane_list_copy = threat_plane_list.copy()
-        # for threat_plane in threat_plane_list_copy:
-        #     if threat_plane.Type == 1:
-        #         threat_plane_list.remove(threat_plane)
-
-        for hit_enemy in self.hit_enemy_list:
-            leader_hit = False
-            # 敌有人机可以打两发
-            if len(hit_enemy[0].locked_missile_list) < 2 and hit_enemy[0].Type == 2:
-                leader_hit = True
-            elif len(hit_enemy[0].locked_missile_list) < 3 and hit_enemy[0].Type == 1:
-                leader_hit = True
-            threat_plane_list_copy = threat_plane_list.copy()
-            for threat_plane in threat_plane_list_copy:
-                if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
+        leader_flag = 0
+        for threat_plane in threat_plane_list:
+            if threat_plane.Type == 1:
+                leader_flag = 1
+        if leader_flag and not self.win_now() and sim_time > 20 * 60 -300:
+            for threat_plane in threat_plane_list.copy():
+                if threat_plane.Type == 2 or (threat_plane.Type==1 \
+                        and threat_plane.LeftWeapon - len(threat_plane.used_missile_list) == 0):
                     threat_plane_list.remove(threat_plane)
+            for hit_enemy in self.hit_enemy_list:
+                leader_hit = False
+                # 敌有人机可以打两发
+                if len(hit_enemy[0].locked_missile_list) < 3 and hit_enemy[0].Type == 2:
+                    leader_hit = True
+                elif hit_enemy[0].Type == 1:
+                    leader_hit = True
+                for threat_plane in threat_plane_list.copy():
+                    if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
+                        threat_plane_list.remove(threat_plane)
+        else:
+            for hit_enemy in self.hit_enemy_list:
+                leader_hit = False
+                # 敌有人机可以打两发
+                if len(hit_enemy[0].locked_missile_list) < 2 and hit_enemy[0].Type == 2:
+                    leader_hit = True
+                elif len(hit_enemy[0].locked_missile_list) < 3 and hit_enemy[0].Type == 1:
+                    leader_hit = True
+                for threat_plane in threat_plane_list.copy():
+                    if hit_enemy[0].ID == threat_plane.ID and not leader_hit:
+                        threat_plane_list.remove(threat_plane)
         return threat_plane_list
 
     def can_attack_plane(self, enemy_plane,evade_plane_id,free_plane):
@@ -540,3 +599,9 @@ class DemoAgent(Agent):
                         comba[1] = 1
                         comba[2] = sim_time+2
                         cmd_list.append(env_cmd.make_jamparam(comba[0].ID))
+
+    def is_in_center(self, plane):
+        distance_to_center = (plane.X**2 + plane.Y**2 + (plane.Z - 9000)**2)**0.5
+        if distance_to_center <= 50000 and plane.Z >= 2000 and plane.Z <= 16000:
+            return True
+        return False

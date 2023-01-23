@@ -46,6 +46,8 @@ class Plane(object):
         self.used_missile_list = []
         # 敌机最近距离:
         self.close_distance = -1
+        # 占据中心时间
+        self.center_time = 0
         # 是否丢失
         self.lost_flag = 0
         # 飞机属性参数
@@ -61,8 +63,8 @@ class Plane(object):
             self.para["area_min_alt"] = 2000
             self.para["attack_range"] = 0.8
             self.para['radar_range'] = 80000
-            # self.para["launch_range"] = 60000 * 0.8
-            self.para["launch_range"] = 60000 * 0.5
+            self.para["launch_range"] = 60000 * 0.8
+            # self.para["launch_range"] = 60000
             self.para['radar_heading'] = 60
             self.para['radar_pitch'] = 60
         else:
@@ -75,8 +77,8 @@ class Plane(object):
             self.para["area_min_alt"] = 2000
             self.para["attack_range"] = 1
             self.para['radar_range'] = 60000
-            # self.para["launch_range"] = 60000 * 0.8
-            self.para["launch_range"] = 60000 * 0.5
+            self.para["launch_range"] = 60000 * 0.8
+            # self.para["launch_range"] = 60000
             self.para['radar_heading'] = 30
             self.para['radar_pitch'] = 10
 
@@ -203,7 +205,7 @@ class Plane(object):
         enemy_theta = self.XY2theta(enemy.X - self.X, enemy.Y-self.Y)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        if dis < self.para['launch_range'] and \
+        if dis < self.para['launch_range']*0.5 and \
             abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading'] and \
             abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']:
             return True
@@ -216,7 +218,7 @@ class Plane(object):
         enemy_theta = self.XY2theta(enemy.X - self.X,enemy.Y-self.Y)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        if dis < self.para['radar_range']*0.8 and \
+        if dis < self.para['radar_range']*0.9 and \
             abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading'] and \
             abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']:
             return True
@@ -289,3 +291,4 @@ class Missile(object):
         self.EngageTargetID = missile_info['EngageTargetID']
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
+ 
