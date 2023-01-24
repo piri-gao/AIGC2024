@@ -205,7 +205,7 @@ class Plane(object):
         enemy_theta = self.XY2theta(enemy.X - self.X, enemy.Y-self.Y)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        if dis < self.para['launch_range']*0.5 and \
+        if dis < self.para['launch_range']*0.6 and \
             abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading'] and \
             abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']:
             return True

@@ -432,22 +432,20 @@ class DemoAgent(Agent):
         enemy_center_time = 0
         for plane in self.my_plane:
             my_center_time += plane.center_time
-            if plane.Availability == 0:
-                if plane.Type == 2:
-                    enemy_score += 5
-                else:
-                    enemy_score += 60
-            else:
+            if plane.Availability == 1:
                 my_score += plane.LeftWeapon - len(plane.used_missile_list)
-        for plane in self.enemy_plane:
-            enemy_center_time += plane.center_time
-            if plane.Availability == 0:
                 if plane.Type == 2:
                     my_score += 5
                 else:
                     my_score += 60
-            else:
+        for plane in self.enemy_plane:
+            enemy_center_time += plane.center_time
+            if plane.Availability == 1:
                 enemy_score += plane.LeftWeapon - len(plane.used_missile_list)
+                if plane.Type == 2:
+                    enemy_score += 5
+                else:
+                    enemy_score += 60
         if enemy_score == my_score:
             enemy_score += enemy_center_time
             my_score += my_center_time
@@ -455,6 +453,13 @@ class DemoAgent(Agent):
             return True
         else:
             return False
+
+    def enemy_strategy(self):
+        defence = True
+        for plane in self.enemy_plane:
+            if len(plane.used_missile_list) != 0:
+                defence = False
+        return defence
 
     def get_threat_target_list(self, sim_time):
         # 有人机最重要，距离，带弹数量
@@ -486,7 +491,12 @@ class DemoAgent(Agent):
         for threat_plane in threat_plane_list:
             if threat_plane.Type == 1:
                 leader_flag = 1
-        if leader_flag and not self.win_now() and sim_time > 20 * 60 -300:
+        # if leader_flag and not self.win_now() and sim_time > 20 * 60 -300:
+        if self.enemy_strategy():#针对敌方防守策略，放开了打，专打有人机
+            for threat_plane in threat_plane_list.copy():
+                if threat_plane.Type == 2:
+                    threat_plane_list.remove(threat_plane)
+        elif leader_flag and not self.win_now():
             for threat_plane in threat_plane_list.copy():
                 if threat_plane.Type == 2 or (threat_plane.Type==1 \
                         and threat_plane.LeftWeapon - len(threat_plane.used_missile_list) == 0):
