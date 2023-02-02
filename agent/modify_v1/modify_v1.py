@@ -190,7 +190,7 @@ class Modify(Agent):
         cmd_list = []   # 此变量为 保存所有的决策完毕任务指令列表
 
         self.process_decision(sim_time, obs_side, cmd_list) # 调用决策函数进行决策判断
-            
+        # print(cmd_list)
 
         return cmd_list # 返回决策完毕的任务指令列表
 
@@ -437,9 +437,9 @@ class Modify(Agent):
                 self.regiments[i] = self.regiments[-1]
                 self.regiments[-1] = t
                 break
-        if len(self.enemy_manned_info) > 1:
+        if len(self.enemy_manned_info) > 1 and len(self.regiments) > 1:
             for i in range(len(self.regiments)):
-                if self.enemy_manned_info[1] in self.regiments[i]:
+                if self.enemy_manned_info[1] in self.regiments[i] and not self.enemy_manned_info[0] in self.regiments[i]:
                     t = self.regiments[i]
                     idx = -2 if self.enemy_manned_info[0] in self.regiments[-1] else -1
                     self.regiments[i] = self.regiments[idx]
@@ -735,7 +735,7 @@ class Modify(Agent):
             for enemy_ID in self.attack_dict.keys(): #攻击
                 enemy_plane = self.get_object_by_id(enemy_ID)
                 if plane['ID'] in self.attack_dict[enemy_ID] and \
-                        (self.is_looking(plane, enemy_plane, plane['Heading']) or
+                        (self.is_looking(plane, enemy_plane, plane['Heading']) or 
                          enemy_plane['Type'] == 1 and plane['Type'] == 2):
                     cmd_list.append(CmdEnv.make_attackparam(plane['ID'], enemy_ID, 1))
                     return
@@ -1133,21 +1133,22 @@ class Modify(Agent):
             else: 
                
                 self.escape_toward[plane['ID']] = 0 
-                if len(self.enemy_manned_info) > 0:
-                    dest = self.layout_point_select(plane)
-                    dest = self.rect_dest_bound(dest['X'], dest['Y'], max_bound)
-                    leader_fire_route_list = [{"X": dest['X'], "Y": dest['Y'], "Z": data['area_max_alt']-500}, ]
-                    speed = 300
-                    if plane['Type'] == 1 and not self.is_regiment_win(plane['RegimentID'], True):
-                        speed = 270
-                    cmd_list.append(CmdEnv.make_linepatrolparam(plane['ID'], leader_fire_route_list,
-                                                                speed, data['move_max_acc'],
-                                                                data["move_max_g"]))
-                else:
-                    cmd_list.append(
-                        CmdEnv.make_areapatrolparam(plane['ID'], plane['X'],
-                                                    plane['Y'], data['area_max_alt'], 100, 100,
-                                                    data['move_max_speed'], data['move_max_acc'], data['move_max_g']))
+                # if len(self.enemy_manned_info) > 0:
+                dest = self.layout_point_select(plane)
+                dest = self.rect_dest_bound(dest['X'], dest['Y'], max_bound)
+                leader_fire_route_list = [{"X": dest['X'], "Y": dest['Y'], "Z": data['area_max_alt']-500}, ]
+                speed = 300
+                if plane['Type'] == 1 and not self.is_regiment_win(plane['RegimentID'], True):
+                    speed = 270
+                cmd_list.append(CmdEnv.make_linepatrolparam(plane['ID'], leader_fire_route_list,
+                                                            speed, data['move_max_acc'],
+                                                            data["move_max_g"]))
+                # else:
+                    # cmd_list.append(
+                        # CmdEnv.make_areapatrolparam(plane['ID'], plane['X'],
+                                                    # plane['Y'], data['area_max_alt'], 100, 100,
+                                                    # data['move_max_speed'], data['move_max_acc'], data['move_max_g']))
+
 
     def layout_plane_select(self, myself): 
         regimentID = myself['RegimentID']
@@ -1162,7 +1163,7 @@ class Modify(Agent):
         if len(select_plane) != 0:
             return select_plane
         for enemy_plane in self.regiments[regimentID]:
-            for my_manned in my_manned_info: 
+            for my_manned in self.my_manned_info: 
                 distance = TSVector3.distance(enemy_plane, my_manned)
                 if distance < min_distance:
                     min_distance = distance
@@ -1172,13 +1173,14 @@ class Modify(Agent):
     def layout_point_select(self, myself):
 
         data = self.get_move_data(myself)
-        '''
+        
         isblue = 1
         if self.name == 'red':
             isblue = -1
-        if myself['Type'] == 1 and self.is_in_center(self.enemy_manned_info[0]) is False:
-            return {'X': isblue * 45000 * (1 - myself['CurTime'] / (20 * 60)), 'Y': 0}
-        '''
+        # if myself['Type'] == 1 and self.is_in_center(self.enemy_manned_info[0]) is False:
+        if len(self.enemy_manned_info) == 0:    
+            return {'X': isblue * 40000 * (1 - myself['CurTime'] / (20 * 60)), 'Y': 0}
+        
         enemy_leftweapon = 0
         for enemy_plane in self.enemy_allplane_infos:
             enemy_leftweapon += enemy_plane['LeftWeapon']
