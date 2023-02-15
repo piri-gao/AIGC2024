@@ -235,7 +235,6 @@ class AIAgent(Agent):
                     MyPos = {"X": attack_plane.X, "Y": attack_plane.Y, "Z": attack_plane.Z}
                     EnemyPos = {"X": threat_plane.X, "Y": threat_plane.Y, "Z": threat_plane.Z}
                     distance = TSVector3.distance(MyPos, EnemyPos)
-                    # enemy_turn_t = self.get_turn_time(attack_plane, threat_plane)
                     factor = (distance + distance / 900 * threat_plane.para["move_max_speed"]) / attack_plane.para["launch_range"]
                     cmd_list.append(env_cmd.make_attackparam(attack_plane.ID, threat_ID, factor))
                     attack_plane.ready_missile -= 1
