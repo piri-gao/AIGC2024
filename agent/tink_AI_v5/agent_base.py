@@ -56,10 +56,14 @@ class Plane(object):
         self.used_missile_list = []
         # 已发射导弹
         self.ready_missile = None
+        # 被几枚导弹攻击过了
+        self.attacked_missile_num = 0
         # 被哪些敌机跟踪
         self.followed_plane = []
         # 跟踪哪个敌机
         self.follow_plane = None
+        # 干扰中间的敌机
+        self.middle_enemy_plane = None
         # 是否有无导弹飞机跟踪
         self.have_no_missile_plane = None
         # 比较被敌机跟踪距离
@@ -86,7 +90,6 @@ class Plane(object):
             self.para["attack_range"] = 0.8
             self.para['radar_range'] = 80000
             self.para["launch_range"] = 15000
-            # self.para["launch_range"] = 60000
             self.para['radar_heading'] = 60
             self.para['radar_pitch'] = 60
         else:
@@ -160,59 +163,77 @@ class Plane(object):
                                             self.para["move_max_acc"], self.para["move_max_g"]))
 
     def evade_leader(self, enemy, cmd_list):# 有人机躲避导弹策略
+        if enemy==None:
+            return
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
         enemy_pitch = enemy.Pitch
+        dir = TSVector3.normalize(vector)
         if self.CurTime%2:
             relative_pitch = math.pi/5.5
         else:
             relative_pitch = -math.pi/5.5
-        dir = TSVector3.normalize(vector)
         # 选择90度后的单位
         heading = TSVector3.calheading(dir)
-        if dis > 10000:
-            if abs(self.pi_bound(self.Heading- heading - math.pi/2))>math.pi/2:
-                new_heading = heading - math.pi / 2
-            else:
-                new_heading = heading + math.pi / 2
+        if abs(self.pi_bound(self.Heading- heading - math.pi/2))>math.pi/2:
+            new_heading = heading - math.pi / 2
         else:
+            new_heading = heading + math.pi / 2
+        if abs(self.pi_bound(self.Heading - new_heading))<math.pi/5 or dis<5000:
             new_heading = self.Heading
+            turn_time = 0
+        else:
+            turn_time = abs(self.pi_bound(self.Heading - new_heading)) / (self.para['move_max_g'] * 9.8) * self.Speed
+        if relative_pitch>0:
+            distance, relative_pitch = self.limit_height(relative_pitch, self.para["area_max_alt"])
+        else:
+            distance, relative_pitch = self.limit_height(relative_pitch, self.Z-2000)
         new_dir = TSVector3.calorientation(new_heading, relative_pitch)
-        distance = 30 * self.para["move_max_speed"]
-        evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(dir, distance))
+        if dis/1000>(self.para["move_max_speed"]-self.Speed)/9.8 + 10 + turn_time:
+            if self.Speed>self.para["move_max_speed"]:
+                move_speed = self.para["move_max_speed"]
+            else:
+                move_speed = self.Speed
+        else:
+            move_speed = self.para["move_max_speed"]
+        # distance = 30 * self.para["move_max_speed"]
+        
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        if self.Z < 3000:
+        if self.Z < 3000 or new_evade_pos['Z']<2000:
             new_evade_pos['Z'] = self.para["area_max_alt"]-500
-        elif self.Z > self.para["area_max_alt"]-1000:
-            new_evade_pos['Z'] = 2000
+        elif self.Z > self.para["area_max_alt"]-1000 or new_evade_pos['Z']>self.para["area_max_alt"]:
+            new_evade_pos['Z'] = 3000
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": new_evade_pos['Z']}, ]
         if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 145000):
-            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, vertical_evade_route_list[0]["Z"], 200, 100, self.para["move_max_speed"],
+            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
                                         self.para["move_max_acc"], self.para["move_max_g"]))
+            
         if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 145000):
             cmd_list.append(env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list,
-                                        self.para["move_max_speed"],
+                                        move_speed,
                                         self.para["move_max_acc"], self.para["move_max_g"]))
 
-    def can_attack(self, enemy):# 根据视野和攻击距离判断是否可以攻击
+    def can_attack(self, enemy, attack_dis=0):# 根据视野和攻击距离判断是否可以攻击
         if self.Availability == 0:
             return False
+        if attack_dis==0:
+            attack_dis = self.para['launch_range']
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
-        if dis < self.para['launch_range'] and self.can_see(enemy, see_factor=0.95):
+        if dis < attack_dis and self.can_see(enemy, see_factor=1):
             return True
         return False
 
     def can_see(self, enemy, see_factor = 1.1, jam_dis=0):# 判断飞机是否能看到敌方实体
         if jam_dis == 0:
-            jam_dis = self.para['radar_range']
+            jam_dis = self.para['radar_range']*see_factor
         if self.Availability == 0:
             return False
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         enemy_theta = self.XY2theta(enemy.X - self.X,enemy.Y-self.Y)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        if dis <= jam_dis*see_factor and \
+        if dis <= jam_dis and \
             abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi <= self.para['radar_heading']*see_factor and \
             abs(self.pi_bound(relative_pitch))*180/math.pi <= self.para['radar_pitch']*see_factor:
             if dis>self.para['radar_range']*0.4:
@@ -243,6 +264,16 @@ class Plane(object):
             theta += 2*math.pi
         return theta
 
+    def limit_height(self, angle, bottom_line):
+        horizontal_dis = 2 * self.para["move_max_speed"]
+        if angle == 0:
+            return horizontal_dis, 0
+        if abs(bottom_line - self.Z) < math.tan(angle)*horizontal_dis:
+            return math.sqrt(horizontal_dis**2 + (bottom_line - self.Z)**2), math.atan2(abs(bottom_line - self.Z),horizontal_dis)
+        else:
+            return horizontal_dis*math.cos(angle), angle
+    
+
 class Missile(object):
     def __init__(self, missile_info):
         # 导弹编号
@@ -257,6 +288,8 @@ class Missile(object):
         self.Pitch = missile_info['Pitch']
         # 横滚角
         self.Roll = missile_info['Roll']
+        # 航速
+        self.Speed = missile_info['Speed']
         # 航向, 即偏航角
         if missile_info['Heading'] < 0:
             missile_info['Heading'] += math.pi * 2
@@ -266,14 +299,18 @@ class Missile(object):
         # 仿真时间
         self.CurTime = missile_info['CurTime']
         # 发射时间
-        self.fire_time = missile_info['CurTime']-1
+        self.fire_time = missile_info['CurTime']
         # 导弹预计到达时间
         if missile_info['distance']>2700:
             self.arrive_time = self.fire_time + missile_info['distance']/1000 + 7
         else:
             self.arrive_time = self.fire_time + (math.sqrt(350**2+4*49*missile_info['distance'])-350)/98
+        # 上一帧距离
+        self.pre_dis = missile_info['distance']
         # 类型
         self.Type = missile_info['Type']
+        # 是否过靶
+        self.loss_target = False
         # 被袭击的平台编号
         self.EngageTargetID = missile_info['EngageTargetID']
         # 军别信息
@@ -282,11 +319,21 @@ class Missile(object):
         self.lost_flag = 0
 
     def update_agent_info(self, missile_info):
+        missile_acc = missile_info['Speed'] - self.Speed
+        if missile_acc == 0:
+            missile_acc = 98
+        if missile_info['distance'] - self.pre_dis>0:
+            self.loss_target = True
+        self.pre_dis = missile_info['distance']
+        self.Speed = missile_info['Speed']
         self.X = missile_info['X']
         self.Y = missile_info['Y']
         self.Z = missile_info['Alt']
         self.Pitch = missile_info['Pitch']
-        self.arrive_time = missile_info['CurTime'] + missile_info['distance']/missile_info['Speed']
+        if self.Speed**2+2*missile_acc*missile_info['distance']>0:
+            self.arrive_time = missile_info['CurTime'] + (math.sqrt(self.Speed**2+2*missile_acc*missile_info['distance'])-self.Speed)/missile_acc
+        else:
+            self.arrive_time = missile_info['CurTime'] + missile_info['distance']/missile_info['Speed']
         if missile_info['Heading'] < 0:
             missile_info['Heading'] += math.pi * 2
         self.Heading = missile_info['Heading']
