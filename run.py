@@ -39,7 +39,7 @@ class BattleRunnerSignal(EnvRunner):
                     break
                 obs = self.run_env(obs)
 
-            print("共", i + 1, "局：   红方胜", battle_results[0], "局：   蓝方胜", battle_results[1], "局：   平局",battle_results[2], "局")
+            print("共", i + 1, "局：   红方胜", battle_results[0], "局：   蓝方胜", battle_results[1], "局：   平局",battle_results[2], "局：   胜率", battle_results[0]/(i+1),"红：   分数", done[1],"蓝：   分数", done[2],)
 
             if (map_start == "Y" or map_start == "y") and i + 1 < num_episodes:
                 self.end()
