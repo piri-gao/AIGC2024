@@ -36,6 +36,8 @@ class Plane(object):
         self.CurTime = agent['CurTime']
         # 军别信息
         self.Identification = agent['Identification']
+        # 是否可以被同方有人机进行干扰保护
+        self.protect_by_which_leader = []
         if self.Type == 1:
             # 剩余弹药
             self.AllWeapon = 4
@@ -53,6 +55,8 @@ class Plane(object):
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         # 被几发导弹瞄准
         self.locked_missile_list = []
+        # 已经被几发导弹攻击过
+        self.lost_missile_list = []
         # 已发射导弹
         self.used_missile_list = []
         # 已发射导弹
@@ -128,6 +132,13 @@ class Plane(object):
         self.myself_in_enemy_center = agent['myself_in_enemy_center']
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
+    def imaginative_update_agent_info(self,target_heading,target_pitch,sim_time):
+        new_dir = TSVector3.calorientation(self.Heading, self.Pitch)
+        next_imaginative_point = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, self.Speed))
+        self.X = next_imaginative_point['X']
+        self.Y = next_imaginative_point['Y']
+        self.Z = next_imaginative_point['Z']
+
     def evade(self, enemy, cmd_list):# 无人机躲避导弹策略
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
@@ -149,7 +160,7 @@ class Plane(object):
                 heading = enemy.Heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(heading, relative_pitch)
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, self.Speed))
+        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*plane.Speed))
         if new_evade_pos['Z'] < 2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif new_evade_pos['Z'] > self.para["area_max_alt"]:
@@ -203,7 +214,7 @@ class Plane(object):
             move_speed = self.para["move_max_speed"]
         distance = 20 * self.para["move_max_speed"]   
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, self.Speed))
+        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*self.Speed))
         if self.Z < 2800 or new_evade_pos['Z']<2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif self.Z > self.para["area_max_alt"]-800 or new_evade_pos['Z']>self.para["area_max_alt"]:
@@ -309,6 +320,8 @@ class Missile(object):
         self.Pitch = missile_info['Pitch']
         # 横滚角
         self.Roll = missile_info['Roll']
+        # 上一帧朝向
+        self.preHeading = None
         # 航速
         self.Speed = missile_info['Speed']
         # 航向, 即偏航角
@@ -361,6 +374,7 @@ class Missile(object):
             self.arrive_time = missile_info['CurTime'] + missile_info['distance']/missile_info['Speed']
         if missile_info['Heading'] < 0:
             missile_info['Heading'] += math.pi * 2
+        self.preHeading = self.Heading
         self.Heading = missile_info['Heading']
         self.Roll = missile_info['Roll']
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
@@ -380,7 +394,7 @@ class Missile(object):
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
         self.Pitch = (target_pitch+self.Pitch)/2
-        if self.Speed**2+2*self.missile_acc*target_dis>0:
+        if self.Speed**2+2*self.missile_acc*target_dis>0 and self.missile_acc!=0:
             self.arrive_time = sim_time + (math.sqrt(self.Speed**2+2*self.missile_acc*target_dis)-self.Speed)/self.missile_acc
         else:
             self.arrive_time = sim_time + target_dis/self.Speed
