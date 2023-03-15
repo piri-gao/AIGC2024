@@ -127,17 +127,19 @@ class Plane(object):
             self.Speed = self.para["move_max_speed"]
         self.CurTime = agent['CurTime']
         self.Availability = agent['Availability']
-        self.Type = agent['Type']
         self.lost_flag = 0
         self.myself_in_enemy_center = agent['myself_in_enemy_center']
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
-    def imaginative_update_agent_info(self,target_heading,target_pitch,sim_time):
-        new_dir = TSVector3.calorientation(self.Heading, self.Pitch)
-        next_imaginative_point = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, self.Speed))
+    def imaginative_update_agent_info(self,missile):
+        distance = TSVector3.distance(missile.pos3d,self.pos3d)
+        new_dir = TSVector3.calorientation(missile.Heading, missile.Pitch)
+        next_imaginative_point = TSVector3.plus(missile.pos3d, TSVector3.multscalar(new_dir, distance))
         self.X = next_imaginative_point['X']
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
+        self.Speed = self.para["move_max_speed"]
+        self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
     def evade(self, enemy, cmd_list):# 无人机躲避导弹策略
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
