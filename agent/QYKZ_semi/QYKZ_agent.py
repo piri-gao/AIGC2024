@@ -142,14 +142,17 @@ class QYKZ_Agent(Agent):
         #读取结果 按照结果选定本轮要用的策略
         if mode == "e-greedy":
             # 已测试
+            print(f'本局epsilon:{Epsilon}')
             if Epsilon > Epsilon_min:
                 Epsilon *= Epsilon_decay_rate
             if random.uniform(0,1) < Epsilon:
                 self.id = random.randint(0, K-1)
+                print(f'本局随机选中的策略ID为:{self.id}')
             else:
                 max_reward = max(rewards)
                 indices = [i for i in range(K) if rewards[i] == max_reward]
                 self.id = random.choice(indices)
+                print(f'本局选中的最优策略ID为:{self.id}')
         if mode == "ucb1":
             # 待调试
             arm = self.ucb1.select_arm(arm)
@@ -157,7 +160,7 @@ class QYKZ_Agent(Agent):
             self.ucb1.update(arm, reward)
 
 
-        print(f"本轮选定的策略为:{self.id}")
+        #print(f"本轮选定的策略为:{self.id}")
 
     def reset(self):
         self.style_a.reset()
@@ -181,17 +184,26 @@ class QYKZ_Agent(Agent):
                     self.new_done += 1
                     # 该对局已结束
                     # 匹配数字
-                    blue_score = re.search(r'\d+', lines[-1]).group(0)
-                    red_score = re.search(r'\d+', lines[-2]).group(0)
+                    blue_score = int(re.search(r'\d+', lines[-1]).group(0))
+                    red_score = int(re.search(r'\d+', lines[-2]).group(0))
                     if self.new_done == 1:
                         print(f"当前为第{count}局，红方得分{red_score}")
                         print(f"当前为第{count}局，蓝方得分{blue_score}")
                         print(f"本局持{self.name}方")
-                        if self.name == "red":
-                            rewards[self.id] += int(red_score>blue_score)
-                        if self.name == "blue":
-                            rewards[self.id] += int(blue_score>red_score)
+                        if "双方得分相同" not in lines[-4]:
+                            if self.name == "red":
+                                rewards[self.id] += int(red_score>blue_score)
+                                rewards[self.id] += 0.5 * int(red_score == blue_score)
+                            if self.name == "blue":
+                                rewards[self.id] += int(blue_score>red_score)
+                                rewards[self.id] += 0.5 * int(red_score == blue_score)
+                        else:
+                            if ("蓝方获胜" in lines[-3]) and (self.name == "blue"):
+                                rewards[self.id] += 1
+                            if ("红方获胜" in lines[-3]) and (self.name == "red"):
+                                rewards[self.id] += 1
                         print(f"更新后各模型奖励:{rewards}")
+                        print('--------------------------------------------')
                     # 统计当前文件夹下对战局数
                     episode_num = 0
                     pre_name = str(self.red_cls).split("'")[1] + "_VS_" + str(self.blue_cls).split("'")[1]
