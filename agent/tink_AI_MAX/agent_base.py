@@ -6,6 +6,7 @@ from utils.utils_math import TSVector3
 
 class Plane(object):
     def __init__(self, agent):
+        ## 飞机基本属性信息
         # 平台编号
         self.ID = agent['ID']
         # x轴坐标(浮点型, 单位: 米, 下同)
@@ -16,6 +17,8 @@ class Plane(object):
         self.Z = agent['Alt']
         # 航向(浮点型)
         self.Pitch = agent['Pitch']
+        # 上一帧俯仰角
+        self.prePitch = 0
         # 横滚角
         self.Roll = agent['Roll']
         # 航向, 即偏航角
@@ -28,16 +31,14 @@ class Plane(object):
         self.Availability = agent['Availability']
         # 类型
         self.Type = agent['Type']
-        # 僚机
-        self.wing_plane = None
-        # 僚谁
-        self.wing_who = None
         # 仿真时间
         self.CurTime = agent['CurTime']
         # 军别信息
         self.Identification = agent['Identification']
-        # 是否可以被同方有人机进行干扰保护
-        self.protect_by_which_leader = []
+        # 坐标
+        self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
+        # 上一帧坐标
+        self.prePos3d = None
         if self.Type == 1:
             # 剩余弹药
             self.AllWeapon = 4
@@ -45,22 +46,38 @@ class Plane(object):
             self.last_jam = 0
             # 是否在执行干扰任务
             self.do_jam = False
-            # 已经被提供了干扰
-            self.jammed = 0
-            # 最近的一枚导弹
-            self.close_missile = None
         else:
             self.AllWeapon = 2
-        # 坐标
-        self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
+        
+        ## 我方飞机相关信息绑定
+        # 占据中心时间
+        self.center_time = 0
+        # 是否丢失
+        self.lost_flag = 0
+        # 飞机属性参数
+        self.para = {}
+        # 是否有移动命令
+        self.move_order = None
+        # 已经被提供了干扰
+        self.jammed = 0
+        # 是否可以被同方有人机进行干扰保护
+        self.protect_by_which_leader = []
+        # 僚机
+        self.wing_plane = None
+        # 僚谁
+        self.wing_who = None
+        # 已发射导弹
+        self.used_missile_list = []
+        # 就绪导弹
+        self.ready_missile = None
+        
+        ## 敌方飞机相关信息绑定
+        # 最近的一枚导弹
+        self.close_missile = None
         # 被几发导弹瞄准
         self.locked_missile_list = []
         # 已经被几发导弹攻击过
         self.lost_missile_list = []
-        # 已发射导弹
-        self.used_missile_list = []
-        # 已发射导弹
-        self.ready_missile = None
         # 被几枚导弹攻击过了
         self.attacked_missile_num = 0
         # 被哪些敌机跟踪
@@ -75,16 +92,7 @@ class Plane(object):
         self.followed_dis = 999999999
         # 我是否在敌方中心:
         self.myself_in_enemy_center = False
-        # 占据中心时间
-        self.center_time = 0
-        # 是否丢失
-        self.lost_flag = 0
-        # 飞机属性参数
-        self.para = {}
-        # 上一次躲避导弹方向
-        self.turn_flag = 1
-        # 是否有移动命令
-        self.move_order = None
+        
         # 平台具体属性信息
         if self.Type == 1:
             self.para["move_max_speed"] = 400
@@ -117,6 +125,7 @@ class Plane(object):
         self.X = agent['X']
         self.Y = agent['Y']
         self.Z = agent['Alt']
+        self.prePitch = self.Pitch
         self.Pitch = agent['Pitch']
         if agent['Heading'] < 0:
             agent['Heading'] += math.pi * 2
@@ -129,12 +138,14 @@ class Plane(object):
         self.Availability = agent['Availability']
         self.lost_flag = 0
         self.myself_in_enemy_center = agent['myself_in_enemy_center']
+        self.prePos3d = self.pos3d
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
     def imaginative_update_agent_info(self,missile):
         distance = TSVector3.distance(missile.pos3d,self.pos3d)
-        new_dir = TSVector3.calorientation(missile.Heading, missile.Pitch)
+        new_dir = TSVector3.calorientation(missile.Heading, missile.prePitch)
         next_imaginative_point = TSVector3.plus(missile.pos3d, TSVector3.multscalar(new_dir, distance))
+        self.Pitch = TSVector3.calpitch(TSVector3.minus(next_imaginative_point,self.pos3d))
         self.X = next_imaginative_point['X']
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
@@ -162,7 +173,7 @@ class Plane(object):
                 heading = enemy.Heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(heading, relative_pitch)
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*plane.Speed))
+        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*self.Speed))
         if new_evade_pos['Z'] < 2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif new_evade_pos['Z'] > self.para["area_max_alt"]:
@@ -324,6 +335,8 @@ class Missile(object):
         self.Roll = missile_info['Roll']
         # 上一帧朝向
         self.preHeading = None
+        # 上一帧俯仰角
+        self.prePitch = 1
         # 航速
         self.Speed = missile_info['Speed']
         # 航向, 即偏航角
@@ -355,6 +368,7 @@ class Missile(object):
         self.EngageTargetID = missile_info['EngageTargetID']
         # 军别信息
         self.Identification = missile_info['Identification']
+        self.prePos3d = None
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
 
@@ -369,6 +383,8 @@ class Missile(object):
         self.X = missile_info['X']
         self.Y = missile_info['Y']
         self.Z = missile_info['Alt']
+        self.prePitch = self.Pitch
+
         self.Pitch = missile_info['Pitch']
         if self.Speed**2+2*self.missile_acc*missile_info['distance']>0 and self.missile_acc!=0:
             self.arrive_time = missile_info['CurTime'] + (math.sqrt(self.Speed**2+2*self.missile_acc*missile_info['distance'])-self.Speed)/self.missile_acc
@@ -379,6 +395,7 @@ class Missile(object):
         self.preHeading = self.Heading
         self.Heading = missile_info['Heading']
         self.Roll = missile_info['Roll']
+        self.prePos3d = self.pos3d
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
     
@@ -395,7 +412,7 @@ class Missile(object):
         self.X = next_imaginative_point['X']
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
-        self.Pitch = (target_pitch+self.Pitch)/2
+        
         if self.Speed**2+2*self.missile_acc*target_dis>0 and self.missile_acc!=0:
             self.arrive_time = sim_time + (math.sqrt(self.Speed**2+2*self.missile_acc*target_dis)-self.Speed)/self.missile_acc
         else:
@@ -404,6 +421,7 @@ class Missile(object):
             target_heading += math.pi * 2
         elif target_heading>math.pi*2:
             target_heading -= math.pi * 2
+        self.Pitch = target_pitch
         self.Heading = target_heading
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
