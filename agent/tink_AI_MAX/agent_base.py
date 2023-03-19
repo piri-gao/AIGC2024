@@ -213,7 +213,6 @@ class Plane(object):
             new_heading = heading - math.pi*pi_ratio
         else:
             new_heading = heading + math.pi*pi_ratio
-        # new_heading = heading
 
         if abs(self.pi_bound(self.Heading - new_heading))<math.pi/5 or dis<5000:
             # new_heading = self.Heading
@@ -386,10 +385,14 @@ class Missile(object):
         self.prePitch = self.Pitch
 
         self.Pitch = missile_info['Pitch']
-        if self.Speed**2+2*self.missile_acc*missile_info['distance']>0 and self.missile_acc!=0:
-            self.arrive_time = missile_info['CurTime'] + (math.sqrt(self.Speed**2+2*self.missile_acc*missile_info['distance'])-self.Speed)/self.missile_acc
+        if self.loss_target==False:
+            arrive_flag = 1
         else:
-            self.arrive_time = missile_info['CurTime'] + missile_info['distance']/missile_info['Speed']
+            arrive_flag = -1
+        if self.Speed**2+2*self.missile_acc*missile_info['distance']>0 and self.missile_acc!=0:
+            self.arrive_time = missile_info['CurTime'] + arrive_flag*(math.sqrt(self.Speed**2+2*self.missile_acc*missile_info['distance'])-self.Speed)/self.missile_acc
+        else:
+            self.arrive_time = missile_info['CurTime'] + arrive_flag*missile_info['distance']/missile_info['Speed']
         if missile_info['Heading'] < 0:
             missile_info['Heading'] += math.pi * 2
         self.preHeading = self.Heading
