@@ -2,7 +2,7 @@ import copy
 import numpy as np
 from env.env_cmd import CmdEnv
 import json
-from agent.QYKZ_v2.algorithm.dbscan import DBSCAN
+from agent.QYKZ_semi.algorithm.dbscan import DBSCAN
 from utils.utils_math import TSVector3
 import math
 import random

@@ -5,16 +5,18 @@ import numpy as np
 import math 
 import os
 import sys
-from agent.QYKZ_semi.style_agent_a import QYKZ_Agent as Agent_style_a
-from agent.QYKZ_semi.style_agent_b import DemoAgent as Agent_style_b
+from agent.QYKZ_semi.style_agent.style_agent_a import QYKZ_Agent as Agent_style_a
+from agent.QYKZ_semi.style_agent.style_agent_c import Agent_v2 as Agent_style_c
+from agent.QYKZ_semi.style_agent.style_agent_d import Agent_v3 as Agent_style_d
+from agent.QYKZ_semi.style_agent.style_agent_e import Agent_v4 as Agent_style_e
 import re
 import shutil
 import random
 
 count = 1
 Init_clear = False
-K = 2
-rewards = [0] * K
+K = 4
+rewards = [0,2,0,0]
 Epsilon = 0.9
 Epsilon_min = 0.1
 Epsilon_decay_rate = 0.95
@@ -97,9 +99,11 @@ class QYKZ_Agent(Agent):
     """
     def __init__(self, name, config):
         self.style_a = Agent_style_a(name, config)
-        self.style_b = Agent_style_b(name, config)
+        self.style_c = Agent_style_c(name, config)
+        self.style_d = Agent_style_d(name, config)
+        self.style_e = Agent_style_e(name, config)
         self.id = 0
-        self.max_id = 2
+        self.max_id = 4
         self.alpha = 0.5
         self.epsilon = 0
         self.win_prob = [0.5, 0.5]
@@ -219,6 +223,9 @@ class QYKZ_Agent(Agent):
         if self.id == 0:
             return self.style_a.step(sim_time, obs, **kwargs)
         if self.id == 1:
-            return self.style_b.step(sim_time, obs, **kwargs)
-
+            return self.style_c.step(sim_time, obs, **kwargs)
+        if self.id == 2:
+            return self.style_d.step(sim_time, obs, **kwargs)
+        if self.id == 3:
+            return self.style_e.step(sim_time, obs, **kwargs)
 

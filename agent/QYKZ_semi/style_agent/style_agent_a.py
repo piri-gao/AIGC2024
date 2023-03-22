@@ -1,7 +1,7 @@
 from typing import List
 from agent.agent import Agent
-from agent.QYKZ_semi.observation import GlobalObservation
-from agent.QYKZ_semi.decision_making import QYKZ_Decision
+from agent.QYKZ_semi.agent_base.observation import GlobalObservation
+from agent.QYKZ_semi.decision_making.decision_making import QYKZ_Decision
 
 class QYKZ_Agent(Agent):
     """

@@ -1,4 +1,4 @@
-from agent.QYKZ_v2.agent_base import MyJet, EnemyJet, Missile
+from agent.QYKZ_semi.agent_base.agent_base import MyJet, EnemyJet, Missile
 
 # 全局态势信息
 class GlobalObservation(object):

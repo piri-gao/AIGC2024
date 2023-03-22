@@ -40,6 +40,8 @@ class MyJet(object):
         # 剩余弹药
         if self.Type == 1:
             self.LeftWeapon = 4
+            self.jam_start = 0
+            self.jam_flag = False
         else:
             self.LeftWeapon = 2
         self.IsLost = 0
@@ -72,6 +74,12 @@ class MyJet(object):
         self.alive = False
         self.detect_dis = -1
         self.start_time, self.start_x, self.start_y = 0, 0, 0
+        # 僚机
+        self.formation_mate = None
+
+        # last info
+        self.Pitch_last = 0
+        self.Pos3d_last = None
 
         ## 初始化编队阵型
         self.init_battle_info()
