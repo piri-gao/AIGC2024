@@ -62,15 +62,26 @@ class Plane(object):
         self.jammed = 0
         # 是否可以被同方有人机进行干扰保护
         self.protect_by_which_leader = []
+        # 是否是间谍
+        self.is_spy = False
         # 僚机
         self.wing_plane = None
         # 僚谁
         self.wing_who = None
+        # 是否在转弯干扰中
+        self.do_turn = False
         # 已发射导弹
         self.used_missile_list = []
         # 就绪导弹
         self.ready_missile = None
-        
+        # 最近发射出去的导弹
+        self.last_missile = None
+        # 准备攻击谁
+        self.ready_attack = []
+        # 存在后续威胁的向量
+        self.total_threat_flag = None
+        # 准备被谁攻击
+        self.ready_attacked = []
         ## 敌方飞机相关信息绑定
         # 最近的一枚导弹
         self.close_missile = None
@@ -90,8 +101,6 @@ class Plane(object):
         self.have_no_missile_plane = None
         # 比较被敌机跟踪距离
         self.followed_dis = 999999999
-        # 我是否在敌方中心:
-        self.myself_in_enemy_center = False
         
         # 平台具体属性信息
         if self.Type == 1:
@@ -99,10 +108,7 @@ class Plane(object):
             self.para["move_min_speed"] = 150
             self.para["move_max_acc"] = 1
             self.para["move_max_g"] = 6
-            self.para["weapon_num"] = 4
             self.para["area_max_alt"] = 15000
-            self.para["area_min_alt"] = 2000
-            self.para["attack_range"] = 0.8
             self.para['radar_range'] = 80000
             self.para["launch_range"] = 15000
             self.para['radar_heading'] = 60
@@ -112,10 +118,7 @@ class Plane(object):
             self.para["move_min_speed"] = 100
             self.para["move_max_acc"] = 2
             self.para["move_max_g"] = 12
-            self.para["weapon_num"] = 2
             self.para["area_max_alt"] = 10000
-            self.para["area_min_alt"] = 2000
-            self.para["attack_range"] = 1
             self.para['radar_range'] = 60000
             self.para["launch_range"] = 15000
             self.para['radar_heading'] = 30
@@ -137,7 +140,6 @@ class Plane(object):
         self.CurTime = agent['CurTime']
         self.Availability = agent['Availability']
         self.lost_flag = 0
-        self.myself_in_enemy_center = agent['myself_in_enemy_center']
         self.prePos3d = self.pos3d
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
@@ -152,7 +154,7 @@ class Plane(object):
         self.Speed = self.para["move_max_speed"]
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
-    def evade(self, enemy, cmd_list):# 无人机躲避导弹策略
+    def evade(self, enemy, total_threat_dir, cmd_list):# 无人机躲避导弹策略
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
@@ -166,14 +168,38 @@ class Plane(object):
         distance = 10*self.para["move_max_speed"]
         heading = self.Heading
         pi_ratio = 1/2
-        if 3000<dis<10000:# and enemy.init_dis>6000:
-            if abs(self.pi_bound(self.Heading - enemy.Heading - math.pi*pi_ratio))>math.pi*pi_ratio:
-                heading = enemy.Heading - math.pi*pi_ratio
+        if (enemy.Speed+enemy.missile_acc)*2.1<dis:
+            if self.total_threat_flag==None:
+                total_threat_heading = TSVector3.calheading(total_threat_dir)
+                if self.pi_bound(enemy.Heading-total_threat_heading)<0:
+                    heading = enemy.Heading - math.pi*pi_ratio
+                    self.total_threat_flag = -1
+                else:
+                    heading = enemy.Heading + math.pi*pi_ratio
+                    self.total_threat_flag = 1
             else:
-                heading = enemy.Heading + math.pi*pi_ratio
+                heading = enemy.Heading + self.total_threat_flag*math.pi*pi_ratio
+            # if abs(self.pi_bound(self.Heading - enemy.Heading - math.pi*pi_ratio))>math.pi*pi_ratio:
+            #     heading = enemy.Heading - math.pi*pi_ratio
+            # else:
+            #     heading = enemy.Heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(heading, relative_pitch)
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*self.Speed))
+
+        if dis/enemy.Speed<1:
+            dist = dis/enemy.Speed*self.Speed
+        else:
+            dist = self.Speed
+        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dist))
+
+        # if dis/enemy.Speed<1:
+        #     dist_enemy = dis
+        # else:
+        #     dist_enemy = enemy.Speed
+        # new_enemy_pos = TSVector3.plus(enemy.pos3d, TSVector3.multscalar(TSVector3.calorientation(enemy.Heading, enemy.Pitch),dist_enemy))
+        # if TSVector3.distance(new_plane_pos,new_enemy_pos)>240:
+        #     new_evade_pos['Z'] = self.Z
+
         if new_evade_pos['Z'] < 2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif new_evade_pos['Z'] > self.para["area_max_alt"]:
@@ -182,10 +208,15 @@ class Plane(object):
         # 盘旋或垂直飞行使敌方导弹脱靶
         if self.move_order==None:
             self.move_order="躲避导弹"
-        else:
-            print(self.ID,self.move_order,"无人机躲避导弹")
+        # else:
+        #     print(self.ID,self.move_order,"无人机躲避导弹")
         if abs(new_evade_pos["X"]) > 150000 or abs(new_evade_pos["Y"]) > 150000:
-            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, alt, 200, 100,
+            x = self.X
+            y = self.Y
+            if abs(self.X)+200>=150000 or abs(self.Y)+200>=150000:
+                x = -1*self.X/abs(self.X)*300+self.X
+                y = -1*self.Y/abs(self.Y)*300+self.Y
+            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, x, y, alt, 200, 100,
                                                         self.para["move_max_speed"], self.para["move_max_acc"],
                                                         self.para["move_max_g"]))
         else:
@@ -194,13 +225,12 @@ class Plane(object):
                                             self.para["move_max_acc"], self.para["move_max_g"]))
         return new_plane_pos
 
-    def evade_leader(self, enemy, cmd_list):# 有人机躲避导弹策略
+    def evade_leader(self, enemy, total_threat_dir, cmd_list):# 有人机躲避导弹策略
         if enemy==None:
             return
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        enemy_pitch = enemy.Pitch
         dir = TSVector3.normalize(vector)
         if self.CurTime%2:
             relative_pitch = math.pi/5.5
@@ -209,24 +239,41 @@ class Plane(object):
         # 选择90度后的单位
         heading = TSVector3.calheading(dir)
         pi_ratio = 1/2
-        if abs(self.pi_bound(self.Heading- heading - math.pi*pi_ratio))>math.pi*pi_ratio:
-            new_heading = heading - math.pi*pi_ratio
+        if dis>(enemy.Speed+enemy.missile_acc)*1.7:
+            if self.total_threat_flag==None:
+                total_threat_heading = TSVector3.calheading(total_threat_dir)
+                if self.pi_bound(heading-total_threat_heading)<0:
+                    new_heading = heading - math.pi*pi_ratio
+                    self.total_threat_flag = -1
+                else:
+                    new_heading = heading + math.pi*pi_ratio
+                    self.total_threat_flag = 1
+            else:
+                new_heading = heading + self.total_threat_flag*math.pi*pi_ratio
         else:
-            new_heading = heading + math.pi*pi_ratio
-
-        if abs(self.pi_bound(self.Heading - new_heading))<math.pi/5 or dis<5000:
-            # new_heading = self.Heading
-            turn_time = 0
-        else:
-            turn_time = abs(self.pi_bound(self.Heading - new_heading)) / (self.para['move_max_g'] * 9.8) * self.Speed
+            new_heading = self.Heading
+        # if abs(self.pi_bound(self.Heading- heading - math.pi*pi_ratio))>math.pi*pi_ratio:
+        #     new_heading = heading - math.pi*pi_ratio
+        # else:
+        #     new_heading = heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(new_heading, relative_pitch)
-        if dis/1000>(self.para["move_max_speed"]-self.Speed)/9.8 + 10 + turn_time:
-            move_speed = self.Speed
-        else:
-            move_speed = self.para["move_max_speed"]
+        move_speed = self.para["move_max_speed"]
         distance = 20 * self.para["move_max_speed"]   
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dis/enemy.Speed*self.Speed))
+        if dis/enemy.Speed<1:
+            dist = dis/enemy.Speed*self.Speed
+        else:
+            dist = self.Speed
+        new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dist))
+        # if dis<2000:
+        #     if dis/enemy.Speed<1:
+        #         dist_enemy = dis
+        #     else:
+        #         dist_enemy = enemy.Speed
+        #     new_enemy_pos = TSVector3.plus(enemy.pos3d, TSVector3.multscalar(TSVector3.calorientation(enemy.Heading, enemy.Pitch),dist_enemy))
+        #     if TSVector3.distance(new_plane_pos,new_enemy_pos)>enemy.Speed+120:
+        #         new_evade_pos['Z'] = self.Z
+
         if self.Z < 2800 or new_evade_pos['Z']<2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif self.Z > self.para["area_max_alt"]-800 or new_evade_pos['Z']>self.para["area_max_alt"]:
@@ -234,16 +281,20 @@ class Plane(object):
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": new_evade_pos['Z']}, ]
         if self.move_order==None:
             self.move_order="有人机躲避导弹"
-        else:
-            print(self.ID,self.move_order,"有人机躲避导弹")
-        if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 145000):
-            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
+        # else:
+        #     print(self.ID,self.move_order,"有人机躲避导弹")
+        if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 142000):
+            x = self.X
+            y = self.Y
+            if abs(self.X)+200>=150000 or abs(self.Y)+200>=150000:
+                x = -1*self.X/abs(self.X)*300+self.X
+                y = -1*self.Y/abs(self.Y)*300+self.Y
+            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, x, y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
                                         self.para["move_max_acc"], self.para["move_max_g"]))
             
-        if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 145000):
+        if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 142000):
             cmd_list.append(env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list,
-                                        move_speed,
-                                        self.para["move_max_acc"], self.para["move_max_g"]))
+                                        move_speed,self.para["move_max_acc"], self.para["move_max_g"]))
         return new_plane_pos
 
     def can_attack(self, enemy, attack_dis=0):# 根据视野和攻击距离判断是否可以攻击
@@ -256,7 +307,7 @@ class Plane(object):
             return True
         return False
 
-    def can_see(self, enemy, see_factor = 1.1, jam_dis=0, enemy_in_my_center=0):# 判断飞机是否能看到敌方实体
+    def can_see(self, enemy, see_factor = 1.1, jam_dis=0):# 判断飞机是否能看到敌方实体
         if jam_dis == 0:
             jam_dis = self.para['radar_range']*see_factor
         if self.Availability == 0:
@@ -265,21 +316,11 @@ class Plane(object):
         enemy_theta = self.XY2theta(enemy.X - self.X,enemy.Y-self.Y)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        if enemy_in_my_center==0:
-            if dis < jam_dis and \
-                abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading']*see_factor and \
-                abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']*see_factor:
-                return True
-            return False
-        else:
-            if dis < jam_dis and \
-                abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading']*see_factor and \
-                abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']*see_factor:
-                if dis>self.para['radar_range']*see_factor/3:
-                    return True
-                else:
-                    return False
-            return False
+        if dis < jam_dis and \
+            abs(self.pi_bound(enemy_theta - self.Heading))*180/math.pi < self.para['radar_heading']*see_factor and \
+            abs(self.pi_bound(relative_pitch))*180/math.pi < self.para['radar_pitch']*see_factor:
+            return True
+        return False
 
     def XY2theta(self, X, Y):# 计算XOY面两向量夹角
         theta = 0
@@ -303,20 +344,6 @@ class Plane(object):
         while theta <= -math.pi:
             theta += 2*math.pi
         return theta
-
-    # # 限制飞机下一个点的高度
-    # def limit_height(self, angle, bottom_line):
-    #     horizontal_dis = 2 * self.para["move_max_speed"]
-    #     if angle == 0:
-    #         return horizontal_dis, 0
-    #     if abs(bottom_line - self.Z) < math.tan(angle)*horizontal_dis:
-    #         if angle>0:
-    #             return math.sqrt(horizontal_dis**2 + (bottom_line - self.Z)**2), math.atan2(abs(bottom_line - self.Z),horizontal_dis)
-    #         else:
-    #             return math.sqrt(horizontal_dis**2 + (bottom_line - self.Z)**2), -math.atan2(abs(bottom_line - self.Z),horizontal_dis)
-    #     else:
-    #         return horizontal_dis*math.cos(angle), angle
-    
 
 class Missile(object):
     def __init__(self, missile_info):
