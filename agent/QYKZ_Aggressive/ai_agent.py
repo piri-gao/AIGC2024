@@ -57,6 +57,8 @@ class AIAgent(Agent):
         self.stage = 0
         self.leader_dead_list = []
 
+        self.evade_plane_id = []
+
     def reset(self):
         self._init()
 
@@ -137,6 +139,7 @@ class AIAgent(Agent):
                     plane.locked_missile_list.remove(missle_item.ID)
 
         for plane in self.my_plane:
+            plane.have_move_cmd = False
             if plane.lost_flag:
                 plane.Availability = 0
             elif self.in_center(plane):
@@ -214,8 +217,8 @@ class AIAgent(Agent):
         else:
             # 更新信息
             self.update_evade()                 
-            evade_plane_id = [plane["plane_entity"] for plane in self.evade_list]
-            free_plane = self.get_free_list(evade_plane_id)
+            self.evade_plane_id = [plane["plane_entity"] for plane in self.evade_list]
+            free_plane = self.get_free_list(self.evade_plane_id)
             undetected_list = self.get_undetected_list()
             threat_plane_list = self.get_threat_list()
             follow_plane_list = threat_plane_list.copy()
@@ -223,7 +226,7 @@ class AIAgent(Agent):
             # 干扰模块
             self.jam(sim_time, cmd_list)
             # 开火模块
-            self.attack(free_plane, evade_plane_id, threat_plane_list, cmd_list, sim_time)
+            self.attack(free_plane, self.evade_plane_id, threat_plane_list, cmd_list, sim_time)
             # 制导模块
             self.guidance(free_plane, undetected_list, cmd_list)
             # 追击模块
@@ -306,7 +309,8 @@ class AIAgent(Agent):
                 undetected_list.remove(enemy_plane.ID)
                 if 150 < enemy_plane.Speed < 300:
                     follow_speed = enemy_plane.Speed
-                else:
+                elif self.can_move(guide_plane):
+                    guide_plane.have_move_cmd = True
                     follow_speed = guide_plane.para["move_max_speed"]
                     cmd_list.append(env_cmd.make_followparam(guide_plane.ID, enemy_plane.ID, follow_speed, guide_plane.para["move_max_acc"], guide_plane.para["move_max_g"]))
 
@@ -348,7 +352,9 @@ class AIAgent(Agent):
                         free_plane.remove(follow_plane.ID)
                 for plane_id in enemy_plane.followed_plane:
                     my_plane = self.get_entity_info_by_id(self.my_plane, plane_id)
-                    cmd_list.append(env_cmd.make_followparam(my_plane.ID, enemy_plane_ID, my_plane.para["move_max_speed"], my_plane.para['move_max_acc'], my_plane.para['move_max_g']))
+                    if self.can_move(my_plane):
+                        my_plane.have_move_cmd = True
+                        cmd_list.append(env_cmd.make_followparam(my_plane.ID, enemy_plane_ID, my_plane.para["move_max_speed"], my_plane.para['move_max_acc'], my_plane.para['move_max_g']))
 
     def evade(self, cmd_list):
         evade_flag = []
@@ -447,7 +453,9 @@ class AIAgent(Agent):
                 can_jam = False
                 if not need_plane.visible(enemy) and help_plane.visible(enemy):
                     if help_plane.ID not in evade_list:
-                        cmd_list.append(env_cmd.make_followparam(help_plane.ID, enemy.ID, help_plane.Speed, help_plane.para['move_max_acc'], help_plane.para['move_max_g']))
+                        if self.can_move(help_plane):
+                            help_plane.have_move_cmd = True
+                            cmd_list.append(env_cmd.make_followparam(help_plane.ID, enemy.ID, help_plane.Speed, help_plane.para['move_max_acc'], help_plane.para['move_max_g']))
                         can_jam = True
                     elif help_plane.visible(enemy):
                         can_jam = True
@@ -484,9 +492,13 @@ class AIAgent(Agent):
         plane.in_jam = True
         jam_target = self.get_entity_info_by_id(self.enemy_plane, enemy_id)
         if jam_target.lost_flag == 0:
-            cmd_list.append(env_cmd.make_followparam(plane.ID, jam_target.ID, plane.Speed, plane.para['move_max_acc'], plane.para['move_max_g']))
+            if self.can_move(plane):
+                plane.have_move_cmd = True
+                cmd_list.append(env_cmd.make_followparam(plane.ID, jam_target.ID, plane.Speed, plane.para['move_max_acc'], plane.para['move_max_g']))
         else:
-            cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, [jam_target.pos3d,], plane.para["move_max_speed"], plane.para["move_max_acc"], plane.para["move_max_g"]))
+            if self.can_move(plane):
+                plane.have_move_cmd = True
+                cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, [jam_target.pos3d,], plane.para["move_max_speed"], plane.para["move_max_acc"], plane.para["move_max_g"]))
 
     def self_jam(self, sim_time, plane, jam_list, cmd_list):
         if plane.ID in jam_list and plane.in_jam == False:
@@ -564,9 +576,13 @@ class AIAgent(Agent):
 
             # 没有敌人，朝对方中心点移动
             if plane.Type == 1 and sim_time > 240:
-                cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, 400, 1, 6))
+                if self.can_move(plane):
+                    plane.have_move_cmd = True
+                    cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, 400, 1, 6))
             elif plane.Type == 2:
-                cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, 300, 2, 12))
+                if self.can_move(plane):
+                    plane.have_move_cmd = True
+                    cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, 300, 2, 12))
 
     def update_evade(self):
         missile_list = self.enemy_missile
@@ -774,6 +790,9 @@ class AIAgent(Agent):
             self.enemy_score += (2 - len(self.enemy_leader_plane)) * 64
             self.enemy_score += (8 - len(self.enemy_uav_plane)) * 7
         return self.enemy_score < self.my_score
+
+    def can_move(self, plane):
+        return plane.ID not in self.evade_plane_id and plane.have_move_cmd == False
 
 class BaseTSVector3:
     # 初始化

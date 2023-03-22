@@ -61,6 +61,8 @@ class Plane(object):
         # 飞机属性参数
         self.para = {}
 
+        self.have_move_cmd = False
+
         self.jammed = 0
         self.closest_missile = None
         self.jam_plane = None
@@ -168,19 +170,23 @@ class Plane(object):
 
         if self.Type == 1:
             if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 145000):
+                self.have_move_cmd = True
                 cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
                                             self.para["move_max_acc"], self.para["move_max_g"]))
                 
             if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 145000):
+                self.have_move_cmd = True
                 cmd_list.append(env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list,
                                             move_speed,
                                             self.para["move_max_acc"], self.para["move_max_g"]))
         else:
             if abs(new_evade_pos["X"]) > 150000 or abs(new_evade_pos["Y"]) > 150000:
+                self.have_move_cmd = True
                 cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, alt, 200, 100,
                                                             self.para["move_max_speed"], self.para["move_max_acc"],
                                                             self.para["move_max_g"]))
             else:
+                self.have_move_cmd = True
                 cmd_list.append(
                     env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list, self.para["move_max_speed"],
                                                 self.para["move_max_acc"], self.para["move_max_g"]))
