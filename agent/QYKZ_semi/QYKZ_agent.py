@@ -23,74 +23,6 @@ Epsilon_decay_rate = 0.95
 mode = "e-greedy"
 
 
-class UCB1:
-    """待调试"""
-    def __init__(self, n_arms):
-        self.n_arms = n_arms
-        self.counts = np.zeros(n_arms)   # 每个臂的选择次数
-        self.values = np.zeros(n_arms)   # 每个臂的平均奖励值
-        self.total_counts = 0            # 所有臂的选择总次数
-
-    def select_arm(self):
-        # 每个臂至少被选择一次
-        for arm in range(self.n_arms):
-            if self.counts[arm] == 0:
-                return arm
-
-        # 计算UCB值并选择UCB值最大的臂
-        ucb_values = self.values + np.sqrt(2 * np.log(self.total_counts) / self.counts)
-        return np.argmax(ucb_values)
-
-    def update(self, arm, reward):
-        # 更新对应臂的选择次数、平均奖励值以及所有臂的选择总次数
-        self.counts[arm] += 1
-        n = self.counts[arm]
-        value = self.values[arm]
-        new_value = ((n - 1) / float(n)) * value + (1 / float(n)) * reward
-        self.values[arm] = new_value
-        self.total_counts += 1  
-
-class ThompsonSampling:
-    def __init__(self, n_arms):
-        self.n_arms = n_arms
-        self.successes = np.zeros(n_arms)
-        self.failures = np.zeros(n_arms)
-
-    def select_arm(self):
-        # 对每个臂采样
-        samples = np.random.beta(self.successes + 1, self.failures + 1)
-        # 选择采样值最大的臂
-        return np.argmax(samples)
-
-    def update(self, arm, reward):
-        # 更新对应臂的成功和失败次数
-        if reward:
-            self.successes[arm] += 1
-        else:
-            self.failures[arm] += 1
-
-
-class Softmax:
-    def __init__(self, n_arms, temperature):
-        self.n_arms = n_arms
-        self.temperature = temperature
-        self.counts = np.zeros(n_arms)
-        self.values = np.zeros(n_arms)
-
-    def select_arm(self):
-        # 计算softmax分布
-        exp_values = np.exp(self.values / self.temperature)
-        probs = exp_values / np.sum(exp_values)
-        # 选择概率最大的臂
-        return np.random.choice(range(self.n_arms), p=probs)
-
-    def update(self, arm, reward):
-        # 更新对应臂的计数和价值
-        self.counts[arm] += 1
-        n = self.counts[arm]
-        value = self.values[arm]
-        new_value = ((n - 1) / float(n)) * value + (1 / float(n)) * reward
-        self.values[arm] = new_value
 
 
 class QYKZ_Agent(Agent):
@@ -168,7 +100,9 @@ class QYKZ_Agent(Agent):
 
     def reset(self):
         self.style_a.reset()
-        self.style_b.reset()
+        self.style_c.reset()
+        self.style_d.reset()
+        self.style_e.reset()
         
 
     
@@ -228,4 +162,75 @@ class QYKZ_Agent(Agent):
             return self.style_d.step(sim_time, obs, **kwargs)
         if self.id == 3:
             return self.style_e.step(sim_time, obs, **kwargs)
+
+
+
+class UCB1:
+    """待调试"""
+    def __init__(self, n_arms):
+        self.n_arms = n_arms
+        self.counts = np.zeros(n_arms)   # 每个臂的选择次数
+        self.values = np.zeros(n_arms)   # 每个臂的平均奖励值
+        self.total_counts = 0            # 所有臂的选择总次数
+
+    def select_arm(self):
+        # 每个臂至少被选择一次
+        for arm in range(self.n_arms):
+            if self.counts[arm] == 0:
+                return arm
+
+        # 计算UCB值并选择UCB值最大的臂
+        ucb_values = self.values + np.sqrt(2 * np.log(self.total_counts) / self.counts)
+        return np.argmax(ucb_values)
+
+    def update(self, arm, reward):
+        # 更新对应臂的选择次数、平均奖励值以及所有臂的选择总次数
+        self.counts[arm] += 1
+        n = self.counts[arm]
+        value = self.values[arm]
+        new_value = ((n - 1) / float(n)) * value + (1 / float(n)) * reward
+        self.values[arm] = new_value
+        self.total_counts += 1  
+
+class ThompsonSampling:
+    def __init__(self, n_arms):
+        self.n_arms = n_arms
+        self.successes = np.zeros(n_arms)
+        self.failures = np.zeros(n_arms)
+
+    def select_arm(self):
+        # 对每个臂采样
+        samples = np.random.beta(self.successes + 1, self.failures + 1)
+        # 选择采样值最大的臂
+        return np.argmax(samples)
+
+    def update(self, arm, reward):
+        # 更新对应臂的成功和失败次数
+        if reward:
+            self.successes[arm] += 1
+        else:
+            self.failures[arm] += 1
+
+
+class Softmax:
+    def __init__(self, n_arms, temperature):
+        self.n_arms = n_arms
+        self.temperature = temperature
+        self.counts = np.zeros(n_arms)
+        self.values = np.zeros(n_arms)
+
+    def select_arm(self):
+        # 计算softmax分布
+        exp_values = np.exp(self.values / self.temperature)
+        probs = exp_values / np.sum(exp_values)
+        # 选择概率最大的臂
+        return np.random.choice(range(self.n_arms), p=probs)
+
+    def update(self, arm, reward):
+        # 更新对应臂的计数和价值
+        self.counts[arm] += 1
+        n = self.counts[arm]
+        value = self.values[arm]
+        new_value = ((n - 1) / float(n)) * value + (1 / float(n)) * reward
+        self.values[arm] = new_value
 

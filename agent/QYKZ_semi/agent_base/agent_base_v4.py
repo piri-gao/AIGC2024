@@ -167,11 +167,11 @@ class Plane(object):
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": new_evade_pos['Z']}, ]
 
         if self.Type == 1:
-            if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 145000):
+            if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 142000):
                 cmd_list.append(env_cmd.make_areapatrolparam(self.ID, self.X, self.Y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
                                             self.para["move_max_acc"], self.para["move_max_g"]))
                 
-            if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 145000):
+            if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 142000):
                 cmd_list.append(env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list,
                                             move_speed,
                                             self.para["move_max_acc"], self.para["move_max_g"]))
