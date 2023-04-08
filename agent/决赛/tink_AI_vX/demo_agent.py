@@ -519,6 +519,8 @@ class DemoAgent(Agent):
                                 if missile.arrive_time>=turn_time+3:
                                     can_jam_after_turn = True
                             if can_jam_after_turn and len(jam_plane.locked_missile_list)==0:
+                                if jam_plane.ID in free_plane:
+                                    free_plane.remove(jam_plane.ID)
                                 self.find_way_jam(jam_plane, jam_plane.middle_enemy_plane, cmd_list)
 
             # 开火模块，是否可以在攻击的同时进行干扰
@@ -585,7 +587,7 @@ class DemoAgent(Agent):
                 if len(threat_plane.ready_attacked)>1 or (len(threat_plane.locked_missile_list) and len(threat_plane.ready_attacked)) or (self.sim_time>13*60 and (self.my_score<self.enemy_score or (self.my_score==self.enemy_score and self.my_center_time<self.enemy_center_time))):
                     for attack_plane_id in threat_plane.ready_attacked:
                         factor_fight = 1
-                        # cmd_list.append(env_cmd.make_attackparam(attack_plane_id, threat_plane_id, factor_fight))
+                        cmd_list.append(env_cmd.make_attackparam(attack_plane_id, threat_plane_id, factor_fight))
 
             # 有人机脱离战场
             for leader in self.my_leader_plane:
@@ -957,6 +959,28 @@ class DemoAgent(Agent):
                                     else:
                                         cmd_list.append(env_cmd.make_followparam(my_plane.ID, enemy_plane.ID, my_plane.para["move_max_speed"], my_plane.para['move_max_acc'], my_plane.para['move_max_g']))   
             
+            # 飞机转圈视野扩展
+            if len(self.enemy_plane)>0:
+                for plane in self.my_plane:
+                    if plane.ID in free_plane:
+                        if self.sim_time%2:
+                            total_pitch = -math.pi/6
+                        else:
+                            total_pitch = math.pi/6  
+                        heading = (plane.Heading+45/180*math.pi)%(2*math.pi)
+                        total_dir = TSVector3.calorientation(heading, total_pitch)
+                        total_dir = TSVector3.normalize(total_dir)
+                        distance = 15 * plane.Speed
+                        evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
+                        vertical_evade_route_list = [evade_pos,]
+                        if plane.move_order==None:
+                            plane.move_order = "转圈扩展视野"
+                            free_plane.remove(plane.ID)
+                            cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, vertical_evade_route_list, plane.para["move_min_speed"],
+                                            plane.para["move_max_acc"], plane.para["move_max_g"]))
+                        else:
+                            print(plane.ID,plane.move_order,"转圈扩展视野")
+
             # 无人机躲避模块
             for plane in self.my_uav_plane:
                 if plane.close_missile is None or (TSVector3.distance(plane.close_missile.pos3d,plane.pos3d)>=6000 and plane.wing_who!=None):
@@ -1001,7 +1025,7 @@ class DemoAgent(Agent):
                     threat_ID = threat_plane_id
                     threat_plane.ready_attacked.append(plane.ID)
                     factor_fight = 1
-                    # cmd_list.append(env_cmd.make_attackparam(plane.ID, threat_ID, factor_fight))
+                    cmd_list.append(env_cmd.make_attackparam(plane.ID, threat_ID, factor_fight))
                     plane.ready_missile -= 1
                     self.my_score -= self.missile_score
         
@@ -1134,7 +1158,7 @@ class DemoAgent(Agent):
                     for enemy in self.enemy_plane:
                         if enemy.can_see(my_plane,see_factor=1):
                             enemy_can_see_me = True
-                    if enemy_can_see_me==False:
+                    if enemy_can_see_me==False or distance<3000:
                         can_attack_dict[my_plane.ID] = distance
 
         for my_plane in self.my_plane:
