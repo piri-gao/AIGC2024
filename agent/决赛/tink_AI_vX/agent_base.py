@@ -103,7 +103,11 @@ class Plane(object):
         self.have_no_missile_plane = None
         # 比较被敌机跟踪距离
         self.followed_dis = 999999999
-        
+        # 敌机的分布范围,顺时针第一架敌机为起始点，最后一架飞机为终止点：
+        self.enemy_range = [2*math.pi, 0]
+        # S转圈的上一帧方向
+        self.turn_ratio = 1
+
         # 平台具体属性信息
         if self.Type == 1:
             self.para["move_max_speed"] = 400

@@ -959,27 +959,70 @@ class DemoAgent(Agent):
                                     else:
                                         cmd_list.append(env_cmd.make_followparam(my_plane.ID, enemy_plane.ID, my_plane.para["move_max_speed"], my_plane.para['move_max_acc'], my_plane.para['move_max_g']))   
             
-            # 飞机转圈视野扩展
+            # # 飞机波浪式360转圈视野扩展
+            # if len(self.enemy_plane)>0:
+            #     for plane in self.my_plane:
+            #         if plane.ID in free_plane:
+            #             if self.sim_time%2:
+            #                 total_pitch = -math.pi/6
+            #             else:
+            #                 total_pitch = math.pi/6  
+            #             heading = (plane.Heading+45/180*math.pi)%(2*math.pi)
+            #             total_dir = TSVector3.calorientation(heading, total_pitch)
+            #             total_dir = TSVector3.normalize(total_dir)
+            #             distance = 15 * plane.Speed
+            #             evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
+            #             vertical_evade_route_list = [evade_pos,]
+            #             if plane.move_order==None:
+            #                 plane.move_order = "转圈扩展视野"
+            #                 free_plane.remove(plane.ID)
+            #                 cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, vertical_evade_route_list, plane.para["move_min_speed"],
+            #                                 plane.para["move_max_acc"], plane.para["move_max_g"]))
+            #             else:
+            #                 print(plane.ID,plane.move_order,"转圈扩展视野")
+
+            # 飞机波浪式S型转圈视野扩展
             if len(self.enemy_plane)>0:
                 for plane in self.my_plane:
                     if plane.ID in free_plane:
                         if self.sim_time%2:
                             total_pitch = -math.pi/6
                         else:
-                            total_pitch = math.pi/6  
-                        heading = (plane.Heading+45/180*math.pi)%(2*math.pi)
+                            total_pitch = math.pi/6
+                        plane.enemy_range = [2*math.pi, 0]
+                        can_see_enemy = False
+                        for enemy in self.enemy_plane:
+                            if TSVector3.distance(enemy.pos3d, plane.pos3d)<plane.para['radar_range']:
+                                enemy_heading = TSVector3.calheading(TSVector3.minus(enemy.pos3d, plane.pos3d))
+                                can_see_enemy = True
+                                if enemy_heading < plane.enemy_range[0]:
+                                    plane.enemy_range[0] = enemy_heading+plane.para['radar_heading']*0.5/180*math.pi
+                                if enemy_heading > plane.enemy_range[1]:
+                                    plane.enemy_range[1] = enemy_heading-plane.para['radar_heading']*0.5/180*math.pi
+                        if can_see_enemy==False:
+                            continue
+                        if plane.Heading < plane.enemy_range[0]:
+                            plane.turn_ratio = 1
+                        elif plane.Heading > plane.enemy_range[1]:
+                            plane.turn_ratio = -1
+                        heading = (plane.Heading+plane.turn_ratio*45/180*math.pi)
+                        if heading > 2*math.pi:
+                            heading -= 2*math.pi
+                        elif heading < 0:
+                            heading += 2*math.pi
                         total_dir = TSVector3.calorientation(heading, total_pitch)
                         total_dir = TSVector3.normalize(total_dir)
                         distance = 15 * plane.Speed
                         evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
                         vertical_evade_route_list = [evade_pos,]
                         if plane.move_order==None:
-                            plane.move_order = "转圈扩展视野"
+                            plane.move_order = "S转型圈波浪式扩展视野"
                             free_plane.remove(plane.ID)
                             cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, vertical_evade_route_list, plane.para["move_min_speed"],
                                             plane.para["move_max_acc"], plane.para["move_max_g"]))
                         else:
-                            print(plane.ID,plane.move_order,"转圈扩展视野")
+                            print(plane.ID,plane.move_order,"S型转圈波浪式扩展视野")
+
 
             # 无人机躲避模块
             for plane in self.my_uav_plane:
