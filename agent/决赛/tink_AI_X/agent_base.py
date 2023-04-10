@@ -107,6 +107,8 @@ class Plane(object):
         self.enemy_range = [2*math.pi, 0]
         # S转圈的上一帧方向
         self.turn_ratio = 1
+        # 根据危险系数计算移动速度
+        self.move_speed = 300
 
         # 平台具体属性信息
         if self.Type == 1:
@@ -117,6 +119,7 @@ class Plane(object):
             self.para["area_max_alt"] = 15000
             self.para['radar_range'] = 80000
             self.para["launch_range"] = 15000
+            self.para["safe_range"] = 25000
             self.para['radar_heading'] = 60
             self.para['radar_pitch'] = 60
         else:
@@ -126,6 +129,7 @@ class Plane(object):
             self.para["move_max_g"] = 12
             self.para["area_max_alt"] = 10000
             self.para['radar_range'] = 60000
+            self.para["safe_range"] = 16000
             self.para["launch_range"] = 15000
             self.para['radar_heading'] = 30
             self.para['radar_pitch'] = 10
@@ -225,11 +229,11 @@ class Plane(object):
                 x = -1*self.X/abs(self.X)*300+self.X
                 y = -1*self.Y/abs(self.Y)*300+self.Y
             cmd_list.append(env_cmd.make_areapatrolparam(self.ID, x, y, alt, 200, 100,
-                                                        self.para["move_max_speed"], self.para["move_max_acc"],
+                                                        self.move_speed, self.para["move_max_acc"],
                                                         self.para["move_max_g"]))
         else:
             cmd_list.append(
-                env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list, self.para["move_max_speed"],
+                env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list, self.move_speed,
                                             self.para["move_max_acc"], self.para["move_max_g"]))
         return new_plane_pos
 
@@ -265,7 +269,6 @@ class Plane(object):
         # else:
         #     new_heading = heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(new_heading, relative_pitch)
-        move_speed = self.para["move_max_speed"]
         distance = 20 * self.para["move_max_speed"]   
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
         if dis/enemy.Speed<1:
@@ -297,12 +300,12 @@ class Plane(object):
             if abs(self.X)+200>=150000 or abs(self.Y)+200>=150000:
                 x = -1*self.X/abs(self.X)*300+self.X
                 y = -1*self.Y/abs(self.Y)*300+self.Y
-            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, x, y, vertical_evade_route_list[0]["Z"], move_speed, 100, self.para["move_max_speed"],
+            cmd_list.append(env_cmd.make_areapatrolparam(self.ID, x, y, vertical_evade_route_list[0]["Z"], self.move_speed, 100, self.para["move_max_speed"],
                                         self.para["move_max_acc"], self.para["move_max_g"]))
             
         if (abs(new_evade_pos["X"]) < 142000 and abs(new_evade_pos["Y"]) < 142000):
             cmd_list.append(env_cmd.make_linepatrolparam(self.ID, vertical_evade_route_list,
-                                        move_speed,self.para["move_max_acc"], self.para["move_max_g"]))
+                                        self.move_speed,self.para["move_max_acc"], self.para["move_max_g"]))
         return new_plane_pos
 
     def can_attack(self, enemy, attack_dis=0):# 根据视野和攻击距离判断是否可以攻击
