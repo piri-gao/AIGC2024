@@ -538,7 +538,6 @@ class DemoAgent(Agent):
 
             # 开火模块，是否可以在攻击的同时进行干扰
             can_attack_flag = True
-            attack_enemy = {}
             while(can_attack_flag==True):
                 can_attack_flag = False
                 for threat_plane_id in threat_plane_list:
@@ -550,25 +549,32 @@ class DemoAgent(Agent):
                             missile_num = 1
                     else:
                         missile_num = 0
-                    # if threat_plane.Type==2 and (len(threat_plane.locked_missile_list)>missile_num or self.my_score<=self.enemy_score):
-                    #     continue
+                    if threat_plane.Type==2 and (len(threat_plane.locked_missile_list)>missile_num or (self.my_score<=self.enemy_score and len(threat_plane.locked_missile_list)>1)):
+                        continue
                     threat_ID = threat_plane.ID
                     attack_plane = self.can_attack_plane(threat_plane)
-                    for missile_id in threat_plane.locked_missile_list:
-                        missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                        if threat_ID in attack_enemy:
-                            attack_enemy[threat_ID] = max(missile.fire_time, attack_enemy[threat_ID])
-                        else:
-                            attack_enemy[threat_ID] = missile.fire_time
                     if attack_plane is not None:
+                        attack_enemy = 0
                         can_attack_now = True
+                        for missile_id in threat_plane.locked_missile_list:
+                            missile = self.get_body_info_by_id(self.missile_list, missile_id)
+                            if missile.LauncherID == attack_plane.ID:
+                                attack_enemy = max(missile.fire_time, attack_enemy)
+                            if TSVector3.distance(missile.pos3d, threat_plane.pos3d)<missile.Speed:
+                                can_attack_now = False
+                                break
+                        if can_attack_now == False:
+                            continue
                         attack_dis = TSVector3.distance(attack_plane.pos3d,threat_plane.pos3d)
                         if self.my_score<self.enemy_score+self.win_score or (self.sim_time>15*60 and \
                                 (self.my_score<self.enemy_score or (self.my_score==self.enemy_score \
                                 and self.my_center_time<self.enemy_center_time))):# 向死而生，破釜沉舟 
-                            cold_time = 0
+                            cold_time = 1
                             if threat_plane.Type==2:
-                                continue
+                                if attack_dis<6000:
+                                    cold_time = 2
+                                else:
+                                    cold_time = 4
                         else:
                             if threat_plane.Type==2:
                                 if attack_dis<6000:
@@ -578,10 +584,10 @@ class DemoAgent(Agent):
                             else:
                                 cold_time = 3
                         if self.my_score>self.enemy_score+self.win_score:
-                            cold_time = 0
-                        if threat_ID in attack_enemy and self.sim_time - attack_enemy[threat_ID] < cold_time:
+                            cold_time = 1
+                        if self.sim_time - attack_enemy < cold_time:
                             can_attack_now = False
-                        if TSVector3.distance(attack_plane.pos3d, threat_plane.pos3d)/1000+self.sim_time+2>20*60:
+                        if TSVector3.distance(attack_plane.pos3d, threat_plane.pos3d)/1000+self.sim_time+2>=20*60:
                             can_attack_now = False
                         if self.my_score-self.missile_score==self.enemy_score and self.my_center_time<self.enemy_center_time:
                             can_attack_now = False  
@@ -597,10 +603,10 @@ class DemoAgent(Agent):
                                 self.my_score -= self.missile_score
             for threat_plane_id in threat_plane_list:
                 threat_plane = self.get_body_info_by_id(self.enemy_plane, threat_plane_id)
-                if len(threat_plane.ready_attacked)>1 or (len(threat_plane.locked_missile_list) and len(threat_plane.ready_attacked)) or (self.sim_time>13*60 and (self.my_score<self.enemy_score or (self.my_score==self.enemy_score and self.my_center_time<self.enemy_center_time))):
+                if len(threat_plane.ready_attacked)>0:
                     for attack_plane_id in threat_plane.ready_attacked:
                         factor_fight = 1
-                        # cmd_list.append(env_cmd.make_attackparam(attack_plane_id, threat_plane_id, factor_fight))
+                        cmd_list.append(env_cmd.make_attackparam(attack_plane_id, threat_plane_id, factor_fight))
 
             # 有人机脱离战场
             for leader in self.my_leader_plane:
@@ -1094,7 +1100,6 @@ class DemoAgent(Agent):
 
     # 临死发射全部导弹攻击敌方:都得死,玉石俱焚
     def all_death(self, plane, cmd_list):   
-        attack_enemy = {}
         threat_plane_list = []
         for enemy in self.enemy_plane:
             if enemy.lost_flag==0 and plane.can_attack(enemy,attack_dis=19000):# 优先打击有导弹的飞机
@@ -1110,7 +1115,7 @@ class DemoAgent(Agent):
                     threat_ID = threat_plane_id
                     threat_plane.ready_attacked.append(plane.ID)
                     factor_fight = 1
-                    # cmd_list.append(env_cmd.make_attackparam(plane.ID, threat_ID, factor_fight))
+                    cmd_list.append(env_cmd.make_attackparam(plane.ID, threat_ID, factor_fight))
                     plane.ready_missile -= 1
                     self.my_score -= self.missile_score
         
@@ -1222,23 +1227,13 @@ class DemoAgent(Agent):
     # 找到可以攻击敌方飞机的己方飞机
     def can_attack_plane(self, enemy_plane):
         can_attack_dict = {}
-        attack_only_my = False
-        if len(enemy_plane.locked_missile_list) or (self.sim_time>15*60 and (self.my_score<self.enemy_score or (self.my_score==self.enemy_score and self.my_center_time<self.enemy_center_time))):
-            attack_only_my = True
         for my_plane in self.my_plane:# 有进入必杀的敌机，直接必杀
-            if my_plane.Availability and my_plane.ready_missile > 0 and (enemy_plane.ID not in my_plane.ready_attack or attack_only_my):
+            if my_plane.Availability and my_plane.ready_missile > 0 and enemy_plane.ID not in my_plane.ready_attack:
                 can_see = my_plane.can_see(enemy_plane,see_factor=1)
-                have_attack = False
-                for missile_id in enemy_plane.locked_missile_list:
-                    missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                    if missile.LauncherID == my_plane.ID and attack_only_my==False:
-                        have_attack = True
-                if have_attack:
-                    continue
                 distance = TSVector3.distance(my_plane.pos3d,enemy_plane.pos3d)
-                if can_see and distance<4000 and self.my_score > self.enemy_score:
+                if can_see and distance<4000:
                     can_attack_dict[my_plane.ID] = distance
-                elif can_see and distance<5000:
+                elif can_see and distance<5200:
                     enemy_can_see_me = False
                     for enemy in self.enemy_plane:
                         if enemy.can_see(my_plane,see_factor=1):
@@ -1247,22 +1242,13 @@ class DemoAgent(Agent):
                         can_attack_dict[my_plane.ID] = distance
 
         for my_plane in self.my_plane:
-            if my_plane.Availability and (enemy_plane.ID not in my_plane.ready_attack or attack_only_my):
+            if my_plane.Availability and enemy_plane.ID not in my_plane.ready_attack:
                 attack_plane = None
                 tmp_dis = TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)
                 left_weapon = my_plane.ready_missile > 0
-                have_attack = False
-                for missile_id in enemy_plane.locked_missile_list:
-                    missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                    if missile.LauncherID == my_plane.ID and attack_only_my==False:
-                        have_attack = True
-                if have_attack:
-                    continue
                 attack_dis = self.attack_distance
-                # if self.my_score<self.enemy_score+self.win_score and enemy_plane.Type==2:
-                #     continue
                 if enemy_plane.Type==2:
-                    attack_dis = 10000
+                    attack_dis = 15000
                 in_range = my_plane.can_attack(enemy_plane, attack_dis)
                 if in_range and left_weapon:
                     attack_plane = my_plane
