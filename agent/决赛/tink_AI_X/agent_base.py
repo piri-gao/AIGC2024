@@ -170,9 +170,9 @@ class Plane(object):
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
-        dir = TSVector3.normalize(vector)
         enemy_pitch = enemy.Pitch
-        if (enemy_pitch > 0 and enemy_pitch < relative_pitch*0.5) or (enemy_pitch < 0 and enemy_pitch < relative_pitch*0.5):
+        # if (enemy_pitch > 0 and enemy_pitch < relative_pitch*0.6) or (enemy_pitch < 0 and enemy_pitch < -relative_pitch*0.6):
+        if self.CurTime%2:
             relative_pitch = math.pi/6
         else:
             relative_pitch = -math.pi/6
@@ -180,7 +180,7 @@ class Plane(object):
         distance = 20*self.para["move_max_speed"]
         heading = self.Heading
         pi_ratio = 1/2
-        if (enemy.Speed+enemy.missile_acc)*2.1<dis:
+        if (enemy.Speed+enemy.missile_acc)*1.7<dis:#2.1
             if self.total_threat_flag==None:
                 total_threat_heading = TSVector3.calheading(total_threat_dir)
                 if self.pi_bound(enemy.Heading-total_threat_heading)<0:
@@ -191,10 +191,10 @@ class Plane(object):
                     self.total_threat_flag = 1
             else:
                 heading = enemy.Heading + self.total_threat_flag*math.pi*pi_ratio
-            # if abs(self.pi_bound(self.Heading - enemy.Heading - math.pi*pi_ratio))>math.pi*pi_ratio:
-            #     heading = enemy.Heading - math.pi*pi_ratio
-            # else:
-            #     heading = enemy.Heading + math.pi*pi_ratio
+            if abs(self.pi_bound(self.Heading - enemy.Heading - math.pi*pi_ratio))>math.pi*pi_ratio:
+                heading = enemy.Heading - math.pi*pi_ratio
+            else:
+                heading = enemy.Heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(heading, relative_pitch)
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
 

@@ -427,6 +427,8 @@ class DemoAgent(Agent):
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).ready_missile, reverse=True)
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).wing_plane, reverse=False)
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).Type, reverse=False)
+            # 为受攻击飞机提供导弹视野支持
+
             # 指定僚机
             if len(self.enemy_plane):
                 for leader_plane in self.my_leader_plane:
@@ -628,7 +630,7 @@ class DemoAgent(Agent):
                             min_dis = 99999999
                         free_plane.remove(leader.ID)
                         total_heading = TSVector3.calheading(total_dir)
-                        total_pitch = 0
+                        total_pitch = -1*TSVector3.calpitch(total_dir)
                         if min_dis>35000:
                             turn_ratio = 1/2
                             if self.is_in_center(leader,center_radius+5000)==False:
@@ -683,7 +685,17 @@ class DemoAgent(Agent):
                                 wing_plane.move_speed = wing_plane.para["move_max_speed"]
                                 cmd_list.append(env_cmd.make_followparam(wing_plane.ID, leader.ID, wing_plane.move_speed, wing_plane.para['move_max_acc'], wing_plane.para['move_max_g']))
                             else:
-                                total_dir = TSVector3.calorientation(next_heading, 0)
+                                next_pitch = 0
+                                enemy_sum = 0
+                                for enemy in self.enemy_plane:
+                                    if enemy.Availability:
+                                        if abs(wing_plane.pi_bound(TSVector3.calheading(TSVector3.minus(enemy.pos3d, wing_plane.pos3d))-next_heading))>wing_plane.para['radar_heading']/180*math.pi/2:
+                                            if TSVector3.distance(enemy.pos3d, wing_plane.pos3d)<wing_plane.para['radar_range']:
+                                                next_pitch += TSVector3.calpitch(TSVector3.minus(enemy.pos3d, wing_plane.pos3d))*15000/(TSVector3.distance(enemy.pos3d, wing_plane.pos3d)+2000)
+                                                enemy_sum += 15000/(TSVector3.distance(enemy.pos3d, wing_plane.pos3d)+2000)
+                                if enemy_sum>0:
+                                    next_pitch /= enemy_sum
+                                total_dir = TSVector3.calorientation(next_heading, next_pitch)
                                 total_dir = TSVector3.normalize(total_dir)
                                 distance = 20 * wing_plane.para["move_max_speed"]
                                 next_pos = TSVector3.plus(wing_plane.pos3d, TSVector3.multscalar(total_dir, distance))
@@ -778,11 +790,22 @@ class DemoAgent(Agent):
                                 if wing_plane.move_speed > leader.Speed:
                                     wing_plane.move_speed = leader.Speed
                                 next_heading = leader.Heading + math.pi
-                                total_dir = TSVector3.calorientation(next_heading, 0)
+                                if next_heading>2*math.pi:
+                                    next_heading -= 2*math.pi
+                                next_pitch = 0
+                                enemy_sum = 0
+                                for enemy in self.enemy_plane:
+                                    if enemy.Availability:
+                                        if abs(wing_plane.pi_bound(TSVector3.calheading(TSVector3.minus(enemy.pos3d, wing_plane.pos3d))-next_heading))>wing_plane.para['radar_heading']/180*math.pi/2:
+                                            if TSVector3.distance(enemy.pos3d, wing_plane.pos3d)<wing_plane.para['radar_range']:
+                                                next_pitch += TSVector3.calpitch(TSVector3.minus(enemy.pos3d, wing_plane.pos3d))*15000/(TSVector3.distance(enemy.pos3d, wing_plane.pos3d)+2000)
+                                                enemy_sum += 15000/(TSVector3.distance(enemy.pos3d, wing_plane.pos3d)+2000)
+                                if enemy_sum>0:
+                                    next_pitch /= enemy_sum
+                                total_dir = TSVector3.calorientation(next_heading, next_pitch)
                                 total_dir = TSVector3.normalize(total_dir)
                                 distance = 20 * wing_plane.para["move_max_speed"]
                                 next_pos = TSVector3.plus(wing_plane.pos3d, TSVector3.multscalar(total_dir, distance))
-                                next_pos['Z'] = leader.Z
                                 cmd_list.append(env_cmd.make_linepatrolparam(wing_plane.ID, [next_pos,],
                                             wing_plane.move_speed, wing_plane.para["move_max_acc"], wing_plane.para["move_max_g"]))
             
@@ -799,7 +822,7 @@ class DemoAgent(Agent):
                             min_dis = 99999999
                         free_plane.remove(plane.ID)
                         total_heading = TSVector3.calheading(total_dir)
-                        total_pitch = 0
+                        total_pitch = -1*TSVector3.calpitch(total_dir)
                         if min_dis>15000:
                             turn_ratio = 1/2
                             if self.is_in_center(plane,110000)==False:
@@ -807,7 +830,7 @@ class DemoAgent(Agent):
                                 turn_ratio = 4/9
                             # 转弯方向需要重新判断？
                             if plane.total_threat_flag == None:
-                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=20000,seen=False)
+                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=40000,seen=False)
                                 total_threat_heading = TSVector3.calheading(total_threat_dir)
                                 if plane.pi_bound(total_heading-total_threat_heading)<0:
                                     total_heading = total_heading - math.pi*turn_ratio
@@ -1158,6 +1181,15 @@ class DemoAgent(Agent):
                     relative_pitch = math.pi/6
             else:
                 relative_pitch = 0
+                enemy_num = 0
+                for enemy in self.enemy_plane:
+                    if enemy.Availability and enemy.ready_missile>0:
+                        if TSVector3.distance(enemy.pos3d, plane.pos3d)<80000:
+                            enemy_num += 15000/(TSVector3.distance(enemy.pos3d, plane.pos3d)+2000)
+                            relative_pitch -= enemy.Pitch*15000/(TSVector3.distance(enemy.pos3d, plane.pos3d)+2000)
+                if enemy_num>0:
+                    relative_pitch /= enemy_num
+                
             if (self.side == 1 and plane.X > self.bound * self.side) or (self.side == -1 and plane.X < self.bound * self.side):
                 init_direction = (self.init_direction + 180) % 360
             else:
@@ -1168,14 +1200,14 @@ class DemoAgent(Agent):
             distance = 10*plane.para["move_max_speed"]
             new_dir = TSVector3.calorientation(init_direction/180*math.pi, relative_pitch)
             new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, distance))
-            if plane.Type==1:
-                new_pos['Z'] = 9000
-                if len(self.enemy_uav_plane)>0:
-                    for enemy in self.enemy_plane:
-                        if enemy.Z-60*math.sin(10/180*math.pi)<new_pos['Z']:
-                            new_pos['Z'] = enemy.Z-60*math.sin(10/180*math.pi)-100
-                if new_pos['Z'] < 2000:
-                    new_pos['Z'] = 14000
+            # if plane.Type==1:
+            #     new_pos['Z'] = 9000
+            #     if len(self.enemy_uav_plane)>0:
+            #         for enemy in self.enemy_plane:
+            #             if enemy.Availability and enemy.Z-60*math.sin(10/180*math.pi)<new_pos['Z']:
+            #                 new_pos['Z'] = enemy.Z-60*math.sin(10/180*math.pi)-100
+            #     if new_pos['Z'] < 2000:
+            #         new_pos['Z'] = 14000
             route_list = [{"X": new_pos['X'], "Y": new_pos['Y'], "Z": new_pos['Z']},]
             if init_direction != self.init_direction or len(self.enemy_leader_plane) == 2:
                 route_list = [{"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": new_pos['Z']},]
@@ -1526,11 +1558,15 @@ class DemoAgent(Agent):
     def synthetic_threat_vector(self, leader, see_dis=45000, seen=True):
         total_dir = {"X": 0, "Y": 0, "Z": 0}
         min_dis = 9999999
+        threat_weight = 0
         for enemy in self.enemy_plane:
             if enemy.Availability and enemy.ready_missile>0:
                 dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
                 if enemy.can_see(leader)==seen or dis<see_dis:
                     min_dis = min(TSVector3.distance(enemy.pos3d, leader.pos3d), min_dis)
-                    tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), 1/(dis+100))
+                    tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(15000/(dis+2000),2))
+                    threat_weight += math.pow(15000/(dis+2000),2)
                     total_dir = TSVector3.plus(tmp_dir2,total_dir)
+        if threat_weight>0:
+            total_dir = TSVector3.multscalar(total_dir, 1/threat_weight)
         return total_dir, min_dis
