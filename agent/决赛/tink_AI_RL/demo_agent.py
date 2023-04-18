@@ -6,7 +6,7 @@ from agent.agent import Agent
 import numpy as np
 import torch
 from agent.tink_AI_RL.agent_base import Plane, Missile
-from .model import MultiAgentTransformer
+from .model import MultiAgentTransformer,QMIX
 
 class DemoAgent(Agent):
 
@@ -60,12 +60,15 @@ class DemoAgent(Agent):
         self.done = [0 for i in range(10)]
         # 我方空闲飞机
         self.free_plane = []
+        # 下标与ID转换
+        self.index_to_id = {}
         self.EPS = 0.004
         # 初始化模型
-        self.model = MultiAgentTransformer(n_agents=10, input_dim=146, hidden_dim=16, output_dim=64)
-        def get_parameters_num(param_list):
-            return str(sum(p.numel() for p in param_list) / 1000) + 'K'
-        print(get_parameters_num(list(self.model.parameters())))
+        self.model = QMIX(n_agents=10, state_shape=146, obs_shape=146, n_actions=8, gamma=0.99, lr=1e-3, tau=0.01)
+        
+        # def get_parameters_num(param_list):
+        #     return str(sum(p.numel() for p in param_list) / 1000) + 'K'
+        # print(get_parameters_num(list(self.model.parameters())))
 
     def reset(self):
         self._init()
@@ -81,6 +84,7 @@ class DemoAgent(Agent):
         for i, plane in enumerate(self.my_plane):
             if plane.i == -1:
                 plane.i = i
+                self.index_to_id[i] = plane.ID
             plane.move_order = None
             plane.ready_attack = []
             if plane.Type==1 and self.sim_time-plane.last_jam>0:
@@ -166,7 +170,7 @@ class DemoAgent(Agent):
                         plane.Availability = 0
                 if self.is_in_legal_area(plane)==False:
                     plane.Availability = 0
-                    for i in len(self.rewards):
+                    for i in range(len(self.rewards)):
                         self.rewards[i] += 2 if plane.Type==2 else 4
             else:
                 plane.Availability = 1
@@ -222,13 +226,13 @@ class DemoAgent(Agent):
         self.win_now()
         if self.sim_time>19*60+57 and self.my_score>self.enemy_score:
             print("预测赢了:",self.my_score,'   ',self.enemy_score)
-            for i in len(self.rewards):
+            for i in range(len(self.rewards)):
                 self.rewards[i] += 4
         elif self.sim_time>19*60+57 and self.my_score<self.enemy_score:
-            for i in len(self.rewards):
+            for i in range(len(self.rewards)):
                 self.rewards[i] -= 0.7
         if self.sim_time>19*60+57:
-            for i in len(self.done):
+            for i in range(len(self.done)):
                 self.done[i] = 1
         if self.revenge == False:  
             self.enemy_left_weapon = 24
@@ -492,7 +496,7 @@ class DemoAgent(Agent):
                     Relative_Z_i = np.array([plane.Z - cur_plane.Z])
                     Relative_dist_i = np.array([TSVector3.distance(plane.pos3d, cur_plane.pos3d)])
                     Relative_theta_i = np.array([plane.pi_bound(plane.XY2theta(Relative_X_i[0], Relative_Y_i[0]))])
-                    Relative_alpha_i = np.array([self.pi_bound(math.asin(Relative_Z_i[0] / (Relative_dist_i[0] + self.EPS)))])
+                    Relative_alpha_i = np.array([plane.pi_bound(math.asin(Relative_Z_i[0] / (Relative_dist_i[0] + self.EPS)))])
                     heading = np.array([plane.Heading])
                     pitch = np.array([plane.Pitch])
                     speed = np.array([plane.Speed])
@@ -557,6 +561,58 @@ class DemoAgent(Agent):
         global_info = np.concatenate((global_my_score,global_enemy_score,global_sim_time,global_my_missile,global_ennmy_missile))
         return global_info
 
+    # 动作映射
+    def action2cmd(self, actions):
+        cmd_list = []
+        for i,action in enumerate(actions):
+            action_space = len(action)
+            action_mask = np.ones(action_space)
+            plane = self.get_body_info_by_id(self.my_plane, self.index_to_id[i])
+            if plane.Type==2:
+                action_mask[7] = 0
+            elif self.sim_time - plane.last_jam<60:
+                action_mask[7] = 0
+            else:
+                have_enemy_jam = False
+                for enemy in self.enemy_plane:
+                    if plane.can_see(enemy,see_factor=0.9):
+                        have_enemy_jam = True
+                if have_enemy_jam==False:
+                    action_mask[7] = 0
+            have_enemy_attack = False
+            for enemy in self.enemy_plane:
+                if enemy.lost_flag==0 and plane.can_attack(enemy) and plane.ready_missile>0:
+                    have_enemy_attack = True
+                    break
+            if have_enemy_attack==False:
+                action_mask[5] = 0
+            have_enemy_follow = False
+            for enemy in self.enemy_plane:
+                if enemy.lost_flag==0:
+                    have_enemy_follow = True
+            if have_enemy_follow==False:
+                action_mask[6] = 0
+            # 对智能体的动作进行掩码处理
+            # masked_actions = action * action_mask
+            action_mask = action_mask != 1
+            action[action_mask] = -99999
+            # import pdb;pdb.set_trace()
+            max_index = np.argmax(action)
+            self.selected_module(max_index)(cmd_list, plane)
+        return cmd_list
+    # 选择模块
+    def selected_module(self, action):
+        MODULE = {
+            0: self.go_ahead,
+            1: self.left_turn,
+            2: self.right_turn,
+            3: self.up_sky,
+            4: self.down_ground,
+            5: self.attack_enemy,
+            6: self.follow_enemy,
+            7: self.activate_jam
+        }
+        return MODULE[action]
     # 更新决策
     def update_decision(self, obs_side, cmd_list):
         self.update_entity_info(obs_side)
@@ -567,9 +623,9 @@ class DemoAgent(Agent):
             global_obs = self.get_global_obs()
             reward = self.rewards
             done = self.done
-            inputs = torch.tensor([my_obs], dtype=torch.float32)
-            outputs = self.model(inputs)
-
+            # inputs = torch.tensor([my_obs], dtype=torch.float32)
+            outputs = self.model.evaluate(my_obs)
+            cmd_list = self.action2cmd(outputs)
 
     #初始化我方飞机位置
     def init_pos(self, cmd_list):
@@ -598,7 +654,77 @@ class DemoAgent(Agent):
                 else:
                     cmd_list.append(
                         env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
-                    
+
+    # 前进
+    def go_ahead(self,cmd_list,plane):
+        new_dir = TSVector3.calorientation(plane.Heading, 0)
+        new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, plane.Speed*6))
+        route_list = [new_pos,]
+        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, plane.move_speed,
+                                                    plane.para["move_max_acc"], plane.para["move_max_g"]))
+    # 左转
+    def left_turn(self,cmd_list,plane):
+        new_dir = TSVector3.calorientation(plane.Heading-math.pi/6, 0)
+        new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, plane.Speed*6))
+        route_list = [new_pos,]
+        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, plane.move_speed,
+                                                    plane.para["move_max_acc"], plane.para["move_max_g"]))
+    # 右转
+    def right_turn(self,cmd_list,plane):
+        new_dir = TSVector3.calorientation(plane.Heading+math.pi/6, 0)
+        new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, plane.Speed*6))
+        route_list = [new_pos,]
+        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, plane.move_speed,
+                                                    plane.para["move_max_acc"], plane.para["move_max_g"]))
+    # 上天
+    def up_sky(self,cmd_list,plane):
+        new_dir = TSVector3.calorientation(plane.Heading, math.pi/5.5)
+        new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, plane.Speed*6))
+        route_list = [new_pos,]
+        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, plane.move_speed,
+                                                    plane.para["move_max_acc"], plane.para["move_max_g"]))
+    # 入地
+    def down_ground(self,cmd_list,plane):
+        new_dir = TSVector3.calorientation(plane.Heading, -math.pi/5.5)
+        new_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(new_dir, plane.Speed*6))
+        route_list = [new_pos,]
+        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, route_list, plane.move_speed,
+                                                    plane.para["move_max_acc"], plane.para["move_max_g"]))
+    # 攻击
+    def attack_enemy(self,cmd_list,plane):
+        threat_plane_list = []
+        for enemy in self.enemy_plane:
+            if enemy.lost_flag==0 and plane.can_attack(enemy) and plane.ready_missile>0:
+                threat_plane_list.append(enemy.ID)
+        if len(threat_plane_list):
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: TSVector3.distance(self.get_body_info_by_id(self.enemy_plane,d).pos3d, plane.pos3d), reverse=False)
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).ready_missile, reverse=True)
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).wing_plane, reverse=False)
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).Type, reverse=False)
+            factor_fight = 1
+            cmd_list.append(env_cmd.make_attackparam(plane.ID, threat_plane_list[0], factor_fight))
+    # 跟踪
+    def follow_enemy(self,cmd_list,plane):
+        threat_plane_list = []
+        for enemy in self.enemy_plane:
+            if enemy.lost_flag==0:
+                threat_plane_list.append(enemy.ID)
+        if len(threat_plane_list):
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: TSVector3.distance(self.get_body_info_by_id(self.enemy_plane,d).pos3d, plane.pos3d), reverse=False)
+            if plane.ready_missile>0:
+                threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).ready_missile, reverse=True)
+                threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).wing_plane, reverse=False)
+            threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).Type, reverse=False)
+            enemy_plane = self.get_body_info_by_id(self.enemy_plane, threat_plane_list[0])
+            if TSVector3.distance(plane.pos3d, enemy_plane.pos3d)<15000:
+                if plane.move_speed > enemy_plane.Speed:
+                    plane.move_speed = enemy_plane.Speed
+            cmd_list.append(env_cmd.make_followparam(plane.ID, enemy_plane.ID, plane.move_speed, 
+                                                     plane.para['move_max_acc'], plane.para['move_max_g']))
+    # 干扰
+    def activate_jam(self,cmd_list,plane):
+        cmd_list.append(env_cmd.make_jamparam(plane.ID))
+    # 判断是否赢了       
     def win_now(self):
         self.my_score = 0
         self.enemy_score = 0
