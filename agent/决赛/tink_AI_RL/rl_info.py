@@ -1,13 +1,9 @@
 import math
-import random
 from env.env_cmd import CmdEnv as env_cmd
 from utils.utils_math import TSVector3
 from agent.agent import Agent
 import numpy as np
-import torch
 from agent.tink_AI_RL.agent_base import Plane, Missile
-from .qmix_model import MultiAgentTransformer,QMIX
-from .mappo_model import MAPPO
 class DemoAgent(Agent):
 
     def __init__(self, name, config):
@@ -63,24 +59,19 @@ class DemoAgent(Agent):
         # 下标与ID转换
         self.index_to_id = {}
         self.EPS = 0.004
-        # 初始化模型
-        self.model = QMIX(n_agents=10, state_shape=146, obs_shape=146, n_actions=8, gamma=0.99, lr=1e-3, tau=0.01)
-        self.mappo = MAPPO(state_dim=146, action_dim=8, hidden_dim=64, lr=1e-4, gamma=0.99, epsilon=0.2, buffer_size=10000, batch_size=64)
-        # def get_parameters_num(param_list):
-        #     return str(sum(p.numel() for p in param_list) / 1000) + 'K'
-        # print(get_parameters_num(list(self.model.parameters())))
 
     def reset(self):
         self._init()
 
-    def step(self,sim_time, obs_side, **kwargs):
+    def step(self,sim_time, obs_side, agent, **kwargs):
         cmd_list = []
         self.sim_time = sim_time
-        self.update_decision(obs_side, cmd_list)
-        return cmd_list
+        my_obs,global_obs,reward,done,actions_mask,a_log_prob=self.update_rl_info(obs_side, agent, cmd_list)
+        return my_obs,global_obs,reward,done,actions_mask,a_log_prob,cmd_list
 
     # 更新当前各个实体的存亡以及部分额外记录信息
     def update_dead_info(self):
+        self.rewards = [0 for i in range(10)]
         for i, plane in enumerate(self.my_plane):
             if plane.i == -1:
                 plane.i = i
@@ -625,53 +616,19 @@ class DemoAgent(Agent):
         }
         return MODULE[action]
     # 更新决策
-    def update_decision(self, obs_side, cmd_list):
+    def update_rl_info(self, obs_side, agent, cmd_list):
         self.update_entity_info(obs_side)
-        if self.sim_time <= 2:
-            self.init_pos(cmd_list)
-        else:
-            my_obs = self.get_my_agent_obs()
-            global_obs = self.get_global_obs()
-            reward = self.rewards
-            done = self.done
-            # QMIX
-            # inputs = torch.tensor([my_obs], dtype=torch.float32)
-            # outputs = self.model.evaluate(my_obs)
-            # cmd_list = self.action2cmd(outputs)
-            # MAPPO
-            actions_mask = self.actions_masked()
-            action,_ = self.mappo.evaluate(my_obs, global_obs, actions_mask)
-            for i, act in enumerate(action):
-                plane = self.get_body_info_by_id(self.my_plane, self.index_to_id[i])
-                self.selected_module(act)(cmd_list, plane)
-
-    #初始化我方飞机位置
-    def init_pos(self, cmd_list):
-        # 初始化部署
-        if self.sim_time == 2:
-            leader_plane_1 = self.my_leader_plane[0]
-            leader_plane_2 = self.my_leader_plane[1]
-            # 初始化有人机位置
-            cmd_list.append(
-                env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 50000, 9000, 400, self.init_direction))
-            cmd_list.append(
-                env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -50000, 9000, 400, self.init_direction))
-            for i, plane in enumerate(self.my_uav_plane):
-                if i < 6:
-                    if i != 5:
-                        if i==1 or i==3:
-                            self.spy_plane.append(plane.ID)
-                            plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
-                    else:
-                        self.spy_plane.append(plane.ID)
-                        plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
-                else:
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
+        my_obs = self.get_my_agent_obs()
+        global_obs = self.get_global_obs()
+        reward = self.rewards
+        done = self.done
+        actions_mask = self.actions_masked()
+        actions,a_log_probs = agent.evaluate(my_obs, global_obs, actions_mask)
+        action = actions.squeeze(0).cpu().detach().numpy()
+        for i, act in enumerate(action):
+            plane = self.get_body_info_by_id(self.my_plane, self.index_to_id[i])
+            self.selected_module(act)(cmd_list, plane)
+        return my_obs,global_obs,reward,done,action,a_log_probs.squeeze(0).cpu().detach().numpy()
 
     # 前进
     def go_ahead(self,cmd_list,plane):

@@ -57,6 +57,7 @@ class GRUQNetwork(nn.Module):
         x, self.hx= self.gru(x, self.hx)
         q = self.fc(x)
         return q
+    
     def init_gru(self):
         self.hx = None
     
