@@ -45,6 +45,7 @@ class DemoAgent(Agent):
         self.missile_ratio = None
         # 判定赢的分数
         self.win_score = 16-0.2*24
+        # self.win_score = 8 - 0.2*4
         # 导弹分数
         self.missile_score = 0.2
         # 有人机分数
@@ -111,7 +112,7 @@ class DemoAgent(Agent):
                     dis = 999999999
                     for missile_id in plane.locked_missile_list:
                         tmp_missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0:
+                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0 and tmp_missile.loss_target==False:
                             dis = TSVector3.distance(tmp_missile.pos3d, plane.pos3d)
                             closer_missile = tmp_missile
                         if tmp_missile.lost_flag==0 and tmp_missile.loss_target==True:
@@ -149,7 +150,7 @@ class DemoAgent(Agent):
                 plane.Availability = 1
             if plane.Availability and self.is_in_center(plane):
                 plane.center_time += 1
-            if plane.Availability:
+            if plane.Availability and plane.Type==1:
                 self.live_enemy_leader += 1
             for missile in self.missile_list:
                 # if missile.Identification == plane.Identification and missile.marked==False and self.plane_to_missile(missile, self.enemy_plane)==plane.ID:# 重新设置敌方导弹归属？
@@ -198,7 +199,7 @@ class DemoAgent(Agent):
                 else:
                     for enemy in self.enemy_plane:
                         # if enemy.Availability and enemy.can_see(plane,see_factor=1.0) and enemy.ready_missile>0:
-                        if enemy.Availability:
+                        if enemy.Availability and enemy.ready_missile>0:
                             enemy_dis = TSVector3.distance(plane.pos3d, enemy.pos3d)
                             speed_factor = math.tanh(math.pow(plane.para['safe_range']/(enemy_dis+2000),2))
                             tmp_move_speed = speed_factor*(plane.para["move_max_speed"]-plane.para["move_min_speed"]) + plane.para["move_min_speed"]
@@ -305,7 +306,7 @@ class DemoAgent(Agent):
                 else:
                     if missile['Speed']<1000:
                         t = (missile['Speed']-398)/98
-                        tmp_dis = 0.5*98*t*t+400+t*350
+                        tmp_dis = 0.5*98*t*t+344+t*350
                         if missile_dis<tmp_dis:
                             dis = missile_dis
                             target_plane = plane.ID
@@ -440,6 +441,11 @@ class DemoAgent(Agent):
             for plane in self.my_plane:
                 if plane.Availability and len(plane.locked_missile_list):
                     need_seen_plane.append(plane.ID)
+                if len(plane.locked_missile_list)==0 or plane.Availability==0:
+                    if plane.wing_plane!=None:
+                        wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_plane) 
+                        plane.wing_plane = None
+                        wing_plane.wing_who = None
             for plane_id in need_seen_plane:
                 plane = self.get_body_info_by_id(self.my_plane, plane_id)
                 max_arrive_time = 0
@@ -452,8 +458,9 @@ class DemoAgent(Agent):
                 follow_missile = plane.close_missile
                 if plane.wing_plane:
                     wing_plane = self.get_body_info_by_id(self.my_plane,plane.wing_plane)
-                    if TSVector3.distance(wing_plane.pos3d, plane.close_missile.pos3d)>wing_plane.para['radar_range'] and TSVector3.distance(wing_plane.pos3d, follow_missile.pos3d)>wing_plane.para['radar_range']:
+                    if TSVector3.distance(wing_plane.pos3d, follow_missile.pos3d)>wing_plane.para['radar_range'] or len(wing_plane.locked_missile_list):
                         plane.wing_plane = None
+                        wing_plane.wing_who = None
                 if plane.wing_plane == None or self.get_body_info_by_id(self.my_plane, plane.wing_plane).ID not in free_plane:
                     for see_plane_id in free_plane.copy():
                         see_plane = self.get_body_info_by_id(self.my_plane, see_plane_id)
@@ -478,6 +485,7 @@ class DemoAgent(Agent):
                 else:
                     seen_plane = self.get_body_info_by_id(self.my_plane, plane.wing_plane)  
                 plane.wing_plane = seen_plane.ID
+                seen_plane.wing_who = plane.ID
                 if plane.wing_plane in free_plane:
                     free_plane.remove(plane.wing_plane)
                 if follow_missile.lost_flag==0:
@@ -511,7 +519,7 @@ class DemoAgent(Agent):
                                 for plane_id in no_missile_plane:
                                     plane = self.get_body_info_by_id(self.my_plane, plane_id)
                                     if plane.can_see(leader_plane,see_factor=1):
-                                        self.get_body_info_by_id(self.my_plane, leader_plane.wing_plane).wing_who = None
+                                        wing_plane.wing_who = None
                                         leader_plane.wing_plane = None  
                                         break
                             if leader_plane.wing_plane != None and wing_plane.ID in free_plane:
@@ -691,7 +699,7 @@ class DemoAgent(Agent):
                         enemy_sum = 0
                         for enemy in self.enemy_plane:
                             if enemy.Availability:
-                                if TSVector3.distance(enemy.pos3d, plane.pos3d)<45000:
+                                if TSVector3.distance(enemy.pos3d, leader.pos3d)<45000:
                                     total_pitch -= enemy.Pitch*math.pow(15000/(TSVector3.distance(enemy.pos3d, leader.pos3d)+2000),2)
                                     enemy_sum += math.pow(15000/(TSVector3.distance(enemy.pos3d, leader.pos3d)+2000),2)
                         if enemy_sum>0:
@@ -878,7 +886,7 @@ class DemoAgent(Agent):
             # 无人机脱离近距离攻击范围
             for plane in self.my_plane:
                 if plane.ID in free_plane and plane.Type==2:
-                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=16000,seen=True)
+                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=26000,seen=True)
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
                         if self.is_in_center(plane,100000) == False:
                             tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
@@ -891,20 +899,20 @@ class DemoAgent(Agent):
                         total_pitch = 0
                         enemy_sum = 0
                         for enemy in self.enemy_plane:
-                            if enemy.Availability:
-                                if TSVector3.distance(enemy.pos3d, plane.pos3d)<16000:
+                            if enemy.Availability and enemy.ready_missile>0:
+                                if TSVector3.distance(enemy.pos3d, plane.pos3d)<26000:
                                     total_pitch -= enemy.Pitch*math.pow(15000/(TSVector3.distance(enemy.pos3d, plane.pos3d)+2000),2)
                                     enemy_sum += math.pow(15000/(TSVector3.distance(enemy.pos3d, plane.pos3d)+2000),2)
                         if enemy_sum>0:
                             total_pitch /= enemy_sum
-                        if min_dis>12000:
+                        if min_dis>20000:
                             turn_ratio = 1/2
                             if self.is_in_center(plane,110000)==False:
                                 # turn_ratio = 2/3
                                 turn_ratio = 4/9
                             # 转弯方向需要重新判断？
                             if plane.total_threat_flag == None:
-                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=20000,seen=False)
+                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=24000,seen=False)
                                 total_threat_heading = TSVector3.calheading(total_threat_dir)
                                 if plane.pi_bound(total_heading-total_threat_heading)<0:
                                     total_heading = total_heading - math.pi*turn_ratio

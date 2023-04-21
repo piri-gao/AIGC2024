@@ -106,7 +106,7 @@ class DemoAgent(Agent):
                     dis = 999999999
                     for missile_id in plane.locked_missile_list:
                         tmp_missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0:
+                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0 and tmp_missile.loss_target==False:
                             dis = TSVector3.distance(tmp_missile.pos3d, plane.pos3d)
                             closer_missile = tmp_missile
                         if tmp_missile.lost_flag==0 and tmp_missile.loss_target==True:
@@ -144,7 +144,7 @@ class DemoAgent(Agent):
                 plane.Availability = 1
             if plane.Availability and self.is_in_center(plane):
                 plane.center_time += 1
-            if plane.Availability:
+            if plane.Availability and plane.Type==1:
                 self.live_enemy_leader += 1
             for missile in self.missile_list:
                 # if missile.Identification == plane.Identification and missile.marked==False and self.plane_to_missile(missile, self.enemy_plane)==plane.ID:# 重新设置敌方导弹归属？
@@ -418,8 +418,9 @@ class DemoAgent(Agent):
                     free_plane.append(my_plane)
                     if my_plane.ready_missile == 0 and my_plane.Type == 2:
                         no_missile_plane.append(my_plane.ID)
-            free_plane = sorted(free_plane, key=lambda d: d.ready_missile, reverse=False)
-            free_plane = [plane.ID for plane in sorted(free_plane, key=lambda d: d.Type, reverse=True)]
+            if free_plane!=[]:
+                free_plane = sorted(free_plane, key=lambda d: d.ready_missile, reverse=False)
+                free_plane = [plane.ID for plane in sorted(free_plane, key=lambda d: d.Type, reverse=True)]
             for enemy in self.enemy_plane:
                 if enemy.lost_flag==0:
                     threat_plane_list.append(enemy.ID)
@@ -455,7 +456,7 @@ class DemoAgent(Agent):
                                 for plane_id in no_missile_plane:
                                     plane = self.get_body_info_by_id(self.my_plane, plane_id)
                                     if plane.can_see(leader_plane,see_factor=1):
-                                        self.get_body_info_by_id(self.my_plane, leader_plane.wing_plane).wing_who = None
+                                        wing_plane.wing_who = None
                                         leader_plane.wing_plane = None  
                                         break
                             if leader_plane.wing_plane != None and wing_plane.ID in free_plane:
