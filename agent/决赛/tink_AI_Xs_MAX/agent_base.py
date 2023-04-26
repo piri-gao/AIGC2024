@@ -1,4 +1,3 @@
-import numpy as np
 from env.env_cmd import CmdEnv as env_cmd
 import random
 import math
@@ -128,11 +127,11 @@ class Plane(object):
             self.para["move_max_speed"] = 300
             self.para["move_min_speed"] = 100
             self.para["move_max_acc"] = 2
-            self.para["move_max_g"] = 12
+            self.para["move_max_g"] = 6
             self.para["area_max_alt"] = 10000
             self.para['radar_range'] = 60000
             self.para["safe_range"] = 16000
-            self.para["launch_range"] = 15000
+            self.para["launch_range"] = 18000
             self.para['radar_heading'] = 30
             self.para['radar_pitch'] = 10
 
@@ -185,18 +184,18 @@ class Plane(object):
         if (enemy.Speed+enemy.missile_acc)*2.1<dis:#2.1
             if self.total_threat_flag==None:
                 total_threat_heading = TSVector3.calheading(total_threat_dir)
-                # if self.pi_bound(enemy.Heading-total_threat_heading)<0:
-                #     heading = enemy.Heading - math.pi*pi_ratio
-                #     self.total_threat_flag = -1
-                # else:
-                #     heading = enemy.Heading + math.pi*pi_ratio
-                #     self.total_threat_flag = 1
                 if self.pi_bound(enemy.Heading-total_threat_heading)<0:
-                    heading = enemy.Heading + math.pi*pi_ratio
-                    self.total_threat_flag = 1
-                else:
                     heading = enemy.Heading - math.pi*pi_ratio
                     self.total_threat_flag = -1
+                else:
+                    heading = enemy.Heading + math.pi*pi_ratio
+                    self.total_threat_flag = 1
+                # if self.pi_bound(enemy.Heading-total_threat_heading)<0:
+                #     heading = enemy.Heading + math.pi*pi_ratio
+                #     self.total_threat_flag = 1
+                # else:
+                #     heading = enemy.Heading - math.pi*pi_ratio
+                #     self.total_threat_flag = -1
             else:
                 heading = enemy.Heading + self.total_threat_flag*math.pi*pi_ratio
             if abs(self.pi_bound(self.Heading - enemy.Heading - math.pi*pi_ratio))>math.pi*pi_ratio:
@@ -228,8 +227,8 @@ class Plane(object):
         # 盘旋或垂直飞行使敌方导弹脱靶
         if self.move_order==None:
             self.move_order="躲避导弹"
-        # else:
-            # print(self.ID,self.move_order,"无人机躲避导弹")
+        else:
+            print(self.ID,self.move_order,"无人机躲避导弹")
         if abs(new_evade_pos["X"]) > 150000 or abs(new_evade_pos["Y"]) > 150000:
             x = self.X
             y = self.Y
@@ -300,8 +299,8 @@ class Plane(object):
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": new_evade_pos['Z']}, ]
         if self.move_order==None:
             self.move_order="有人机躲避导弹"
-        # else:
-        #     print(self.ID,self.move_order,"有人机躲避导弹")
+        else:
+            print(self.ID,self.move_order,"有人机躲避导弹")
         if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 142000):
             x = self.X
             y = self.Y
