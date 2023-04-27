@@ -3,6 +3,7 @@ import random
 from env.env_cmd import CmdEnv as env_cmd
 from utils.utils_math import TSVector3
 from agent.agent import Agent
+
 from agent.tink_AI_Xs_MAX.agent_base import Plane, Missile
 
 class DemoAgent(Agent):
@@ -113,7 +114,7 @@ class DemoAgent(Agent):
                     dis = 999999999
                     for missile_id in plane.locked_missile_list:
                         tmp_missile = self.get_body_info_by_id(self.missile_list, missile_id)
-                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0:
+                        if TSVector3.distance(tmp_missile.pos3d,plane.pos3d)<dis and tmp_missile.lost_flag==0 and tmp_missile.loss_target==False:
                             dis = TSVector3.distance(tmp_missile.pos3d, plane.pos3d)
                             closer_missile = tmp_missile
                         if tmp_missile.lost_flag==0 and tmp_missile.loss_target==True:
@@ -151,7 +152,7 @@ class DemoAgent(Agent):
                 plane.Availability = 1
             if plane.Availability and self.is_in_center(plane):
                 plane.center_time += 1
-            if plane.Availability:
+            if plane.Availability and plane.Type==1:
                 self.live_enemy_leader += 1
             for missile in self.missile_list:
                 # if missile.Identification == plane.Identification and missile.marked==False and self.plane_to_missile(missile, self.enemy_plane)==plane.ID:# 重新设置敌方导弹归属？
@@ -490,7 +491,7 @@ class DemoAgent(Agent):
                 follow_missile = plane.close_missile
                 if plane.wing_plane:
                     wing_plane = self.get_body_info_by_id(self.my_plane,plane.wing_plane)
-                    if TSVector3.distance(wing_plane.pos3d, follow_missile.pos3d)>wing_plane.para['radar_range']:
+                    if TSVector3.distance(wing_plane.pos3d, follow_missile.pos3d)>wing_plane.para['radar_range'] or len(wing_plane.locked_missile_list):
                         plane.wing_plane = None
                         wing_plane.wing_who = None
                 if plane.wing_plane == None or self.get_body_info_by_id(self.my_plane, plane.wing_plane).ID not in self.free_plane:
@@ -780,7 +781,7 @@ class DemoAgent(Agent):
                                             leader.move_speed, leader.para["move_max_acc"], leader.para["move_max_g"]))
                         else:
                             print(leader.move_order,"leader规避风险")
-                        if leader.wing_plane:
+                        if leader.Availability and leader.wing_plane:
                             wing_plane = self.get_body_info_by_id(self.my_plane, leader.wing_plane)
                             if wing_plane.ID in self.free_plane:
                                 self.free_plane.remove(wing_plane.ID)
