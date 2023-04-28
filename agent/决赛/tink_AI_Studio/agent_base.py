@@ -388,6 +388,7 @@ class Missile(object):
         self.CurTime = missile_info['CurTime']
         # 发射时间
         self.fire_time = missile_info['CurTime']-1
+        self.arrive_time = 0
         # # 导弹预计到达时间
         # if missile_info['distance']>2700:
         #     self.arrive_time = self.fire_time + missile_info['distance']/1000 + 7
@@ -426,7 +427,7 @@ class Missile(object):
         self.Y = missile_info['Y']
         self.Z = missile_info['Alt']
         self.prePitch = self.Pitch
-        self.arrive_time = 0
+
         self.Pitch = missile_info['Pitch']
         if self.loss_target==False:
             arrive_flag = 1
@@ -471,6 +472,4 @@ class Missile(object):
         self.Heading = target_heading
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
-    
-    
  
