@@ -21,7 +21,7 @@ class DemoAgent(Agent):
         # 是否复仇
         self.revenge = False
         # 攻击距离
-        self.attack_distance = 15000
+        self.attack_distance = 13000
         # 敌方所有飞机信息列表
         self.enemy_plane = []
         # 敌方有人机信息列表
@@ -129,13 +129,14 @@ class DemoAgent(Agent):
                         if tmp_missile.loss_target==True:
                             dead_flag = -1
                     if dead_flag==0 :
-                        if self.my_score<self.enemy_score+self.win_score:
+                        if self.my_score<self.enemy_score+self.win_score and self.sim_time>11*60:
                             if self.attack_distance-2000>5200 and self.sim_time<14*60:
                                 self.attack_distance -= 2000
                             elif self.attack_distance+2000<14000 and self.sim_time>14*60:
                                 self.attack_distance += 2000
                             elif self.attack_distance-2000<=5200:
                                 self.attack_distance = 5200
+                            pass
                         else:
                             self.attack_distance = 19500
                     if dead_flag==-1:
@@ -905,7 +906,7 @@ class DemoAgent(Agent):
             # 无人机脱离近距离攻击范围
             for plane in self.my_plane:
                 if plane.ID in free_plane and plane.Type==2:
-                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=16000,seen=True)
+                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
                         if self.is_in_center(plane,100000) == False:
                             tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
@@ -1234,7 +1235,7 @@ class DemoAgent(Agent):
             for plane in self.my_uav_plane:
                 if plane.close_missile is None or (TSVector3.distance(plane.close_missile.pos3d,plane.pos3d)>=6000 and plane.wing_who!=None):
                     continue
-                total_dir,min_dis = self.synthetic_threat_vector(plane,see_dis=45000,seen=True)
+                total_dir,min_dis = self.synthetic_threat_vector(plane,see_dis=45000,seen=False)
                 new_plane_pos = plane.evade(plane.close_missile, total_dir, cmd_list)
                 if self.death_to_death(plane, new_plane_pos, plane.close_missile):
                     self.all_death(plane, cmd_list)
@@ -1277,6 +1278,33 @@ class DemoAgent(Agent):
                     plane.ready_missile -= 1
                     self.my_score -= self.missile_score
         
+    # #初始化我方飞机位置
+    # def init_pos(self, cmd_list):
+    #     # 初始化部署
+    #     if self.sim_time == 2:
+    #         leader_plane_1 = self.my_leader_plane[0]
+    #         leader_plane_2 = self.my_leader_plane[1]
+    #         # 初始化有人机位置
+    #         cmd_list.append(
+    #             env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 50000, 9000, 400, self.init_direction))
+    #         cmd_list.append(
+    #             env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -50000, 9000, 400, self.init_direction))
+    #         for i, plane in enumerate(self.my_uav_plane):
+    #             if i < 6:
+    #                 if i != 5:
+    #                     if i==1 or i==3:
+    #                         self.spy_plane.append(plane.ID)
+    #                         plane.is_spy = True
+    #                     cmd_list.append(
+    #                         env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
+    #                 else:
+    #                     self.spy_plane.append(plane.ID)
+    #                     plane.is_spy = True
+    #                     cmd_list.append(
+    #                         env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
+    #             else:
+    #                 cmd_list.append(
+    #                     env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
     #初始化我方飞机位置
     def init_pos(self, cmd_list):
         # 初始化部署
@@ -1288,25 +1316,104 @@ class DemoAgent(Agent):
                 env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 50000, 9000, 400, self.init_direction))
             cmd_list.append(
                 env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -50000, 9000, 400, self.init_direction))
-            for i, plane in enumerate(self.my_uav_plane):
-                if i < 6:
-                    if i != 5:
-                        if i==1 or i==3:
-                            self.spy_plane.append(plane.ID)
-                            plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
-                    else:
-                        self.spy_plane.append(plane.ID)
-                        plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
-                else:
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[0].ID, -125000 * self.side, 100000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[1].ID, -125000 * self.side, -100000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[2].ID, -130000 * self.side, 75000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[3].ID, -130000 * self.side, -75000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[4].ID, -145000 * self.side, 35000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[5].ID, -145000 * self.side, -35000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[6].ID, -125000 * self.side, 15000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[7].ID, -125000 * self.side, -15000, 9000, 300, self.init_direction))
+            # for i, plane in enumerate(self.my_uav_plane):
+            #     if i < 6:
+            #         if i != 5:
+            #             if i==1 or i==3:
+            #                 self.spy_plane.append(plane.ID)
+            #                 plane.is_spy = True
+            #             cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
+            #         else:
+            #             self.spy_plane.append(plane.ID)
+            #             plane.is_spy = True
+            #             cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
+            #     else:
+            #         cmd_list.append(
+            #             env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
 
+    def init_moving(self, cmd_list):
+        init_direction = self.init_direction
+        distance = 10*300
+        new_dir = TSVector3.calorientation(init_direction/180*math.pi, 0)
+        leader_plane_1 = self.my_leader_plane[0]
+        leader_plane_2 = self.my_leader_plane[1]
+        new_pos = TSVector3.plus(leader_plane_1.pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 9000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(leader_plane_1.ID, route_list, 300, 1, 6))
+
+        new_pos = TSVector3.plus(leader_plane_2.pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 9000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(leader_plane_2.ID, route_list, 300, 1, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[0].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 9000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[0].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[1].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 9000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[1].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[2].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 6000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[2].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[3].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 6000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[3].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[4].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 3000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[4].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[5].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 3000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[5].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[6].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 5000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[6].ID, route_list, 300, 2, 6))
+
+        new_pos = TSVector3.plus(self.my_uav_plane[7].pos3d, TSVector3.multscalar(new_dir, distance))
+        new_pos['Z'] = 5000
+        route_list = [new_pos]
+        cmd_list.append(env_cmd.make_linepatrolparam(self.my_uav_plane[7].ID, route_list, 300, 2, 6))
+
+        
+        
+        
+        
     # 我方飞机无威胁且空闲情况下飞机路径
     def init_move(self, free_plane, cmd_list):
+        if self.sim_time<5*60:
+            self.init_moving(cmd_list)
+            return
         for plane_ID in free_plane:
             plane = self.get_body_info_by_id(self.my_plane, plane_ID)
             if plane.Type==2 and len(self.enemy_plane):
@@ -1415,7 +1522,7 @@ class DemoAgent(Agent):
                 left_weapon = my_plane.ready_missile > 0
                 attack_dis = self.attack_distance
                 if enemy_plane.Type==2:
-                    attack_dis = 15000
+                    attack_dis += 2000
                 in_range = my_plane.can_attack(enemy_plane, attack_dis)
                 if in_range and left_weapon:
                     attack_plane = my_plane
@@ -1697,11 +1804,18 @@ class DemoAgent(Agent):
         for enemy in self.enemy_plane:
             if enemy.Availability and enemy.ready_missile>0:
                 dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
-                if enemy.can_see(leader)==seen or dis<see_dis:
-                    min_dis = min(TSVector3.distance(enemy.pos3d, leader.pos3d), min_dis)
-                    tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(15000/(dis+2000),2))
-                    threat_weight += math.pow(15000/(dis+2000),2)
-                    total_dir = TSVector3.plus(tmp_dir2,total_dir)
+                if seen:
+                    if enemy.can_see(leader)==True or dis<see_dis:
+                        min_dis = min(TSVector3.distance(enemy.pos3d, leader.pos3d), min_dis)
+                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(15000/(dis+2000),2))
+                        threat_weight += math.pow(15000/(dis+2000),2)
+                        total_dir = TSVector3.plus(tmp_dir2,total_dir)
+                else:
+                    if dis<see_dis:
+                        min_dis = min(TSVector3.distance(enemy.pos3d, leader.pos3d), min_dis)
+                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(15000/(dis+2000),2))
+                        threat_weight += math.pow(15000/(dis+2000),2)
+                        total_dir = TSVector3.plus(tmp_dir2,total_dir)
         if threat_weight>0:
             total_dir = TSVector3.multscalar(total_dir, 1/threat_weight)
         return total_dir, min_dis

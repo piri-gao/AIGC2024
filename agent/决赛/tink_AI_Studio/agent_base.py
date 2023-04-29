@@ -460,10 +460,10 @@ class Missile(object):
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
         
-        # if self.Speed**2+2*self.missile_acc*target_dis>0 and self.missile_acc!=0:
-        #     self.arrive_time = sim_time + (math.sqrt(self.Speed**2+2*self.missile_acc*target_dis)-self.Speed)/self.missile_acc
-        # else:
-        #     self.arrive_time = sim_time + target_dis/self.Speed
+        if self.Speed**2+2*self.missile_acc*target_dis>0 and self.missile_acc!=0:
+            self.arrive_time = sim_time + (math.sqrt(self.Speed**2+2*self.missile_acc*target_dis)-self.Speed)/self.missile_acc
+        else:
+            self.arrive_time = sim_time + target_dis/self.Speed
         if target_heading < 0:
             target_heading += math.pi * 2
         elif target_heading>math.pi*2:
