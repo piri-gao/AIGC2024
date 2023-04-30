@@ -29,6 +29,7 @@ class Plane(object):
         self.Heading = agent['Heading']
         # 速度
         self.Speed = agent['Speed']
+        self.pre_speed = agent['Speed']
         # 当前可用性
         self.Availability = agent['Availability']
         # 类型
@@ -48,9 +49,14 @@ class Plane(object):
             self.last_jam = 0
             # 是否在执行干扰任务
             self.do_jam = False
+            # 就绪导弹
+            self.ready_missile = 4
+            self.plane_acc = 9.8
         else:
             self.AllWeapon = 2
-        
+            # 就绪导弹
+            self.ready_missile = 2
+            self.plane_acc = 9.8*2
         ## 我方飞机相关信息绑定
         # 占据中心时间
         self.center_time = 0
@@ -72,10 +78,10 @@ class Plane(object):
         self.wing_who = None
         # 是否在转弯干扰中
         self.do_turn = False
+        # 是否被可提供干扰的有人机看到
+        self.be_seen_leader = False
         # 已发射导弹
         self.used_missile_list = []
-        # 就绪导弹
-        self.ready_missile = None
         # 最近发射出去的导弹
         self.last_missile = None
         # 准备攻击谁
@@ -91,8 +97,6 @@ class Plane(object):
         self.locked_missile_list = []
         # 已经被几发导弹攻击过
         self.lost_missile_list = []
-        # 被几枚导弹攻击过了
-        self.attacked_missile_num = 0
         # 被哪些敌机跟踪
         self.followed_plane = []
         # 跟踪哪个敌机
@@ -103,15 +107,14 @@ class Plane(object):
         self.middle_enemy_plane = None
         # 是否有无导弹飞机跟踪
         self.have_no_missile_plane = None
-        # 比较被敌机跟踪距离
-        self.followed_dis = 999999999
-        # 敌机的分布范围,顺时针第一架敌机为起始点，最后一架飞机为终止点：
-        self.enemy_range = [2*math.pi, 0]
+        # 敌机的平面分布范围,顺时针第一架敌机为起始点，最后一架飞机为终止点
+        self.enemy_heading_range = [2*math.pi, 0]
+        # 敌机的高度分布范围,计算最底下飞机为起点，最上面飞机为中点
+        self.enemy_pitch_range = [math.pi/4, -math.pi/4]
         # S转圈的上一帧方向
-        self.turn_ratio = 1
+        self.turn_heading_flag = 1
         # 根据危险系数计算移动速度
         self.move_speed = 300
-
         # 平台具体属性信息
         if self.Type == 1:
             self.para["move_max_speed"] = 400
@@ -120,7 +123,7 @@ class Plane(object):
             self.para["move_max_g"] = 6
             self.para["area_max_alt"] = 15000
             self.para['radar_range'] = 80000
-            self.para["launch_range"] = 15000
+            self.para["launch_range"] = 11000
             self.para["safe_range"] = 25000
             self.para['radar_heading'] = 60
             self.para['radar_pitch'] = 60
@@ -128,11 +131,11 @@ class Plane(object):
             self.para["move_max_speed"] = 300
             self.para["move_min_speed"] = 100
             self.para["move_max_acc"] = 2
-            self.para["move_max_g"] = 12
+            self.para["move_max_g"] = 6
             self.para["area_max_alt"] = 10000
             self.para['radar_range'] = 60000
+            self.para["launch_range"] = 10000
             self.para["safe_range"] = 16000
-            self.para["launch_range"] = 15000
             self.para['radar_heading'] = 30
             self.para['radar_pitch'] = 10
 
@@ -146,6 +149,7 @@ class Plane(object):
             agent['Heading'] += math.pi * 2
         self.Heading = agent['Heading']
         self.Roll = agent['Roll']
+        self.pre_speed = self.Speed
         self.Speed = agent['Speed']
         if self.Speed>self.para["move_max_speed"]:
             self.Speed = self.para["move_max_speed"]
@@ -156,16 +160,27 @@ class Plane(object):
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         if info_type==0:
             self.ready_missile = agent['LeftWeapon']
+            self.plane_acc = agent['AccMag']*9.8
+        else:
+            self.plane_acc = self.Speed - self.pre_speed
+            if self.Speed+self.plane_acc > self.para["move_max_speed"]:
+                self.plane_acc = self.para["move_max_speed"] - self.Speed
 
     def imaginative_update_agent_info(self,missile):
-        distance = TSVector3.distance(missile.pos3d,self.pos3d)
+        if missile.Speed<1000:
+            ans_t = self.Speed/(missile.Speed+missile.missile_acc)
+        else:
+            ans_t = self.Speed/missile.Speed
+        ans_t = missile.arrive_time-missile.CurTime-ans_t
         new_dir = TSVector3.calorientation(missile.Heading, missile.prePitch)
-        next_imaginative_point = TSVector3.plus(missile.pos3d, TSVector3.multscalar(new_dir, distance))
-        self.Pitch = TSVector3.calpitch(TSVector3.minus(next_imaginative_point,self.pos3d))
+        next_imaginative_point = TSVector3.plus(missile.pos3d, TSVector3.multscalar(new_dir, ans_t*missile.Speed))
+        self.Pitch = TSVector3.calpitch(TSVector3.minus(next_imaginative_point, self.pos3d))
         self.X = next_imaginative_point['X']
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
+        self.pre_speed = self.Speed
         self.Speed = self.para["move_max_speed"]
+        self.plane_acc = self.Speed - self.pre_speed
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
 
     def evade(self, enemy, total_threat_dir, cmd_list):# 无人机躲避导弹策略
@@ -199,20 +214,11 @@ class Plane(object):
                 heading = enemy.Heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(heading, relative_pitch)
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
-
         if dis/enemy.Speed<1:
             dist = dis/enemy.Speed*self.Speed
         else:
             dist = self.Speed
         new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dist))
-
-        # if dis/enemy.Speed<1:
-        #     dist_enemy = dis
-        # else:
-        #     dist_enemy = enemy.Speed
-        # new_enemy_pos = TSVector3.plus(enemy.pos3d, TSVector3.multscalar(TSVector3.calorientation(enemy.Heading, enemy.Pitch),dist_enemy))
-        # if TSVector3.distance(new_plane_pos,new_enemy_pos)>240:
-        #     new_evade_pos['Z'] = self.Z
 
         if new_evade_pos['Z'] < 2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
@@ -266,10 +272,6 @@ class Plane(object):
                 new_heading = heading + self.total_threat_flag*math.pi*pi_ratio
         else:
             new_heading = self.Heading
-        # if abs(self.pi_bound(self.Heading- heading - math.pi*pi_ratio))>math.pi*pi_ratio:
-        #     new_heading = heading - math.pi*pi_ratio
-        # else:
-        #     new_heading = heading + math.pi*pi_ratio
         new_dir = TSVector3.calorientation(new_heading, relative_pitch)
         distance = 20 * self.para["move_max_speed"]   
         new_evade_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, distance))
@@ -278,15 +280,6 @@ class Plane(object):
         else:
             dist = self.Speed
         new_plane_pos = TSVector3.plus(self.pos3d, TSVector3.multscalar(new_dir, dist))
-        # if dis<2000:
-        #     if dis/enemy.Speed<1:
-        #         dist_enemy = dis
-        #     else:
-        #         dist_enemy = enemy.Speed
-        #     new_enemy_pos = TSVector3.plus(enemy.pos3d, TSVector3.multscalar(TSVector3.calorientation(enemy.Heading, enemy.Pitch),dist_enemy))
-        #     if TSVector3.distance(new_plane_pos,new_enemy_pos)>enemy.Speed+120:
-        #         new_evade_pos['Z'] = self.Z
-
         if self.Z < 2800 or new_evade_pos['Z']<2000:
             new_evade_pos['Z'] = self.Z+math.sin(abs(relative_pitch))*distance
         elif self.Z > self.para["area_max_alt"]-800 or new_evade_pos['Z']>self.para["area_max_alt"]:
@@ -316,11 +309,11 @@ class Plane(object):
         if attack_dis==0:
             attack_dis = self.para['launch_range']
         dis = TSVector3.distance(self.pos3d, enemy.pos3d)
-        if dis < attack_dis and self.can_see(enemy, see_factor=1):
+        if dis < attack_dis and self.can_see(enemy, see_factor=0.99):
             return True
         return False
 
-    def can_see(self, enemy, see_factor = 1.1, jam_dis=0):# 判断飞机是否能看到敌方实体
+    def can_see(self, enemy, see_factor = 1.01, jam_dis=0):# 判断飞机是否能看到敌方实体
         if jam_dis == 0:
             jam_dis = self.para['radar_range']*see_factor
         if self.Availability == 0:
@@ -388,12 +381,7 @@ class Missile(object):
         self.CurTime = missile_info['CurTime']
         # 发射时间
         self.fire_time = missile_info['CurTime']-1
-        self.arrive_time = 0
-        # # 导弹预计到达时间
-        # if missile_info['distance']>2700:
-        #     self.arrive_time = self.fire_time + missile_info['distance']/1000 + 7
-        # else:
-        #     self.arrive_time = self.fire_time + (math.sqrt(350**2+4*49*missile_info['distance'])-350)/98
+        self.arrive_time = self.fire_time
         # 上一帧距离
         self.pre_dis = missile_info['distance']
         # 初始距离
@@ -417,8 +405,8 @@ class Missile(object):
 
     def update_agent_info(self, missile_info, info_type):
         self.missile_acc = missile_info['Speed'] - self.Speed
-        if self.missile_acc == 0 and self.Speed!=1000:
-            self.missile_acc = 98
+        if self.missile_acc + self.Speed>1000:
+            self.missile_acc = 1000-self.Speed
         if missile_info['distance'] - self.pre_dis>0:
             self.loss_target = True
         self.pre_dis = missile_info['distance']
@@ -426,17 +414,10 @@ class Missile(object):
         self.X = missile_info['X']
         self.Y = missile_info['Y']
         self.Z = missile_info['Alt']
+        self.CurTime = missile_info['CurTime']
         self.prePitch = self.Pitch
 
         self.Pitch = missile_info['Pitch']
-        if self.loss_target==False:
-            arrive_flag = 1
-        else:
-            arrive_flag = -1
-        # if self.Speed**2+2*self.missile_acc*missile_info['distance']>0 and self.missile_acc!=0:
-        #     self.arrive_time = missile_info['CurTime'] + arrive_flag*(math.sqrt(self.Speed**2+2*self.missile_acc*missile_info['distance'])-self.Speed)/self.missile_acc
-        # else:
-        #     self.arrive_time = missile_info['CurTime'] + arrive_flag*missile_info['distance']/missile_info['Speed']
         if missile_info['Heading'] < 0:
             missile_info['Heading'] += math.pi * 2
         self.preHeading = self.Heading
@@ -446,7 +427,7 @@ class Missile(object):
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         self.lost_flag = 0
     
-    def imaginative_update_agent_info(self,target_dis,target_heading,target_pitch,sim_time):
+    def imaginative_update_agent_info(self,target_dis,target_heading,target_pitch):
         self.Speed = self.missile_acc + self.Speed
         if self.Speed > 1000:
             self.Speed = 1000
@@ -459,11 +440,6 @@ class Missile(object):
         self.X = next_imaginative_point['X']
         self.Y = next_imaginative_point['Y']
         self.Z = next_imaginative_point['Z']
-        
-        if self.Speed**2+2*self.missile_acc*target_dis>0 and self.missile_acc!=0:
-            self.arrive_time = sim_time + (math.sqrt(self.Speed**2+2*self.missile_acc*target_dis)-self.Speed)/self.missile_acc
-        else:
-            self.arrive_time = sim_time + target_dis/self.Speed
         if target_heading < 0:
             target_heading += math.pi * 2
         elif target_heading>math.pi*2:
