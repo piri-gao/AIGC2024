@@ -430,6 +430,62 @@ class DemoAgent(Agent):
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).Type, reverse=False)
             # 为受攻击飞机提供导弹视野支持
 
+            # 无人机生存之道模块      
+            # 无人机脱离近距离攻击范围
+            for plane in self.my_plane:
+                if plane.ID in free_plane and plane.Type==2:
+                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=16000,seen=False)
+                    if total_dir != {"X": 0, "Y": 0, "Z": 0}:
+                        if plane.wing_who!=None:
+                            be_wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_who)
+                            be_wing_plane.wing_plane = None
+                            plane.wing_who = None
+                        if self.is_in_center(plane,140000) == False:
+                            tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
+                            tmp_dir2 = TSVector3.minus(tmp_dir2, plane.pos3d)
+                            total_dir = tmp_dir2
+                            min_dis = 99999999
+                        free_plane.remove(plane.ID)
+                        total_heading = TSVector3.calheading(total_dir)
+                        total_pitch = -1*TSVector3.calpitch(total_dir)
+                        # total_pitch = 0
+                        if min_dis>15000:
+                            turn_ratio = 1/2
+                            if self.is_in_center(plane,110000)==False:
+                                turn_ratio = 4/9
+                            # 转弯方向需要重新判断？
+                            if plane.total_threat_flag == None:
+                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=40000,seen=False)
+                                total_threat_heading = TSVector3.calheading(total_threat_dir)
+                                if plane.pi_bound(total_heading-total_threat_heading)<0:
+                                    total_heading = total_heading + math.pi*turn_ratio
+                                    plane.total_threat_flag = 1
+                                else:
+                                    total_heading = total_heading - math.pi*turn_ratio
+                                    plane.total_threat_flag = -1
+                            else:
+                                total_heading = total_heading + plane.total_threat_flag*math.pi*turn_ratio
+                        elif min_dis<7000:
+                            if self.sim_time%2:
+                                total_pitch = -math.pi/6
+                            else:
+                                total_pitch = math.pi/6      
+                        total_dir = TSVector3.calorientation(total_heading, total_pitch)
+                        total_dir = TSVector3.normalize(total_dir)
+                        distance = 20 * plane.move_speed
+                        evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
+                        if evade_pos['Z'] < 2000:
+                            evade_pos['Z'] = plane.Z+math.sin(abs(total_pitch))*distance
+                        elif evade_pos['Z'] > plane.para["area_max_alt"]:
+                            evade_pos['Z'] = plane.Z-math.sin(abs(total_pitch))*distance
+                        straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": evade_pos['Z']}, ]
+                        if plane.move_order==None:
+                            plane.move_order="扩大视野"
+                        # else:
+                        #     print(plane.ID,plane.move_order,"扩大视野")
+                        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, straight_evade_route_list,
+                                            plane.move_speed, plane.para["move_max_acc"], plane.para["move_max_g"]))
+
             # 指定僚机
             if len(self.enemy_plane):
                 for leader_plane in self.my_leader_plane:
@@ -811,62 +867,62 @@ class DemoAgent(Agent):
                                 cmd_list.append(env_cmd.make_linepatrolparam(wing_plane.ID, [next_pos,],
                                             wing_plane.move_speed, wing_plane.para["move_max_acc"], wing_plane.para["move_max_g"]))
             
-             # 无人机生存之道模块      
-            # 无人机脱离近距离攻击范围
-            for plane in self.my_plane:
-                if plane.ID in free_plane and plane.Type==2:
-                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)
-                    if total_dir != {"X": 0, "Y": 0, "Z": 0}:
-                        if self.is_in_center(plane,140000) == False:
-                            tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
-                            tmp_dir2 = TSVector3.minus(tmp_dir2, plane.pos3d)
-                            total_dir = tmp_dir2
-                            min_dis = 99999999
-                        free_plane.remove(plane.ID)
-                        total_heading = TSVector3.calheading(total_dir)
-                        total_pitch = -1*TSVector3.calpitch(total_dir)
-                        # total_pitch = 0
-                        if min_dis>15000:
-                            turn_ratio = 1/2
-                            if self.is_in_center(plane,110000)==False:
-                                # turn_ratio = 2/3
-                                turn_ratio = 4/9
-                            # 转弯方向需要重新判断？
-                            if plane.total_threat_flag == None:
-                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=40000,seen=False)
-                                total_threat_heading = TSVector3.calheading(total_threat_dir)
-                                if plane.pi_bound(total_heading-total_threat_heading)<0:
-                                    total_heading = total_heading - math.pi*turn_ratio
-                                    plane.total_threat_flag = -1
-                                else:
-                                    total_heading = total_heading + math.pi*turn_ratio
-                                    plane.total_threat_flag = 1
-                            else:
-                                total_heading = total_heading + plane.total_threat_flag*math.pi*turn_ratio
-                            # if abs(plane.pi_bound(plane.Heading - total_heading - math.pi*turn_ratio))>math.pi*turn_ratio:
-                            #     total_heading = total_heading - math.pi*turn_ratio
-                            # else:
-                            #     total_heading = total_heading + math.pi*turn_ratio
-                        elif min_dis<7000:
-                            if self.sim_time%2:
-                                total_pitch = -math.pi/6
-                            else:
-                                total_pitch = math.pi/6      
-                        total_dir = TSVector3.calorientation(total_heading, total_pitch)
-                        total_dir = TSVector3.normalize(total_dir)
-                        distance = 20 * plane.move_speed
-                        evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
-                        if evade_pos['Z'] < 2000:
-                            evade_pos['Z'] = plane.Z+math.sin(abs(total_pitch))*distance
-                        elif evade_pos['Z'] > plane.para["area_max_alt"]:
-                            evade_pos['Z'] = plane.Z-math.sin(abs(total_pitch))*distance
-                        straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": evade_pos['Z']}, ]
-                        if plane.move_order==None:
-                            plane.move_order="扩大视野"
-                        # else:
-                        #     print(plane.ID,plane.move_order,"扩大视野")
-                        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, straight_evade_route_list,
-                                            plane.move_speed, plane.para["move_max_acc"], plane.para["move_max_g"]))
+            # # 无人机生存之道模块      
+            # # 无人机脱离近距离攻击范围
+            # for plane in self.my_plane:
+            #     if plane.ID in free_plane and plane.Type==2:
+            #         total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)
+            #         if total_dir != {"X": 0, "Y": 0, "Z": 0}:
+            #             if self.is_in_center(plane,140000) == False:
+            #                 tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
+            #                 tmp_dir2 = TSVector3.minus(tmp_dir2, plane.pos3d)
+            #                 total_dir = tmp_dir2
+            #                 min_dis = 99999999
+            #             free_plane.remove(plane.ID)
+            #             total_heading = TSVector3.calheading(total_dir)
+            #             total_pitch = -1*TSVector3.calpitch(total_dir)
+            #             # total_pitch = 0
+            #             if min_dis>15000:
+            #                 turn_ratio = 1/2
+            #                 if self.is_in_center(plane,110000)==False:
+            #                     # turn_ratio = 2/3
+            #                     turn_ratio = 4/9
+            #                 # 转弯方向需要重新判断？
+            #                 if plane.total_threat_flag == None:
+            #                     total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=40000,seen=False)
+            #                     total_threat_heading = TSVector3.calheading(total_threat_dir)
+            #                     if plane.pi_bound(total_heading-total_threat_heading)<0:
+            #                         total_heading = total_heading - math.pi*turn_ratio
+            #                         plane.total_threat_flag = -1
+            #                     else:
+            #                         total_heading = total_heading + math.pi*turn_ratio
+            #                         plane.total_threat_flag = 1
+            #                 else:
+            #                     total_heading = total_heading + plane.total_threat_flag*math.pi*turn_ratio
+            #                 # if abs(plane.pi_bound(plane.Heading - total_heading - math.pi*turn_ratio))>math.pi*turn_ratio:
+            #                 #     total_heading = total_heading - math.pi*turn_ratio
+            #                 # else:
+            #                 #     total_heading = total_heading + math.pi*turn_ratio
+            #             elif min_dis<7000:
+            #                 if self.sim_time%2:
+            #                     total_pitch = -math.pi/6
+            #                 else:
+            #                     total_pitch = math.pi/6      
+            #             total_dir = TSVector3.calorientation(total_heading, total_pitch)
+            #             total_dir = TSVector3.normalize(total_dir)
+            #             distance = 20 * plane.move_speed
+            #             evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
+            #             if evade_pos['Z'] < 2000:
+            #                 evade_pos['Z'] = plane.Z+math.sin(abs(total_pitch))*distance
+            #             elif evade_pos['Z'] > plane.para["area_max_alt"]:
+            #                 evade_pos['Z'] = plane.Z-math.sin(abs(total_pitch))*distance
+            #             straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": evade_pos['Z']}, ]
+            #             if plane.move_order==None:
+            #                 plane.move_order="扩大视野"
+            #             # else:
+            #             #     print(plane.ID,plane.move_order,"扩大视野")
+            #             cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, straight_evade_route_list,
+            #                                 plane.move_speed, plane.para["move_max_acc"], plane.para["move_max_g"]))
                         
             # 追击敌方有人机模块 
             if len(free_plane)>0:
