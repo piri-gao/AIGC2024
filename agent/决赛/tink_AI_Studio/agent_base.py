@@ -105,6 +105,10 @@ class Plane(object):
         self.threat_ratio = 0
         # 干扰中间的敌机
         self.middle_enemy_plane = None
+        # 最左边敌机
+        self.left_enemy_plane = None
+        # 最右边敌机
+        self.right_enemy_plane = None
         # 是否有无导弹飞机跟踪
         self.have_no_missile_plane = None
         # 敌机的平面分布范围,顺时针第一架敌机为起始点，最后一架飞机为终止点
@@ -188,8 +192,8 @@ class Plane(object):
         vector = TSVector3.minus(self.pos3d, enemy.pos3d)
         relative_pitch = TSVector3.calpitch(vector)
         enemy_pitch = enemy.Pitch
-        # if (enemy_pitch > 0 and enemy_pitch < relative_pitch*0.6) or (enemy_pitch < 0 and enemy_pitch < -relative_pitch*0.6):
-        if self.CurTime%2:
+        if (enemy_pitch > 0 and enemy_pitch < relative_pitch*0.5) or (enemy_pitch < 0 and enemy_pitch < -relative_pitch*0.5):
+        # if self.CurTime%2:
             relative_pitch = math.pi/6
         else:
             relative_pitch = -math.pi/6

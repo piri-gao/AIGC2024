@@ -21,7 +21,7 @@ class DemoAgent(Agent):
         # 是否复仇
         self.revenge = False
         # 攻击距离
-        self.attack_distance = 12000
+        self.attack_distance = 10000
         # 敌方所有飞机信息列表
         self.enemy_plane = []
         # 敌方有人机信息列表
@@ -42,10 +42,18 @@ class DemoAgent(Agent):
         self.live_enemy_leader = 0
         # 判定赢的分数
         self.win_score = 16-0.2*24
+        # 敌方分数是否变化
+        self.enemy_score_before = 0
+        # 我方分数
+        self.my_score = 0
+        # 敌方分数
+        self.enemy_score = 0
         # 导弹分数
         self.missile_score = 0.2
         # 有人机分数
         self.leader_score = 16
+        # 我方已爆炸导弹
+        self.finish_missile = []
         # 无人机分数
         self.uav_score = 4
         # 我方空闲飞机
@@ -97,11 +105,16 @@ class DemoAgent(Agent):
                 if TSVector3.distance(plane.pos3d, missile.pos3d) < dis and missile.loss_target==False:
                     dis = TSVector3.distance(plane.pos3d, missile.pos3d)
                     plane.close_missile = missile    
-
+        # 更新是否反击
+        self.win_now()
+        # if self.sim_time>19*60+57 and self.my_score>self.enemy_score:
+        #     print("预测赢了:",self.my_score,'   ',self.enemy_score)
+        change_dis = False
         self.live_enemy_leader = 0
         for plane in self.enemy_plane:
             plane.ready_attacked = []
             plane.be_seen_leader = False
+            
             if plane.lost_flag:
                 if len(plane.locked_missile_list)>0:
                     dead_flag = 0
@@ -114,6 +127,9 @@ class DemoAgent(Agent):
                             closer_missile = tmp_missile
                         if tmp_missile.lost_flag==0 and tmp_missile.loss_target==True:
                             dead_flag = 1
+                        if tmp_missile.lost_flag>0 and tmp_missile.ID not in self.finish_missile:
+                            self.finish_missile.append(tmp_missile.ID)
+                            change_dis = True
                     if closer_missile != None: # 逆推演敌机的轨迹
                         plane.imaginative_update_agent_info(closer_missile)
                     if dead_flag:
@@ -129,17 +145,16 @@ class DemoAgent(Agent):
                             dead_flag += 1
                         if tmp_missile.loss_target==True:
                             dead_flag = -1
-                    if dead_flag==0:
-                        if self.my_score<self.enemy_score+self.win_score and self.sim_time>11*60:
-                            if self.attack_distance-500>5200 and self.sim_time<14*60:
-                                self.attack_distance -= 500
-                            elif self.attack_distance+2000<14000 and self.sim_time>14*60:
-                                self.attack_distance += 2000
-                            elif self.attack_distance-2000<=5200:
-                                self.attack_distance = 5200
-                            pass
-                        else:
-                            self.attack_distance = 19500
+                    # if dead_flag==0:
+                        # if self.my_score<self.enemy_score+self.win_score and self.sim_time>11*60:
+                        #     if self.attack_distance-500>5200 and self.sim_time<14*60:
+                        #         self.attack_distance -= 500
+                        #     elif self.attack_distance+2000<14000 and self.sim_time>14*60:
+                        #         self.attack_distance += 2000
+                        #     elif self.attack_distance-2000<=5200:
+                        #         self.attack_distance = 5200
+                        # else:
+                        #     self.attack_distance = 21900
                     if dead_flag==-1:
                         plane.Availability = 0
                 if self.is_in_legal_area(plane)==False:
@@ -198,6 +213,17 @@ class DemoAgent(Agent):
                 if spy_enemy.can_see(spy_plane,see_factor=1)==False and is_back:
                     spy_plane.is_spy = False
         
+        # 重新规划发射距离
+        if change_dis:
+            if  self.my_score<self.enemy_score+self.win_score:
+                if self.enemy_score_before-self.enemy_score<4 and change_dis:
+                    # if self.attack_distance-2000>6000:
+                    self.attack_distance = (self.attack_distance - 5000)/2 + 5000
+                elif self.enemy_score_before-self.enemy_score>=4 and change_dis:
+                    # if self.attack_distance+800<14000 and self.sim_time>14*60:
+                    self.attack_distance = (self.attack_distance-500)/2+self.attack_distance
+            else:
+                self.attack_distance = 21000
         # 计算威胁系数决定移动速度
         for plane in self.my_plane:
             if plane.Availability:
@@ -224,10 +250,6 @@ class DemoAgent(Agent):
         self.enemy_leader_plane = self.get_body_info_by_type(self.enemy_plane, 1)
         # 敌方无人机信息
         self.enemy_uav_plane = self.get_body_info_by_type(self.enemy_plane, 2)
-        # 更新是否反击
-        self.win_now()
-        # if self.sim_time>19*60+57 and self.my_score>self.enemy_score:
-        #     print("预测赢了:",self.my_score,'   ',self.enemy_score)
 
         if self.revenge == False:  
             self.enemy_left_weapon = 24
@@ -427,63 +449,6 @@ class DemoAgent(Agent):
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).wing_plane, reverse=False)
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).ready_missile, reverse=True)
                 threat_plane_list = sorted(threat_plane_list, key=lambda d: self.get_body_info_by_id(self.enemy_plane,d).Type, reverse=False)
-            
-            # 无人机生存之道模块      
-            # 无人机脱离近距离攻击范围
-            for plane in self.my_plane:
-                if plane.ID in self.free_plane and plane.Type==2:
-                    total_dir, min_dis = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)
-                    if total_dir != {"X": 0, "Y": 0, "Z": 0}:
-                        if plane.wing_who!=None:
-                            be_wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_who)
-                            be_wing_plane.wing_plane = None
-                            plane.wing_who = None
-                        if self.is_in_center(plane,140000) == False:
-                            tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
-                            tmp_dir2 = TSVector3.minus(tmp_dir2, plane.pos3d)
-                            total_dir = tmp_dir2
-                            min_dis = 99999999
-                        self.free_plane.remove(plane.ID)
-                        total_heading = TSVector3.calheading(total_dir)
-                        total_pitch = -1*TSVector3.calpitch(total_dir)
-                        # total_pitch = 0
-                        if min_dis>15000:
-                            turn_ratio = 1/2
-                            if self.is_in_center(plane,110000)==False:
-                                # turn_ratio = 2/3
-                                turn_ratio = 4/9
-                            # 转弯方向需要重新判断
-                            if plane.total_threat_flag == None:
-                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(plane,see_dis=40000,seen=False)
-                                total_threat_heading = TSVector3.calheading(total_threat_dir)
-                                if plane.pi_bound(total_heading-total_threat_heading)<0:
-                                    total_heading = total_heading - math.pi*turn_ratio
-                                    plane.total_threat_flag = -1
-                                else:
-                                    total_heading = total_heading + math.pi*turn_ratio
-                                    plane.total_threat_flag = 1
-                            else:
-                                total_heading = total_heading + plane.total_threat_flag*math.pi*turn_ratio
-                        elif min_dis<7000:
-                            if self.sim_time%2:
-                                total_pitch = -math.pi/6
-                            else:
-                                total_pitch = math.pi/6      
-                        total_dir = TSVector3.calorientation(total_heading, total_pitch)
-                        total_dir = TSVector3.normalize(total_dir)
-                        distance = 20 * plane.move_speed
-                        evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
-                        if evade_pos['Z'] < 2000:
-                            evade_pos['Z'] = plane.Z+math.sin(abs(total_pitch))*distance
-                        elif evade_pos['Z'] > plane.para["area_max_alt"]:
-                            evade_pos['Z'] = plane.Z-math.sin(abs(total_pitch))*distance
-                        straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": evade_pos['Z']}, ]
-                        if plane.move_order==None:
-                            plane.move_order="有人机生存之道"
-                        # else:
-                        #     print(plane.ID,plane.move_order,"有人机生存之道")
-                        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, straight_evade_route_list,
-                                            plane.move_speed, plane.para["move_max_acc"], plane.para["move_max_g"]))
                         
             # 为受攻击飞机提供导弹视野支持
             need_seen_plane = []
@@ -553,7 +518,64 @@ class DemoAgent(Agent):
                             break
                     if have_seen_missile==False:
                         cmd_list.append(env_cmd.make_followparam(seen_plane.ID, plane.ID, seen_plane.move_speed, seen_plane.para['move_max_acc'], seen_plane.para['move_max_g']))
-            
+                        
+             # 无人机生存之道模块      
+            # 无人机脱离近距离攻击范围
+            for plane in self.my_plane:
+                if plane.ID in self.free_plane and plane.Type==2:
+                    total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=16000,seen=False)
+                    if total_dir != {"X": 0, "Y": 0, "Z": 0}:
+                        if plane.wing_who!=None:
+                            be_wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_who)
+                            be_wing_plane.wing_plane = None
+                            plane.wing_who = None
+                        if self.is_in_center(plane,140000) == False:
+                            tmp_dir2 = {"X": (random.random()*2-1)*3000, "Y": (random.random()*2-1)*3000, "Z": 9000}
+                            tmp_dir2 = TSVector3.minus(tmp_dir2, plane.pos3d)
+                            total_dir = tmp_dir2
+                            min_dis = 99999999
+                        self.free_plane.remove(plane.ID)
+                        total_heading = TSVector3.calheading(total_dir)
+                        total_pitch = -1*TSVector3.calpitch(total_dir)
+                        # total_pitch = 0
+                        if min_dis>15000:
+                            turn_ratio = 1/2
+                            if self.is_in_center(plane,110000)==False:
+                                # turn_ratio = 2/3
+                                turn_ratio = 4/9
+                            # 转弯方向需要重新判断
+                            if plane.total_threat_flag == None:
+                                total_threat_dir,  min_dis2, threat_pitch = self.synthetic_threat_vector(plane,see_dis=30000,seen=False)
+                                total_threat_heading = TSVector3.calheading(total_threat_dir)
+                                if plane.pi_bound(total_heading-total_threat_heading)<0:
+                                    total_heading = total_heading - math.pi*turn_ratio
+                                    plane.total_threat_flag = -1
+                                else:
+                                    total_heading = total_heading + math.pi*turn_ratio
+                                    plane.total_threat_flag = 1
+                            else:
+                                total_heading = total_heading + plane.total_threat_flag*math.pi*turn_ratio
+                        elif min_dis<7000:
+                            if self.sim_time%2:
+                                total_pitch = -math.pi/6
+                            else:
+                                total_pitch = math.pi/6      
+                        total_dir = TSVector3.calorientation(total_heading, total_pitch)
+                        total_dir = TSVector3.normalize(total_dir)
+                        distance = 20 * plane.move_speed
+                        evade_pos = TSVector3.plus(plane.pos3d, TSVector3.multscalar(total_dir, distance))
+                        if evade_pos['Z'] < 2000:
+                            evade_pos['Z'] = plane.Z+math.sin(abs(total_pitch))*distance
+                        elif evade_pos['Z'] > plane.para["area_max_alt"]:
+                            evade_pos['Z'] = plane.Z-math.sin(abs(total_pitch))*distance
+                        straight_evade_route_list = [{"X": evade_pos["X"], "Y": evade_pos["Y"], "Z": evade_pos['Z']}, ]
+                        if plane.move_order==None:
+                            plane.move_order="有人机生存之道"
+                        # else:
+                        #     print(plane.ID,plane.move_order,"有人机生存之道")
+                        cmd_list.append(env_cmd.make_linepatrolparam(plane.ID, straight_evade_route_list,
+                                            plane.move_speed, plane.para["move_max_acc"], plane.para["move_max_g"]))
+                        
             # 指定僚机
             if len(self.enemy_plane) and self.sim_time>6*60:
                 for leader_plane in self.my_leader_plane:
@@ -639,7 +661,10 @@ class DemoAgent(Agent):
             for leader in self.my_leader_plane:
                 # 如果在跑路时也能提供干扰支持
                 if leader.Availability and self.sim_time-leader.last_jam>60 and leader.do_jam==False:
-                    jam_for_attack.append(leader)
+                    if len(leader.locked_missile_list)==0:
+                        jam_for_attack.append(leader)
+                    elif leader.close_missile and TSVector3.distance(leader.close_missile.pos3d, leader.pos3d)>19000:
+                        jam_for_attack.append(leader)
             if len(jam_for_attack)>0: 
                 my_missile = self.get_body_info_by_identification(self.missile_list, self.my_plane[0].Identification)
                 for jam_plane in jam_for_attack:
@@ -652,7 +677,8 @@ class DemoAgent(Agent):
                         missile = self.get_body_info_by_id(self.missile_list, missile_id)
                         target_plane = self.get_body_info_by_id(self.enemy_plane, missile.EngageTargetID)
                         jam_turn_time = self.get_turn_time(jam_plane, target_plane)
-                        can_jam = jam_turn_time*missile.Speed<TSVector3.distance(missile.pos3d, target_plane.pos3d)<(jam_turn_time+6)*missile.Speed
+                        # can_jam = jam_turn_time*missile.Speed<TSVector3.distance(missile.pos3d, target_plane.pos3d)<(jam_turn_time+6)*missile.Speed
+                        can_jam = jam_turn_time*missile.Speed<TSVector3.distance(missile.pos3d, target_plane.pos3d)
                         can_see = TSVector3.distance(jam_plane.pos3d, target_plane.pos3d)<120000-jam_turn_time*target_plane.Speed
                         if target_plane.ID not in can_jammed_enemy and missile.lost_flag==0 and target_plane.lost_flag==0 and can_jam and missile.loss_target==False and can_see:
                             can_jammed_enemy[target_plane.ID] = jam_plane.pi_bound(TSVector3.calheading(TSVector3.minus(target_plane.pos3d,jam_plane.pos3d))-jam_plane.Heading)
@@ -698,7 +724,7 @@ class DemoAgent(Agent):
                         for missile_id in threat_plane.locked_missile_list:
                             missile = self.get_body_info_by_id(self.missile_list, missile_id)
                             if missile.LauncherID == attack_plane.ID:
-                                attack_enemy = max(missile.fire_time, attack_enemy)
+                                attack_enemy = max(missile.arrive_time, attack_enemy)
                             if TSVector3.distance(missile.pos3d, threat_plane.pos3d)<missile.Speed:
                                 can_attack_now = False
                                 break
@@ -708,12 +734,12 @@ class DemoAgent(Agent):
                         if self.my_score<self.enemy_score+self.win_score or (self.sim_time>15*60 and \
                                 (self.my_score<self.enemy_score or (self.my_score==self.enemy_score \
                                 and self.my_center_time<self.enemy_center_time))):# 向死而生，破釜沉舟 
-                            cold_time = 1
+                            cold_time = -1
                             if threat_plane.Type==2:
                                 if attack_dis<6000:
-                                    cold_time = 2
+                                    cold_time = -2
                                 else:
-                                    cold_time = 4
+                                    cold_time = -4
                         else:
                             if threat_plane.Type==2:
                                 if attack_dis<6000:
@@ -752,7 +778,7 @@ class DemoAgent(Agent):
             for leader in self.my_leader_plane:
                 need_wing = False
                 if leader.ID in self.free_plane and (self.my_left_weapon >2 or len(leader.used_missile_list)==4):
-                    total_dir, min_dis = self.synthetic_threat_vector(leader,seen=False)
+                    total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(leader,seen=False)
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
                         next_heading = TSVector3.calheading(total_dir) + math.pi
                         if self.my_score>self.enemy_score or self.enemy_strategy() or self.sim_time<12*60:# self.enemy_formation()==False:
@@ -777,7 +803,7 @@ class DemoAgent(Agent):
                                 turn_ratio = 4/9
                             # 转弯方向需要重新判断
                             if leader.total_threat_flag==None:
-                                total_threat_dir,  min_dis2 = self.synthetic_threat_vector(leader,see_dis=60000,seen=False)
+                                total_threat_dir,  min_dis2, threat_pitch = self.synthetic_threat_vector(leader,see_dis=45000,seen=False)
                                 total_threat_heading = TSVector3.calheading(total_threat_dir)
                                 if leader.pi_bound(total_heading-total_threat_heading)<0:
                                     total_heading = total_heading - math.pi*turn_ratio
@@ -1133,12 +1159,21 @@ class DemoAgent(Agent):
             for plane in self.my_uav_plane:
                 if plane.close_missile == None or (TSVector3.distance(plane.close_missile.pos3d,plane.pos3d)>=6000 and plane.wing_who!=None):
                     continue
-                total_dir,min_dis = self.synthetic_threat_vector(plane,see_dis=45000,seen=False)
+                total_dir,min_dis,threat_pitch = self.synthetic_threat_vector(plane,see_dis=45000,seen=False)
                 new_plane_pos = plane.evade(plane.close_missile, total_dir, cmd_list)
                 if self.death_to_death(plane, new_plane_pos, plane.close_missile):
                     self.all_death(plane, cmd_list)
             # 默认移动模块
             self.init_move(cmd_list)
+            for plane in self.my_plane:
+                if plane.wing_who!=None:
+                    be_wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_who)
+                    if be_wing_plane.wing_plane!=plane.ID:
+                        print(plane.name,'僚机不匹配')
+                if plane.wing_plane!=None:
+                    wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_plane)
+                    if wing_plane.wing_who!=plane.ID:
+                        print(plane.name,"僚机不匹配")
     
     # 计算是否逃不掉了
     def death_to_death(self, plane, new_plane_pos, missile,radius = 180):
@@ -1389,7 +1424,7 @@ class DemoAgent(Agent):
                     for enemy in self.enemy_plane:
                         if enemy.can_see(my_plane,see_factor=1):
                             enemy_can_see_me = True
-                    if enemy_can_see_me==False or distance<500:
+                    if enemy_can_see_me==False or distance<6000:
                         can_attack_dict[my_plane.ID] = enemy_plane.ID
         
         for my_plane in self.my_plane:
@@ -1432,6 +1467,8 @@ class DemoAgent(Agent):
             middle_enemy_list = [key for key, value in sorted(middle_enemy_dict.items(), key=lambda d: d[1])]
             if len(middle_enemy_list):
                 leader.middle_enemy_plane = middle_enemy_list[int(len(middle_enemy_list)/2)]
+                leader.left_enemy_plane = middle_enemy_list[0]
+                leader.right_enemy_plane = middle_enemy_list[-1]
             else:
                 leader.middle_enemy_plane = None
 
@@ -1440,29 +1477,32 @@ class DemoAgent(Agent):
         for i, plane in enumerate(self.my_leader_plane):
             if plane.Availability==0:
                 continue
-            if self.sim_time - plane.last_jam>0:
+            if 60>self.sim_time - plane.last_jam>6:
+                plane.do_turn==False
+                plane.do_jam = False
+            elif self.sim_time - plane.last_jam<7:
+                plane.do_turn = False
+                plane.do_jam = True
+            else:
                 if plane.do_turn==False:
                     plane.do_jam = False
-            else:
-                plane.do_turn = False
             check_turn = False
-            if self.my_leader_plane[1-i].Availability and self.sim_time-self.my_leader_plane[1-i].last_jam>60:
-                if self.check_jam_after_turn(plane, self.my_leader_plane[1-i], plane.middle_enemy_plane):
-                    check_turn = True
-            if self.sim_time-self.my_leader_plane[i].last_jam>60:
-                if self.check_jam_after_turn(plane,plane,plane.middle_enemy_plane):
-                    check_turn = True
+            if self.my_leader_plane[1-i].Availability and self.sim_time-self.my_leader_plane[1-i].last_jam>60\
+                  and self.my_leader_plane[1-i].do_jam==False and self.check_jam_after_turn(plane, self.my_leader_plane[1-i]):
+                check_turn = True
+            if self.sim_time-plane.last_jam>60 and plane.do_jam==False and self.check_jam_after_turn(plane, plane):
+                check_turn = True
             if check_turn:
                 need_jam_list.append(plane.ID)
-            if len( plane.locked_missile_list)>0:
+            if len(plane.locked_missile_list)>0:
                 evade_list.append(plane.ID)
 
         if len(need_jam_list):
             if leader1.ID not in need_jam_list and leader1.Availability:# 1号有人机空闲，2号有人机需要干扰支持
                 other_can_save_me = False
                 if self.sim_time-leader1.last_jam>60 and self.sim_time - leader2.jammed>=6:
-                    if self.check_jam_after_turn(leader2,leader1,leader2.middle_enemy_plane):# 有人机1需要进行转弯判断
-                        if self.plane_can_jam(leader2, leader1, evade_list ,cmd_list) == False:
+                    if self.check_jam_after_turn(leader2, leader1):# 有人机1需要进行转弯判断
+                        if self.plane_can_jam(leader2, leader1, cmd_list) == False:
                             self.find_way_jam(leader1, leader2.middle_enemy_plane ,cmd_list)
                         other_can_save_me = True
                 if other_can_save_me==False:
@@ -1471,24 +1511,40 @@ class DemoAgent(Agent):
             elif leader2.ID not in need_jam_list and leader2.Availability:# 2号有人机空闲，1号有人机需要干扰支持
                 other_can_save_me = False
                 if self.sim_time-leader1.last_jam>60 and self.sim_time - leader1.jammed>=6:
-                    if self.check_jam_after_turn(leader1,leader2,leader1.middle_enemy_plane):# 有人机2需要进行转弯判断
-                        if self.plane_can_jam(leader1, leader2, evade_list, cmd_list) == False:
+                    if self.check_jam_after_turn(leader1,leader2):# 有人机2需要进行转弯判断
+                        if self.plane_can_jam(leader1, leader2, cmd_list) == False:
                             self.find_way_jam(leader2, leader1.middle_enemy_plane, cmd_list)
                         other_can_save_me = True
                 if other_can_save_me==False:
                     self.save_myself(leader1, need_jam_list, cmd_list)
-            else:# 1号、2号有人机需要干扰支持，各自顾自己
-                save_myself1 = self.save_myself(leader1, need_jam_list, cmd_list)       
-                save_myself2 = self.save_myself(leader2, need_jam_list, cmd_list) 
-                if save_myself1==False and save_myself2==False:# 救不了自己，别人也救不了他自己，看看能否互救对方
-                    self.plane_can_jam(leader2,leader1,evade_list,cmd_list)
-                    self.plane_can_jam(leader1,leader2,evade_list,cmd_list)    
+            else:
+                # 1号、2号有人机需要干扰支持，各自顾自己
+                if leader1 in need_jam_list:
+                    save_myself1 = self.save_myself(leader1, need_jam_list, cmd_list)  
+                elif leader1 in evade_list:
+                    save_myself1 = False
+                elif leader1.Availability:
+                    save_myself1 = True  
+                else:
+                    save_myself1 = False
+                if leader2 in need_jam_list:
+                    save_myself2 = self.save_myself(leader2, need_jam_list, cmd_list) 
+                elif leader2 in evade_list:
+                    save_myself2 = False
+                elif leader2.Availability:
+                    save_myself2 = True  
+                else:
+                    save_myself2 = False
+                if save_myself1==False:# 救不了自己，别人也救不了他自己，看看能否互救对方
+                    self.plane_can_jam(leader1,leader2,cmd_list)   
+                if save_myself2==False:
+                    self.plane_can_jam(leader2,leader1,cmd_list)
         if len(evade_list):
             for leader_id in evade_list:
                 leader = self.get_body_info_by_id(self.my_plane, leader_id)
                 if leader.do_turn or leader.do_jam:
                     continue
-                total_dir,min_dis = self.synthetic_threat_vector(leader, see_dis=leader.para["safe_range"],seen=False)
+                total_dir,min_dis,threat_pitch = self.synthetic_threat_vector(leader, see_dis=leader.para["safe_range"],seen=False)
                 new_plane_pos = leader.evade_leader(leader.close_missile, total_dir, cmd_list)
                 if leader.close_missile and (leader.close_missile.init_dis<6000 or self.death_to_death(leader,new_plane_pos,leader.close_missile)):
                     self.all_death(leader,cmd_list)
@@ -1498,17 +1554,16 @@ class DemoAgent(Agent):
         if leader.ID in need_jam_list and leader.do_jam==False:
             enemy = self.get_body_info_by_id(self.enemy_plane, leader.middle_enemy_plane)
             can_jam = False
-            check_turn = self.check_jam_after_turn(leader,leader,leader.middle_enemy_plane)# 有人机需要进行转弯判断
-            if self.sim_time-leader.last_jam>60  and self.sim_time - leader.jammed>=6 and enemy is not None and check_turn:
-                acc_time = (leader.para["move_max_speed"] - leader.Speed)/9.8 + 12 
-                if enemy.lost_flag==0 and TSVector3.distance(leader.pos3d, leader.close_missile.pos3d)/1000>acc_time and leader.can_see(enemy, see_factor=0.6, jam_dis=117600):
+            check_turn = self.check_jam_after_turn(leader,leader)# 有人机需要进行转弯判断
+            if self.sim_time-leader.last_jam>60  and self.sim_time - leader.jammed>6 and enemy is not None and check_turn:
+                if enemy.lost_flag==0 and leader.can_see(enemy, see_factor=0.6, jam_dis=117600):
                     leader.do_jam = True
                     leader.do_turn = False
                     cmd_list.append(env_cmd.make_jamparam(leader.ID))
                     leader.jammed = self.sim_time+1
                     leader.last_jam = self.sim_time+7
                     can_jam = True
-                elif TSVector3.distance(leader.pos3d, leader.close_missile.pos3d)/1000 > acc_time + self.get_turn_time(leader, enemy, see_factor=0.6):
+                elif TSVector3.distance(leader.pos3d, leader.close_missile.pos3d)/1000 > 11 + self.get_turn_time(leader, enemy, see_factor=0.6):
                     self.find_way_jam(leader, leader.middle_enemy_plane, cmd_list)
                     can_jam = True
                 else:
@@ -1524,7 +1579,7 @@ class DemoAgent(Agent):
     def get_turn_time(self,leader, enemy, see_factor=1):
         my_turn_theta = abs(
             leader.pi_bound(leader.XY2theta(enemy.X - leader.X, enemy.Y - leader.Y) - leader.Heading))
-        look_theta = math.pi*leader.para['radar_heading']/2/180
+        look_theta = math.pi*leader.para['radar_heading']/180
         if my_turn_theta > look_theta*see_factor:
             my_turn_theta -= look_theta*see_factor
         else:
@@ -1533,14 +1588,14 @@ class DemoAgent(Agent):
         return my_turn_t
 
     # 判断有人机是否可以进行干扰
-    def plane_can_jam(self, need_jam_plane, jam_plane, evade_list, cmd_list):
+    def plane_can_jam(self, need_jam_plane, jam_plane, cmd_list):
         if need_jam_plane.middle_enemy_plane is not None:
             enemy = self.get_body_info_by_id(self.enemy_plane, need_jam_plane.middle_enemy_plane)
             if enemy.lost_flag==0:
                 can_jam = False
                 # 别人可以帮忙吗
                 if not need_jam_plane.can_see(enemy, see_factor=0.6,jam_dis=117600) and jam_plane.can_see(enemy, see_factor=0.9,jam_dis=117600):
-                    if jam_plane.ID not in evade_list:
+                    if len(jam_plane.locked_missile_list)==0:
                         if jam_plane.move_order==None:
                             jam_plane.move_order="干扰0"
                         # else:
@@ -1554,8 +1609,8 @@ class DemoAgent(Agent):
                         can_jam = False
                 # 靠自己看行不行
                 elif need_jam_plane.can_see(enemy, see_factor=0.6,jam_dis=117600) and self.sim_time-need_jam_plane.last_jam>60 \
-                            and self.sim_time - need_jam_plane.jammed>=6 and TSVector3.distance(need_jam_plane.close_missile.pos3d, need_jam_plane.pos3d)>15000 \
-                            and self.check_jam_after_turn(need_jam_plane,need_jam_plane,need_jam_plane.middle_enemy_plane):# 有人机需要进行转弯判断
+                            and self.sim_time - need_jam_plane.jammed>6 \
+                            and self.check_jam_after_turn(need_jam_plane,need_jam_plane):# 有人机需要进行转弯判断
                     need_jam_plane.do_jam = True
                     need_jam_plane.do_turn = False
                     cmd_list.append(env_cmd.make_jamparam(need_jam_plane.ID))
@@ -1574,9 +1629,15 @@ class DemoAgent(Agent):
         return False
     
     # 判断有人机转弯之后是否还有干扰的必要
-    def check_jam_after_turn(self,need_jam_plane,jam_plane,middle_enemy_id,check_dis=20000):
+    def check_jam_after_turn(self,need_jam_plane,jam_plane,check_dis=21950):
+        middle_enemy_id = need_jam_plane.middle_enemy_plane
         if middle_enemy_id == None:
             return False
+        left_enemy_plane = self.get_body_info_by_id(self.enemy_plane, need_jam_plane.left_enemy_plane)
+        right_enemy_plane = self.get_body_info_by_id(self.enemy_plane, need_jam_plane.right_enemy_plane)
+        if abs(jam_plane.pi_bound(TSVector3.calheading(TSVector3.minus(right_enemy_plane.pos3d, jam_plane.pos3d))
+                                  -TSVector3.calheading(TSVector3.minus(left_enemy_plane.pos3d, jam_plane.pos3d))))>jam_plane.para['radar_heading']*2*math.pi/180:
+            return False            
         jam_enemy = self.get_body_info_by_id(self.enemy_plane, middle_enemy_id)
         turn_time = self.get_turn_time(jam_plane,jam_enemy,see_factor=0.9)
         can_jam_after_turn = False
@@ -1585,7 +1646,7 @@ class DemoAgent(Agent):
                 return False
         for missile_id in need_jam_plane.locked_missile_list:
             missile = self.get_body_info_by_id(self.missile_list,missile_id)
-            if self.sim_time-missile.fire_time<10 and missile.Speed<1000:
+            if self.sim_time-missile.fire_time<10 and missile.missile_acc!=0 and missile.Speed<1000:
                 acc_t = (1000-missile.Speed)/missile.missile_acc
                 if acc_t > (turn_time+5):
                     acc_dis = (turn_time+5)*(turn_time+5)*0.5*missile.missile_acc
@@ -1622,6 +1683,7 @@ class DemoAgent(Agent):
     
     # 判断是否实时胜利
     def win_now(self):
+        self.enemy_score_before = self.enemy_score
         self.my_score = 0
         self.enemy_score = 0
         self.my_center_time = 0
@@ -1647,9 +1709,12 @@ class DemoAgent(Agent):
         if len(self.enemy_plane) != 10:
             self.enemy_score += (2 - len(self.enemy_leader_plane))*(self.leader_score + self.missile_score * 4)
             self.enemy_score += (8 - len(self.enemy_uav_plane))*(self.uav_score + self.missile_score * 2)
+            self.enemy_center_time = self.my_center_time
         if self.sim_time>19*60+57:
             print(self.my_score ,self.enemy_score, self.my_center_time, self.enemy_center_time)
         if self.enemy_score<self.my_score:
+            return True
+        elif self.enemy_score==self.my_score and self.my_center_time>self.enemy_center_time:
             return True
         else:
             return False   
@@ -1674,7 +1739,7 @@ class DemoAgent(Agent):
             return True
 
     # 合成威胁向量
-    def synthetic_threat_vector(self, leader, see_dis=45000, seen=True):
+    def synthetic_threat_vector(self, leader, see_dis=30000, seen=True):
         total_dir = {"X": 0, "Y": 0, "Z": 0}
         min_dis = 9999999
         threat_weight = 0
@@ -1684,25 +1749,23 @@ class DemoAgent(Agent):
                 dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
                 if seen:
                     if enemy.can_see(leader) or dis<see_dis:
-                        if enemy.can_see(leader):
-                            if TSVector3.distance(enemy.pos3d, leader.pos3d) < min_dis:
-                                min_dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
-                                threat_pitch = enemy.Pitch
-                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(leader.para["safe_range"]/(dis+2000),2))
-                        threat_weight += math.pow(leader.para["safe_range"]/(dis+2000),2)
+                        if TSVector3.distance(enemy.pos3d, leader.pos3d) < min_dis:
+                            min_dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
+                            threat_pitch = enemy.Pitch
+                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(leader.para["safe_range"]/(dis+200),2))
+                        threat_weight += math.pow(leader.para["safe_range"]/(dis+200),2)
                         total_dir = TSVector3.plus(tmp_dir2,total_dir)
                 else:
                     if dis<see_dis:
-                        if enemy.can_see(leader):
-                            if TSVector3.distance(enemy.pos3d, leader.pos3d) < min_dis:
-                                min_dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
-                                threat_pitch = enemy.Pitch
-                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(leader.para["safe_range"]/(dis+2000),2))
-                        threat_weight += math.pow(leader.para["safe_range"]/(dis+2000),2)
+                        if TSVector3.distance(enemy.pos3d, leader.pos3d) < min_dis:
+                            min_dis = TSVector3.distance(enemy.pos3d, leader.pos3d)
+                            threat_pitch = enemy.Pitch
+                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(leader.pos3d, enemy.pos3d), math.pow(leader.para["safe_range"]/(dis+200),2))
+                        threat_weight += math.pow(leader.para["safe_range"]/(dis+200),2)
                         total_dir = TSVector3.plus(tmp_dir2,total_dir)
         if threat_weight>0:
             total_dir = TSVector3.multscalar(total_dir, 1/threat_weight)
-        return total_dir, min_dis
+        return total_dir, min_dis, threat_pitch
     
     # 计算飞机与导弹相遇最小距离
     def shortest_distance_between_linesegment(self, plane, missile, next_plane_pos=None):
