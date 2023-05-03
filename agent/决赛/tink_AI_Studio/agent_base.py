@@ -80,6 +80,8 @@ class Plane(object):
         self.do_turn = False
         # 是否被可提供干扰的有人机看到
         self.be_seen_leader = False
+        # 是否可以被监视
+        self.be_seen = False
         # 已发射导弹
         self.used_missile_list = []
         # 最近发射出去的导弹
