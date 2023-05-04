@@ -234,8 +234,8 @@ class Plane(object):
         # 盘旋或垂直飞行使敌方导弹脱靶
         if self.move_order==None:
             self.move_order="躲避导弹"
-        # else:
-            # print(self.ID,self.move_order,"无人机躲避导弹")
+        else:
+            print(self.ID,self.move_order,"无人机躲避导弹")
         if abs(new_evade_pos["X"]) > 150000 or abs(new_evade_pos["Y"]) > 150000:
             x = self.X
             y = self.Y
@@ -293,8 +293,8 @@ class Plane(object):
         vertical_evade_route_list = [{"X": new_evade_pos['X'], "Y": new_evade_pos['Y'], "Z": new_evade_pos['Z']}, ]
         if self.move_order==None:
             self.move_order="有人机躲避导弹"
-        # else:
-        #     print(self.ID,self.move_order,"有人机躲避导弹")
+        else:
+            print(self.ID,self.move_order,"有人机躲避导弹")
         if (abs(new_evade_pos["X"]) >= 142000 or abs(new_evade_pos["Y"]) >= 142000):
             x = self.X
             y = self.Y
