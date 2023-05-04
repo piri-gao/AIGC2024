@@ -523,7 +523,7 @@ class DemoAgent(Agent):
             # 无人机脱离近距离攻击范围
             for plane in self.my_plane:
                 if plane.ID in self.free_plane and plane.Type==2:
-                    total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)    
+                    total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=16000,seen=False)    
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
                         if plane.wing_who!=None:
                             be_wing_plane = self.get_body_info_by_id(self.my_plane, plane.wing_who)
@@ -540,7 +540,7 @@ class DemoAgent(Agent):
                         total_heading = TSVector3.calheading(total_dir)
                         total_pitch = -1*threat_pitch
                         # total_pitch = 0
-                        if min_dis>20000:
+                        if min_dis>15000:
                             turn_ratio = 1/2
                             if self.is_in_center(plane,110000)==False:
                                 # turn_ratio = 2/3
@@ -923,7 +923,7 @@ class DemoAgent(Agent):
                 if leader.Availability and need_wing:
                     if leader.wing_plane:
                         wing_plane = self.get_body_info_by_id(self.my_plane, leader.wing_plane)
-                        if wing_plane.close_missile!=None and TSVector3.distance(wing_plane.pos3d,wing_plane.close_missile.pos3d)<8000:
+                        if wing_plane.close_missile!=None and TSVector3.distance(wing_plane.pos3d,wing_plane.close_missile.pos3d)<10000:
                             continue
                         if wing_plane.ID in self.free_plane:
                             self.free_plane.remove(wing_plane.ID)
@@ -1249,38 +1249,38 @@ class DemoAgent(Agent):
                 env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 50000, 9000, 400, self.init_direction))
             cmd_list.append(
                 env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -50000, 9000, 400, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[0].ID, -125000 * self.side, 100000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[1].ID, -125000 * self.side, -100000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[2].ID, -130000 * self.side, 75000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[3].ID, -130000 * self.side, -75000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[4].ID, -145000 * self.side, 35000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[5].ID, -145000 * self.side, -35000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[6].ID, -125000 * self.side, 15000, 9000, 300, self.init_direction))
-            cmd_list.append(
-                            env_cmd.make_entityinitinfo(self.my_uav_plane[7].ID, -125000 * self.side, -15000, 9000, 300, self.init_direction))
-            # for i, plane in enumerate(self.my_uav_plane):
-            #     if i < 6:
-            #         if i != 5:
-            #             if i==1 or i==3:
-            #                 self.spy_plane.append(plane.ID)
-            #                 plane.is_spy = True
-            #             cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
-            #         else:
-            #             self.spy_plane.append(plane.ID)
-            #             plane.is_spy = True
-            #             cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
-            #     else:
-            #         cmd_list.append(
-            #             env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[0].ID, -125000 * self.side, 100000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[1].ID, -125000 * self.side, -100000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[2].ID, -130000 * self.side, 75000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[3].ID, -130000 * self.side, -75000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[4].ID, -145000 * self.side, 35000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[5].ID, -145000 * self.side, -35000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[6].ID, -125000 * self.side, 15000, 9000, 300, self.init_direction))
+            # cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[7].ID, -125000 * self.side, -15000, 9000, 300, self.init_direction))
+            for i, plane in enumerate(self.my_uav_plane):
+                if i < 6:
+                    if i != 5:
+                        if i==1 or i==3:
+                            self.spy_plane.append(plane.ID)
+                            plane.is_spy = True
+                        cmd_list.append(
+                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
+                    else:
+                        self.spy_plane.append(plane.ID)
+                        plane.is_spy = True
+                        cmd_list.append(
+                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
+                else:
+                    cmd_list.append(
+                        env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
 
 
     def init_moving(self, cmd_list):
@@ -1341,9 +1341,9 @@ class DemoAgent(Agent):
         
     # 我方飞机无威胁且空闲情况下飞机路径
     def init_move(self, cmd_list):
-        if self.sim_time<5.5*60:
-            self.init_moving(cmd_list)
-            return
+        # if self.sim_time<5.5*60:
+        #     self.init_moving(cmd_list)
+        #     return
         for plane_ID in self.free_plane:
             plane = self.get_body_info_by_id(self.my_plane, plane_ID)
             if plane.Type==2 and len(self.enemy_plane):
@@ -1687,18 +1687,21 @@ class DemoAgent(Agent):
     def find_way_jam(self, jam_plane, middle_enemy_id, cmd_list):
         if middle_enemy_id==None:
             return
-        jam_plane.do_jam = True
-        jam_plane.do_turn = True
         jam_enemy = self.get_body_info_by_id(self.enemy_plane, middle_enemy_id)
-        jam_plane.total_threat_flag = None
         if jam_enemy.lost_flag==0:
             if jam_plane.move_order==None:
+                jam_plane.do_jam = True
+                jam_plane.do_turn = True
+                jam_plane.total_threat_flag = None
                 jam_plane.move_order="搜寻干扰1"
                 cmd_list.append(env_cmd.make_followparam(jam_plane.ID, jam_enemy.ID, jam_plane.move_speed, jam_plane.para['move_max_acc'], jam_plane.para['move_max_g']))
             else:
                 print(jam_plane.ID,jam_plane.move_order,"搜寻干扰1")
         else:
             if jam_plane.move_order==None:
+                jam_plane.do_jam = True
+                jam_plane.do_turn = True
+                jam_plane.total_threat_flag = None
                 jam_plane.move_order="搜寻干扰2"
                 cmd_list.append(env_cmd.make_linepatrolparam(jam_plane.ID, [jam_enemy.pos3d,], jam_plane.move_speed,
                                                             jam_plane.para["move_max_acc"], jam_plane.para["move_max_g"]))
