@@ -42,13 +42,13 @@ class Plane(object):
         self.pos3d = {"X": self.X, "Y": self.Y, "Z": self.Z}
         # 上一帧坐标
         self.prePos3d = None
+        # 是否在执行干扰任务
+        self.do_jam = False
         if self.Type == 1:
             # 剩余弹药
             self.AllWeapon = 4
             # 上一次执行干扰时间
             self.last_jam = 0
-            # 是否在执行干扰任务
-            self.do_jam = False
             # 就绪导弹
             self.ready_missile = 4
             self.plane_acc = 9.8

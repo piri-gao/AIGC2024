@@ -242,7 +242,7 @@ class DemoAgent(Agent):
                             speed_factor = math.tanh(math.pow(plane.para['safe_range']/(enemy_dis+2000),2))
                             plane.threat_ratio = max(plane.threat_ratio, math.pow(plane.para['safe_range']/(enemy_dis+2000),2))
                             tmp_move_speed = speed_factor*(plane.para["move_max_speed"]-plane.para["move_min_speed"]) + plane.para["move_min_speed"]
-                            plane.move_speed = max(plane.move_speed, tmp_move_speed)
+                            plane.move_speed = min(max(plane.move_speed, tmp_move_speed),plane.para["move_max_speed"])
 
         # 己方有人机信息
         self.my_leader_plane = self.get_body_info_by_type(self.my_plane, 1)
@@ -1348,38 +1348,38 @@ class DemoAgent(Agent):
                 env_cmd.make_entityinitinfo(leader_plane_1.ID, -135000 * self.side, 50000, 9000, 400, self.init_direction))
             cmd_list.append(
                 env_cmd.make_entityinitinfo(leader_plane_2.ID, -135000 * self.side, -50000, 9000, 400, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[0].ID, -125000 * self.side, 100000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[1].ID, -125000 * self.side, -100000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[2].ID, -130000 * self.side, 75000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[3].ID, -130000 * self.side, -75000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[4].ID, -145000 * self.side, 35000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[5].ID, -145000 * self.side, -35000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[6].ID, -125000 * self.side, 15000, 9000, 300, self.init_direction))
-            # cmd_list.append(
-            #                 env_cmd.make_entityinitinfo(self.my_uav_plane[7].ID, -125000 * self.side, -15000, 9000, 300, self.init_direction))
-            for i, plane in enumerate(self.my_uav_plane):
-                if i < 6:
-                    if i != 5:
-                        if i==1 or i==3:
-                            self.spy_plane.append(plane.ID)
-                            plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
-                    else:
-                        self.spy_plane.append(plane.ID)
-                        plane.is_spy = True
-                        cmd_list.append(
-                            env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
-                else:
-                    cmd_list.append(
-                        env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[0].ID, -125000 * self.side, 100000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[1].ID, -125000 * self.side, -100000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[2].ID, -130000 * self.side, 75000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[3].ID, -130000 * self.side, -75000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[4].ID, -145000 * self.side, 35000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[5].ID, -145000 * self.side, -35000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[6].ID, -125000 * self.side, 15000, 9000, 300, self.init_direction))
+            cmd_list.append(
+                            env_cmd.make_entityinitinfo(self.my_uav_plane[7].ID, -125000 * self.side, -15000, 9000, 300, self.init_direction))
+            # for i, plane in enumerate(self.my_uav_plane):
+            #     if i < 6:
+            #         if i != 5:
+            #             if i==1 or i==3:
+            #                 self.spy_plane.append(plane.ID)
+            #                 plane.is_spy = True
+            #             cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 150000 - (i+1) * 50000, 9000, 300, self.init_direction))
+            #         else:
+            #             self.spy_plane.append(plane.ID)
+            #             plane.is_spy = True
+            #             cmd_list.append(
+            #                 env_cmd.make_entityinitinfo(plane.ID, -125000 * self.side, 0, 9000, 300, self.init_direction))
+            #     else:
+            #         cmd_list.append(
+            #             env_cmd.make_entityinitinfo(plane.ID, -145000 * self.side, 75000 - (i+1)%3 * 50000, 9000, 300, self.init_direction))
 
 
     def init_moving(self, cmd_list):
@@ -1440,9 +1440,9 @@ class DemoAgent(Agent):
         
     # 我方飞机无威胁且空闲情况下飞机路径
     def init_move(self, cmd_list):
-        # if self.sim_time<5.5*60:
-        #     self.init_moving(cmd_list)
-        #     return
+        if self.sim_time<5*60:
+            self.init_moving(cmd_list)
+            return
         for plane_ID in self.free_plane:
             plane = self.get_body_info_by_id(self.my_plane, plane_ID)
             if plane.Type==2 and len(self.enemy_plane):
@@ -1890,12 +1890,22 @@ class DemoAgent(Agent):
                         threat_weight += math.pow(leader.para["safe_range"]/(dis+200),2)
                         total_dir = TSVector3.plus(tmp_dir2,total_dir)
         # if leader.Type==1 and len(self.enemy_plane)>5:
-        #     for plane in self.my_plane:
-        #         if plane.Availability and plane.Type==2:
-        #             dis = TSVector3.distance(plane.pos3d, leader.pos3d)
-        #             if dis<80000:
-        #                 tmp_dir2 = TSVector3.multscalar(TSVector3.minus(plane.pos3d, leader.pos3d), math.pow(leader.para["safe_range"]-1000/(dis+200),2))
-        #                 threat_weight += math.pow(leader.para["safe_range"]-1000/(dis+200),2)
+        if len(self.enemy_plane)>5 and leader.Type==1:
+            need_same_heading = False
+            if total_dir != {"X": 0, "Y": 0, "Z": 0}:
+                need_same_heading = True
+            for plane in self.my_plane:
+                if plane.Availability and plane.ID != leader.ID:
+                    dis = TSVector3.distance(plane.pos3d, leader.pos3d)
+                    if dis<60000:
+                        if need_same_heading:
+                            target_heading = TSVector3.calheading(total_dir)
+                            team_heading = TSVector3.calheading(TSVector3.minus(plane.pos3d, leader.pos3d))
+                            if abs(leader.pi_bound(team_heading-target_heading))>math.pi/4:
+                                continue
+                        tmp_dir2 = TSVector3.multscalar(TSVector3.minus(plane.pos3d, leader.pos3d), math.pow(leader.para["safe_range"]-1000/(dis+200),2))
+                        threat_weight += math.pow(leader.para["safe_range"]-1000/(dis+200),2)
+                        total_dir = TSVector3.plus(tmp_dir2,total_dir)
         if threat_weight>0:
             total_dir = TSVector3.multscalar(total_dir, 1/threat_weight)
             if min_dis>leader.para["safe_range"]:
