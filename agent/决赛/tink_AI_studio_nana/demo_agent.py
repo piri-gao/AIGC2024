@@ -531,7 +531,7 @@ class DemoAgent(Agent):
             for plane in self.my_plane:
                 if plane.ID in self.free_plane and plane.Type==2:
                     if plane.ready_missile:
-                        total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=16000,seen=True)
+                        total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=16000,seen=False)
                     else:
                         total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(plane, see_dis=26000,seen=False)
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
@@ -835,7 +835,8 @@ class DemoAgent(Agent):
                     total_dir, min_dis, threat_pitch = self.synthetic_threat_vector(leader, see_dis=26000, seen=False)
                 if self.enemy_left_weapon==0:
                     break
-                if leader.ID in self.free_plane and (len(leader.used_missile_list)==4 or min_dis<leader.para["safe_range"]+5000):
+                # if leader.ID in self.free_plane and (len(leader.used_missile_list)==4 or min_dis<leader.para["safe_range"]+5000):
+                if leader.ID in self.free_plane:
                     if total_dir != {"X": 0, "Y": 0, "Z": 0}:
                         next_heading = TSVector3.calheading(total_dir) + math.pi
                         if self.my_score>self.enemy_score or self.enemy_strategy() or self.sim_time<12*60:# self.enemy_formation()==False:
@@ -852,7 +853,7 @@ class DemoAgent(Agent):
                         self.free_plane.remove(leader.ID)
                         total_heading = TSVector3.calheading(total_dir)
                         total_pitch = -1*threat_pitch
-                        if min_dis>self.attack_distance:
+                        if min_dis>26000:
                             turn_ratio = 1/2
                             if self.is_in_center(leader,center_radius+5000)==False:
                                 turn_ratio = 4/9
@@ -869,7 +870,7 @@ class DemoAgent(Agent):
                                     leader.total_threat_flag = 1
                             else:
                                 total_heading = total_heading + leader.total_threat_flag*math.pi*turn_ratio
-                        elif min_dis<self.attack_distance:
+                        elif min_dis<8000:
                             total_heading = plane.Heading
                             if self.sim_time%2:
                                 total_pitch = -math.pi/6
