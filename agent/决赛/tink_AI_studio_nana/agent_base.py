@@ -44,6 +44,8 @@ class Plane(object):
         self.prePos3d = None
         # 是否在执行干扰任务
         self.do_jam = False
+        # 是否在执行绝地求死发射任务
+        self.do_be_fired = False
         if self.Type == 1:
             # 剩余弹药
             self.AllWeapon = 4
@@ -130,7 +132,7 @@ class Plane(object):
             self.para["area_max_alt"] = 15000
             self.para['radar_range'] = 80000
             self.para["launch_range"] = 11000
-            self.para["safe_range"] = 25000
+            self.para["safe_range"] = 20000
             self.para['radar_heading'] = 60
             self.para['radar_pitch'] = 60
         else:
@@ -394,6 +396,8 @@ class Missile(object):
         self.init_dis = missile_info['distance']
         # 上一帧加速度
         self.missile_acc = 98
+        # 是否为被动发射
+        self.be_fired = False
         # 类型
         self.Type = missile_info['Type']
         # 是否过靶
