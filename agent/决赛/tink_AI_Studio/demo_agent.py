@@ -720,9 +720,14 @@ class DemoAgent(Agent):
 
             # 开火模块，是否可以在攻击的同时进行干扰
             can_attack_flag = True
+            count = 0
             while(can_attack_flag):
                 can_attack_flag = False
                 can_attack_dict = self.can_attack_plane(threat_plane_list)
+                count+=1
+                if count>100:
+                    print("进入死循环了")
+                    break
                 for attack_plane_id, threat_ID in can_attack_dict.items():
                     attack_plane = self.get_body_info_by_id(self.my_plane, attack_plane_id)
                     threat_plane = self.get_body_info_by_id(self.enemy_plane, threat_ID)
@@ -945,7 +950,7 @@ class DemoAgent(Agent):
                                         far_away_dis = leader.para["safe_range"]
                                     if dis<far_away_dis:
                                         if leader.move_speed > middile_enemy_plane.Speed:
-                                            leader.move_speed = middile_enemy_plane.Speed-5
+                                            leader.move_speed = max(middile_enemy_plane.Speed-5,leader.para["move_min_speed"])
                                     if middile_enemy_plane.lost_flag==0:
                                         cmd_list.append(env_cmd.make_followparam(leader.ID, middile_enemy_plane.ID, leader.move_speed, leader.para['move_max_acc'], leader.para['move_max_g']))
                                     else:
@@ -1154,7 +1159,7 @@ class DemoAgent(Agent):
                                         my_plane.move_speed = my_plane.para['move_max_speed']
                                     else:
                                         if my_plane.move_speed > enemy_plane.Speed:
-                                            my_plane.move_speed = enemy_plane.Speed-5
+                                            my_plane.move_speed = max(enemy_plane.Speed-5,my_plane.para["move_min_speed"])
                                     cmd_list.append(env_cmd.make_followparam(my_plane.ID, enemy_plane.ID, my_plane.move_speed, my_plane.para['move_max_acc'], my_plane.para['move_max_g']))    
                                 else:
                                     print(my_plane.ID,my_plane.move_order,"追踪敌机哈哈哈")
@@ -1181,7 +1186,7 @@ class DemoAgent(Agent):
                                         far_away_dis = follow_plane.para["safe_range"]
                                     if TSVector3.distance(follow_plane.pos3d, enemy_plane.pos3d)<far_away_dis:
                                         if follow_plane.move_speed > enemy_plane.Speed:
-                                            follow_plane.move_speed = enemy_plane.Speed-5
+                                            follow_plane.move_speed = max(enemy_plane.Speed-5,follow_plane.para["move_min_speed"])
                                     else:
                                         follow_plane.move_speed = follow_plane.para["move_max_speed"]
                                     cmd_list.append(env_cmd.make_linepatrolparam(follow_plane.ID, [enemy_plane.pos3d,], follow_plane.move_speed,
@@ -1220,7 +1225,7 @@ class DemoAgent(Agent):
                                     far_away_dis = my_plane.para["safe_range"]
                                 if TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)<far_away_dis:
                                     if my_plane.move_speed > enemy_plane.Speed:
-                                        my_plane.move_speed = enemy_plane.Speed-5
+                                         my_plane.move_speed = max(enemy_plane.Speed-5,my_plane.para["move_min_speed"])
                                 else:
                                     my_plane.move_speed = my_plane.para["move_max_speed"]
                                 if 0<enemy_plane.lost_flag:
@@ -1261,7 +1266,7 @@ class DemoAgent(Agent):
                             far_away_dis = my_plane.para["safe_range"]
                         if TSVector3.distance(my_plane.pos3d, enemy_plane.pos3d)<far_away_dis:
                             if my_plane.move_speed > enemy_plane.Speed:
-                                my_plane.move_speed = enemy_plane.Speed-5
+                                my_plane.move_speed = max(enemy_plane.Speed-5, my_plane.para["move_min_speed"])
                         else:
                             my_plane.move_speed = my_plane.para["move_max_speed"]
                         if 0<enemy_plane.lost_flag:
