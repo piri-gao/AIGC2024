@@ -1,0 +1,2594 @@
+<?xml version="1.0" encoding="GB18030"?>
+<层 Type="TSTopicArchiveHelper\TSLayerTopicArchiveHelper" TypeFlag="0">
+	<主题列表 Type="TSVariantArray" TypeFlag="0" Count="130">
+		<Item_0 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="0">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="1">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红有人机1</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.2624774286658616,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">有人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">320</初始速度>
+			</主题数据>
+		</Item_0>
+		<Item_1 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="2">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="3">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机1</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.27611547647043999,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_1>
+		<Item_2 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="4">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="5">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝有人机1</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.2624774286658616,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">有人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">320</初始速度>
+			</主题数据>
+		</Item_2>
+		<Item_3 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="6">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="7">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机3</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.2694522474639679,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_3>
+		<Item_4 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="8">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="9">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机7</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.25185940539835217,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_4>
+		<Item_5 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="10">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="11">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机1</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.27611547647043999,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_5>
+		<Item_6 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="12">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="13">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机3</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.2694522474639679,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_6>
+		<Item_7 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="14">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="15">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机5</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.25746802269496516,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_7>
+		<Item_8 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="16">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="17">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机7</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.25185940539835217,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_8>
+		<Item_9 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="18">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="19">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红有人机2</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.2602004258724846,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">有人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">320</初始速度>
+			</主题数据>
+		</Item_9>
+		<Item_10 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="20">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="21">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝有人机2</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.2602004258724846,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">有人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">320</初始速度>
+			</主题数据>
+		</Item_10>
+		<Item_11 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="22">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="23">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机2</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.27237639844723088,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_11>
+		<Item_12 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="24">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="25">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机4</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.26580904316909765,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_12>
+		<Item_13 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="26">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="27">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机6</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.25430418721632209,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_13>
+		<Item_14 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="28">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="29">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红无人机8</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.24946256027001867,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_14>
+		<Item_15 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="30">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="31">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机2</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.27271195667094983,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_15>
+		<Item_16 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="32">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="33">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机4</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.2663363490240272,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_16>
+		<Item_17 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="34">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="35">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机6</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.25497530383829287,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_17>
+		<Item_18 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="36">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="37">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">蓝无人机8</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">蓝方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">2.0286224805347297,0.24941462340584927,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">-1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">无人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">240</初始速度>
+			</主题数据>
+		</Item_18>
+		<Item_19 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="38">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlaneEntityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::LogicEntityInitInfo::DataType\Huaru::Simulation::MMF::EntityInitInfo::DataType\Huaru::XSimModels::PlaneEntityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="39">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">红有人机3</名称>
+				<标识 Name="Identification" Type="TSString" TypeFlag="0">红方</标识>
+				<内码 Name="ISN" Type="TSString" TypeFlag="0"></内码>
+				<加入战场时间 Name="JoinBattlefiledTime" Type="DOUBLE" TypeFlag="0">1620979024</加入战场时间>
+				<是否加入战场 Name="JoinSimulation" Type="bool" TypeFlag="0">1</是否加入战场>
+				<是否启用 Name="Enabled" Type="bool" TypeFlag="0">1</是否启用>
+				<分布式引擎标识 Name="DistributedEngineIdent" Type="TSString" TypeFlag="0"></分布式引擎标识>
+				<上级列表 Name="CMDRs" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				<初始位置 Name="GeoPos" Type="Huaru::Simulation::GeoPosition::DataType" TypeFlag="0">
+					<位置 Name="LLAPos" Type="TSVector3d" TypeFlag="0">1.9853833969398491,0.25746802269496516,9000</位置>
+					<朝向 Name="Heading" Type="DOUBLE" TypeFlag="0">1.5707963267948966</朝向>
+					<俯仰 Name="Pitch" Type="DOUBLE" TypeFlag="0">0</俯仰>
+					<滚转 Name="Roll" Type="DOUBLE" TypeFlag="0">0</滚转>
+				</初始位置>
+				<初始实体承载方式 Name="Captive" Type="Huaru::Simulation::EntityCaptive::DataType" TypeFlag="0">
+					<实体承载方式 Name="Type" Type="UINT32" TypeFlag="0">0</实体承载方式>
+					<承载此实体的实体句柄 Name="HostEntity" Type="TSHANDLE" TypeFlag="0">0</承载此实体的实体句柄>
+					<承载的实体列表 Name="CaptiveEntities" Type="TSVariantArray" TypeFlag="0" Count="0" />
+				</初始实体承载方式>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<外观 Name="Appearance" Type="UINT32" TypeFlag="0">0</外观>
+				<质量 Name="Mass" Type="FLOAT" TypeFlag="0">0</质量>
+				<武器配置模板名称 Name="WeaponProfileModelName" Type="TSString" TypeFlag="0">有人机武器配置</武器配置模板名称>
+				<是否导入武器配置 Name="ImportWeaponProfile" Type="bool" TypeFlag="0">1</是否导入武器配置>
+				<是需要被探测 Name="IsNeedDetect" Type="bool" TypeFlag="0">1</是需要被探测>
+				<编队队长 Name="FormationLeader" Type="TSHANDLE" TypeFlag="0">0</编队队长>
+				<编队编号 Name="FormationNumber" Type="UINT16" TypeFlag="0">65535</编队编号>
+				<初始速度 Name="Speed" Type="DOUBLE" TypeFlag="0">320</初始速度>
+			</主题数据>
+		</Item_19>
+		<Item_20 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="40">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="41">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_20>
+		<Item_21 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="42">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="43">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_21>
+		<Item_22 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="44">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="45">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_22>
+		<Item_23 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="46">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="47">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_23>
+		<Item_24 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="48">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="49">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_24>
+		<Item_25 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="50">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="51">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_25>
+		<Item_26 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="52">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="53">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_26>
+		<Item_27 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="54">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="55">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_27>
+		<Item_28 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="56">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="57">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_28>
+		<Item_29 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="58">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="59">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_29>
+		<Item_30 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="60">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="61">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_30>
+		<Item_31 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="62">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="63">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_31>
+		<Item_32 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="64">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="65">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_32>
+		<Item_33 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="66">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="67">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_33>
+		<Item_34 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="68">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="69">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_34>
+		<Item_35 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="70">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="71">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_35>
+		<Item_36 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="72">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="73">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_36>
+		<Item_37 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="74">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="75">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_37>
+		<Item_38 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="76">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="77">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_38>
+		<Item_39 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="78">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_MMF_MissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="79">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">指令响应任务能力</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">指令响应任务能力_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_39>
+		<Item_40 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="80">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="81">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_40>
+		<Item_41 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="82">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="83">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_41>
+		<Item_42 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="84">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="85">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_42>
+		<Item_43 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="86">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="87">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_43>
+		<Item_44 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="88">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="89">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_44>
+		<Item_45 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="90">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="91">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_45>
+		<Item_46 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="92">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="93">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_46>
+		<Item_47 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="94">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="95">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_47>
+		<Item_48 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="96">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="97">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_48>
+		<Item_49 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="98">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="99">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_49>
+		<Item_50 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="100">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="101">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_50>
+		<Item_51 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="102">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="103">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_51>
+		<Item_52 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="104">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="105">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_52>
+		<Item_53 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="106">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="107">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_53>
+		<Item_54 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="108">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="109">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_54>
+		<Item_55 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="110">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="111">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_55>
+		<Item_56 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="112">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="113">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_56>
+		<Item_57 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="114">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="115">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_57>
+		<Item_58 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="116">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="117">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_58>
+		<Item_59 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="118">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_WeaponSystemInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="119">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">武器系统</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">武器系统_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_59>
+		<Item_60 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="120">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="121">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_60>
+		<Item_61 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="122">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="123">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_61>
+		<Item_62 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="124">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="125">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_62>
+		<Item_63 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="126">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="127">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_63>
+		<Item_64 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="128">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="129">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_64>
+		<Item_65 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="130">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="131">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_65>
+		<Item_66 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="132">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="133">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_66>
+		<Item_67 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="134">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="135">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_67>
+		<Item_68 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="136">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="137">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_68>
+		<Item_69 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="138">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="139">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_69>
+		<Item_70 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="140">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="141">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_70>
+		<Item_71 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="142">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="143">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_71>
+		<Item_72 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="144">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="145">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_72>
+		<Item_73 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="146">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="147">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_73>
+		<Item_74 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="148">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="149">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_74>
+		<Item_75 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="150">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="151">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_75>
+		<Item_76 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="152">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="153">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_76>
+		<Item_77 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="154">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="155">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_77>
+		<Item_78 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="156">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="157">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_78>
+		<Item_79 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="158">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Models_AssetInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::AssetComponentInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="159">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">默认资产</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">默认资产_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<资产列表 Name="AssetList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+			</主题数据>
+		</Item_79>
+		<Item_80 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="160">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="161">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_80>
+		<Item_81 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="162">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="163">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_81>
+		<Item_82 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="164">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="165">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_82>
+		<Item_83 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="166">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="167">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_83>
+		<Item_84 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="168">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="169">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_84>
+		<Item_85 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="170">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="171">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_85>
+		<Item_86 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="172">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="173">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_86>
+		<Item_87 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="174">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="175">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_87>
+		<Item_88 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="176">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="177">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_88>
+		<Item_89 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="178">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="179">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_89>
+		<Item_90 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="180">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="181">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_90>
+		<Item_91 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="182">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="183">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_91>
+		<Item_92 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="184">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="185">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_92>
+		<Item_93 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="186">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="187">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_93>
+		<Item_94 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="188">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="189">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_94>
+		<Item_95 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="190">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="191">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_95>
+		<Item_96 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="192">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="193">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_96>
+		<Item_97 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="194">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="195">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_97>
+		<Item_98 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="196">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="197">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_98>
+		<Item_99 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="198">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_AirMotionComInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::MotionInitInfo::DataType\Huaru::XSimModels::MotionComInitInfo::DataType\Huaru::XSimModels::AirMotionComInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="199">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机机动组件</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机机动组件_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+			</主题数据>
+		</Item_99>
+		<Item_100 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="200">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="201">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+			</主题数据>
+		</Item_100>
+		<Item_101 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="202">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="203">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">2</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_101>
+		<Item_102 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="204">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="205">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+			</主题数据>
+		</Item_102>
+		<Item_103 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="206">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="207">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">11</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_103>
+		<Item_104 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="208">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="209">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">13</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_104>
+		<Item_105 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="210">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="211">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">14</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_105>
+		<Item_106 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="212">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="213">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">15</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_106>
+		<Item_107 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="214">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="215">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">16</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_107>
+		<Item_108 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="216">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="217">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">17</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_108>
+		<Item_109 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="218">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="219">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+			</主题数据>
+		</Item_109>
+		<Item_110 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="220">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="221">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+			</主题数据>
+		</Item_110>
+		<Item_111 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="222">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="223">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">20</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_111>
+		<Item_112 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="224">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="225">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">21</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_112>
+		<Item_113 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="226">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="227">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">22</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_113>
+		<Item_114 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="228">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="229">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">23</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_114>
+		<Item_115 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="230">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="231">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">24</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_115>
+		<Item_116 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="232">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="233">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">25</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_116>
+		<Item_117 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="234">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="235">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">26</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_117>
+		<Item_118 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="236">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="237">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">27</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">无人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">无人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">1.0471975512</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">0.34906585039999999</俯仰范围>
+			</主题数据>
+		</Item_118>
+		<Item_119 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="238">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_RadarInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::SensorInitInfo::DataType\Huaru::XSimModels::RadarInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="239">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">有人机雷达</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">有人机雷达_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">1</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+			</主题数据>
+		</Item_119>
+		<Item_120 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="240">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_JammerInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::JammerInitInfo::DataType\Huaru::XSimModels::JammerInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="241">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">干扰器</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">干扰器_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">0</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+				<干扰时长 Name="JamDuration" Type="DOUBLE" TypeFlag="0">6</干扰时长>
+				<干扰冷却 Name="JamCoolDown" Type="DOUBLE" TypeFlag="0">60</干扰冷却>
+			</主题数据>
+		</Item_120>
+		<Item_121 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="242">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_JammerInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::JammerInitInfo::DataType\Huaru::XSimModels::JammerInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="243">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">干扰器</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">干扰器_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">0</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+				<干扰时长 Name="JamDuration" Type="DOUBLE" TypeFlag="0">6</干扰时长>
+				<干扰冷却 Name="JamCoolDown" Type="DOUBLE" TypeFlag="0">60</干扰冷却>
+			</主题数据>
+		</Item_121>
+		<Item_122 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="244">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_JammerInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::JammerInitInfo::DataType\Huaru::XSimModels::JammerInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="245">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">干扰器</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">干扰器_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">0</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+				<干扰时长 Name="JamDuration" Type="DOUBLE" TypeFlag="0">6</干扰时长>
+				<干扰冷却 Name="JamCoolDown" Type="DOUBLE" TypeFlag="0">60</干扰冷却>
+			</主题数据>
+		</Item_122>
+		<Item_123 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="246">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_JammerInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::JammerInitInfo::DataType\Huaru::XSimModels::JammerInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="247">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">干扰器</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">干扰器_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">0</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+				<干扰时长 Name="JamDuration" Type="DOUBLE" TypeFlag="0">6</干扰时长>
+				<干扰冷却 Name="JamCoolDown" Type="DOUBLE" TypeFlag="0">60</干扰冷却>
+			</主题数据>
+		</Item_123>
+		<Item_124 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="248">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_JammerInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::Models::JammerInitInfo::DataType\Huaru::XSimModels::JammerInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="249">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">干扰器</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">干扰器_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<开关机状态 Name="IsOn" Type="bool" TypeFlag="0">0</开关机状态>
+				<方位范围 Name="AzimuthFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</方位范围>
+				<俯仰范围 Name="ElevationFOVAngle" Type="DOUBLE" TypeFlag="0">2.0943951024</俯仰范围>
+				<干扰时长 Name="JamDuration" Type="DOUBLE" TypeFlag="0">6</干扰时长>
+				<干扰冷却 Name="JamCoolDown" Type="DOUBLE" TypeFlag="0">60</干扰冷却>
+			</主题数据>
+		</Item_124>
+		<Item_125 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="250">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlayMissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType\Huaru::XSimModels::PlayMissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="251">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">1</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">Play策略</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">Play策略_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<模式 Name="Mode" Type="UINT32" TypeFlag="0">0</模式>
+			</主题数据>
+		</Item_125>
+		<Item_126 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="252">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlayMissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType\Huaru::XSimModels::PlayMissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="253">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">6</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">Play策略</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">Play策略_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<模式 Name="Mode" Type="UINT32" TypeFlag="0">0</模式>
+			</主题数据>
+		</Item_126>
+		<Item_127 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="254">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlayMissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType\Huaru::XSimModels::PlayMissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="255">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">18</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">Play策略</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">Play策略_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<模式 Name="Mode" Type="UINT32" TypeFlag="0">0</模式>
+			</主题数据>
+		</Item_127>
+		<Item_128 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="256">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlayMissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType\Huaru::XSimModels::PlayMissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="257">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">19</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">Play策略</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">Play策略_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<模式 Name="Mode" Type="UINT32" TypeFlag="0">0</模式>
+			</主题数据>
+		</Item_128>
+		<Item_129 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="258">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_XSimModels_PlayMissionCapabilityInitInfo</主题名称>
+			<主题数据 Type="Huaru::Simulation::HandleObject::DataType\Huaru::Simulation::ModelInitInfo::DataType\Huaru::Simulation::MMF::ComponentInitInfo::DataType\Huaru::Simulation::MMF::BehaviorComponentInitInfo::DataType\Huaru::Simulation::MMF::MissionCapabilityInitInfo::DataType\Huaru::XSimModels::PlayMissionCapabilityInitInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="259">
+				<句柄 Name="Handle" Type="TSHANDLE" TypeFlag="0">28</句柄>
+				<时间戳 Name="Timestamp" Type="DOUBLE" TypeFlag="0">0</时间戳>
+				<基础数据名称 Name="ModelName" Type="TSString" TypeFlag="0">Play策略</基础数据名称>
+				<标签 Name="Tag" Type="TSString" TypeFlag="0"></标签>
+				<名称 Name="Name" Type="TSString" TypeFlag="0">Play策略_1</名称>
+				<默认激活 Name="DefaultActive" Type="bool" TypeFlag="0">1</默认激活>
+				<初始可用性 Name="Alive" Type="Huaru::Simulation::AliveState::DataType" TypeFlag="0">
+					<可用性 Name="Availability" Type="DOUBLE" TypeFlag="0">1</可用性>
+					<可靠性 Name="Reliability" Type="DOUBLE" TypeFlag="0">1</可靠性>
+				</初始可用性>
+				<模式 Name="Mode" Type="UINT32" TypeFlag="0">0</模式>
+			</主题数据>
+		</Item_129>
+	</主题列表>
+	<层信息 Type="Huaru::Simulation::NamedObject::DataType\Huaru::Simulation::Scenario::DeployLayer::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="260">
+		<名称 Name="Name" Type="TSString" TypeFlag="0">基础层</名称>
+		<描述 Name="Description" Type="TSString" TypeFlag="0"></描述>
+		<层起始句柄索引 Name="StartHandleIndex" Type="UINT32" TypeFlag="0">1</层起始句柄索引>
+		<层结束句柄索引 Name="EndHandleIndex" Type="UINT32" TypeFlag="0">100000</层结束句柄索引>
+		<层对象句柄列表 Name="LayerObjects" Type="TSVariantArray" TypeFlag="0" Count="20">
+			<Item_0 Type="TSHANDLE" TypeFlag="0">1</Item_0>
+			<Item_1 Type="TSHANDLE" TypeFlag="0">2</Item_1>
+			<Item_2 Type="TSHANDLE" TypeFlag="0">6</Item_2>
+			<Item_3 Type="TSHANDLE" TypeFlag="0">11</Item_3>
+			<Item_4 Type="TSHANDLE" TypeFlag="0">13</Item_4>
+			<Item_5 Type="TSHANDLE" TypeFlag="0">14</Item_5>
+			<Item_6 Type="TSHANDLE" TypeFlag="0">15</Item_6>
+			<Item_7 Type="TSHANDLE" TypeFlag="0">16</Item_7>
+			<Item_8 Type="TSHANDLE" TypeFlag="0">17</Item_8>
+			<Item_9 Type="TSHANDLE" TypeFlag="0">18</Item_9>
+			<Item_10 Type="TSHANDLE" TypeFlag="0">19</Item_10>
+			<Item_11 Type="TSHANDLE" TypeFlag="0">20</Item_11>
+			<Item_12 Type="TSHANDLE" TypeFlag="0">21</Item_12>
+			<Item_13 Type="TSHANDLE" TypeFlag="0">22</Item_13>
+			<Item_14 Type="TSHANDLE" TypeFlag="0">23</Item_14>
+			<Item_15 Type="TSHANDLE" TypeFlag="0">24</Item_15>
+			<Item_16 Type="TSHANDLE" TypeFlag="0">25</Item_16>
+			<Item_17 Type="TSHANDLE" TypeFlag="0">26</Item_17>
+			<Item_18 Type="TSHANDLE" TypeFlag="0">27</Item_18>
+			<Item_19 Type="TSHANDLE" TypeFlag="0">28</Item_19>
+		</层对象句柄列表>
+		<附加参数 Name="AdditionParams" Type="TSVariantArray" TypeFlag="0" Count="0" />
+	</层信息>
+</层>

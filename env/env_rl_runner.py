@@ -1,8 +1,8 @@
 import os
 import math
-
+import random
 from time import sleep
-from config import config
+from config import config_rl as config
 from env.xsim_env import XSimEnv
 
 
@@ -30,7 +30,7 @@ class EnvRunner(XSimEnv):
         XSimEnv.__init__(self, config['time_ratio'], address)
         self.agents = {}
         self.__init_agents()
-
+        self.start_time = 7*60
         self.launch_missile = []
         self.last_red_entities = []
         self.last_blue_entities = []
@@ -41,8 +41,8 @@ class EnvRunner(XSimEnv):
             "n_agents":10,
             "obs_shape":196,
             "state_shape":610,
-            "n_actions":8,
-            "episode_limit":20*60
+            "n_actions":12+3,
+            "episode_limit":20*60 - self.start_time
         }
         return env_info
 
@@ -53,23 +53,24 @@ class EnvRunner(XSimEnv):
         self.rl_side = 'red'
         self.tink_side = 'blue'
         self.agents["red"] = red_agent
-        blue_agent = self.blue_cls('blue', {"side": 'blue'})
-        self.agents["blue"] = blue_agent
-
+        # blue_index = random.randint(0, len(self.blue_cls)-1)
+        blue_index = -1
+        self.agents["blue"] = self.blue_cls[blue_index]('blue', {"side": 'blue'})
 
     def _reset(self):
         # 智能体重置
+        # sleep(5)
         self.__init_agents()
-
         # 环境重置
         self.reset()
         self.rew_obs = self.step([])
+        while self.rew_obs is None:
+            sleep(0.2)
+            self.rew_obs = self.step([])
         self.obs = None
         self.state = None
         self.avail_actions = None
         self.cur_time = 0
-        # while obs["sim_time"] > 10:
-        #     obs = self.step([])
     
     def get_obs(self):
         if self.obs is None:
@@ -89,8 +90,6 @@ class EnvRunner(XSimEnv):
         return self.obs
 
     def get_state(self):
-        # if self.state is None:
-        #     import pdb;pdb.set_trace()
         return self.state
     
     def get_avail_actions(self):
@@ -103,18 +102,23 @@ class EnvRunner(XSimEnv):
 
     def _step(self, a_n):
         actions = []
-        cmd_list = self.action2order(a_n)
+        fixed_act,cmd_list = self.agents[self.rl_side].update_decision(self.rew_obs[self.rl_side])
+        if self.cur_time>self.start_time:
+            cmd_list = self.action2order(a_n)
         actions.extend(cmd_list)
         cmd_list = self.agents[self.tink_side].step(self.cur_time, self.rew_obs[self.tink_side])
         actions.extend(cmd_list)
         self.rew_obs = self.step(actions)
+        while self.rew_obs is None:
+                sleep(0.1)
+                self.rew_obs = self.step(actions)
+        # print(self.rew_obs)
         self.cur_time = self.rew_obs["sim_time"]
         my_obs,global_obs,reward,done,actions_mask,info=self.agents[self.rl_side].step(self.cur_time, self.rew_obs[self.rl_side])
         self.obs = my_obs
         self.state = global_obs
         self.avail_actions = actions_mask
         win = self.get_done()  # 推演结束(分出胜负或达到最大时长)
-        # print("done:", done)
         if win[0]:  # 对战结束后环境重置
             done[done==0] = 1
             print("到达终止条件！！！！")
@@ -124,14 +128,12 @@ class EnvRunner(XSimEnv):
             else:
                 print("该局 ：  蓝方胜",  " 红方分数", win[1],"   蓝方分数", win[2],)
                 info['battle_won'] = False
-
-        return reward, done, info
+        # print(self.cur_time,done)
+        return reward, done, info, fixed_act
 
     def get_done(self):
         global red_area_score
         global blue_area_score
-
-        # print(obs)
         done = [0, 0, 0]  # 终止标识， 红方战胜利， 蓝方胜利
         # 时间超时，终止
         if self.cur_time >= 20 * 60 - 1:
@@ -218,9 +220,7 @@ class EnvRunner(XSimEnv):
             blue_area_score = 0
             done = self._print_score(done, "4")
             return done
-
         return done
-
 
     @staticmethod
     def _cal_score(obs):
@@ -263,7 +263,8 @@ class EnvRunner(XSimEnv):
             return 
         filename = "logs/" + str(self.red_cls).split("'")[1] + "_VS_" + str(self.blue_cls).split("'")[1] + "_" + str(
             num) + ".txt"
-
+        if not os.path.isdir("logs"):
+            os.mkdir("logs")
         if num != count:
             if not os.path.isdir("logs"):
                 os.mkdir("logs")
@@ -328,6 +329,8 @@ class EnvRunner(XSimEnv):
 
 
     def _print_score(self, done, done_reason_code = "0", red_area_score = 0, blue_area_score = 0):
+        if not os.path.isdir("logs"):
+            os.mkdir("logs")
         filename = "logs/" + str(self.red_cls).split("'")[1] + "_VS_" + str(self.blue_cls).split("'")[1] + "_" + str(
             count) + ".txt"
         with open(filename, "a") as fileobject:

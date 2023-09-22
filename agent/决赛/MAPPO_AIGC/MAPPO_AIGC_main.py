@@ -8,6 +8,8 @@ from agent.MAPPO_AIGC.replay_buffer import ReplayBuffer
 from agent.MAPPO_AIGC.mappo_aigc import MAPPO_AIGC
 from env.env_rl_runner import EnvRunner as AIGC2Env
 from config import ADDRESS, config, ISHOST, XSIM_NUM
+import torch.multiprocessing as mp
+
 
 class Runner_MAPPO_AIGC:
     def __init__(self, args, env_name, number, seed):
@@ -15,6 +17,7 @@ class Runner_MAPPO_AIGC:
         self.env_name = env_name
         self.number = number
         self.seed = seed
+        self.best_eva_rewards = 0
         self.count = 0
         # Set random seed
         np.random.seed(self.seed)
@@ -27,7 +30,7 @@ class Runner_MAPPO_AIGC:
         self.args.obs_dim = self.env_info["obs_shape"]  # The dimensions of an agent's observation space
         self.args.state_dim = self.env_info["state_shape"]  # The dimensions of global state space
         self.args.action_dim = self.env_info["n_actions"]  # The dimensions of an agent's action space
-        self.args.episode_limit = self.env_info["episode_limit"]  # Maximum number of steps per episode
+        self.args.episode_limit = self.env_info["episode_limit"]+10  # Maximum number of steps per episode
         print("number of agents={}".format(self.args.N))
         print("obs_dim={}".format(self.args.obs_dim))
         print("state_dim={}".format(self.args.state_dim))
@@ -61,10 +64,11 @@ class Runner_MAPPO_AIGC:
             self.total_steps += episode_steps
 
             if self.replay_buffer.episode_num == self.args.batch_size:
-                a_l,c_l = self.agent_n.train(self.replay_buffer, self.total_steps)  # Training
+                a_l,c_l,bl_l = self.agent_n.train(self.replay_buffer, self.total_steps)  # Training
                 self.replay_buffer.reset_buffer()
-                self.writer.add_scalar('actor_loss_{}'.format(self.env_name), a_l, global_step=self.total_step)
-                self.writer.add_scalar('critic_loss_{}'.format(self.env_name), c_l, global_step=self.total_step)
+                self.writer.add_scalar('actor_loss_{}'.format(self.env_name), a_l, global_step=self.total_steps)
+                self.writer.add_scalar('critic_loss_{}'.format(self.env_name), c_l, global_step=self.total_steps)
+                self.writer.add_scalar('bl_loss_{}'.format(self.env_name), bl_l, global_step=self.total_steps)
         self.evaluate_policy()
         self.env.close()
  
@@ -85,7 +89,9 @@ class Runner_MAPPO_AIGC:
         self.writer.add_scalar('evaluate_reward_{}'.format(self.env_name), evaluate_reward, global_step=self.total_steps)
         # Save the win rates
         # np.save('agent/MAPPO_AIGC/data_train/MAPPO_env_{}_number_{}_seed_{}.npy'.format(self.env_name, self.number, self.seed), np.array(self.win_rates))
-        self.agent_n.save_model(self.env_name, self.number, evaluate_reward, self.total_steps)
+        if self.best_eva_rewards<evaluate_reward:
+            self.best_eva_rewards=evaluate_reward
+            self.agent_n.save_model(self.env_name, self.number, evaluate_reward, self.total_steps)
 
     def run_episode_aigc(self, evaluate=False):
         win_tag = False
@@ -97,7 +103,7 @@ class Runner_MAPPO_AIGC:
             self.agent_n.actor.rnn_hidden = None
             self.agent_n.critic.rnn_hidden = None
         self.count+=1
-        for episode_step in range(self.args.episode_limit):
+        for episode_step in range(self.args.episode_limit+self.env.start_time):
             if ISHOST:
                 self.env.print_logs(self.count)
             obs_n = self.env.get_obs()  # obs_n.shape=(N,obs_dim)
@@ -105,7 +111,9 @@ class Runner_MAPPO_AIGC:
             avail_a_n = self.env.get_avail_actions()  # Get available actions of N agents, avail_a_n.shape=(N,action_dim)
             a_n, a_logprob_n = self.agent_n.choose_action(obs_n, avail_a_n, evaluate=evaluate)  # Get actions and the corresponding log probabilities of N agents
             v_n = self.agent_n.get_value(s, obs_n)  # Get the state values (V(s)) of N agents
-            r, done, info = self.env._step(a_n)  # Take a step
+            r, done, info, fixed_act = self.env._step(a_n)  # Take a step
+            if episode_step<self.env.start_time:
+                continue
             r = sum(r)/10
             win_tag = True if all(done) and 'battle_won' in info and info['battle_won'] else False
             episode_reward += r
@@ -126,7 +134,7 @@ class Runner_MAPPO_AIGC:
                     dw = False
 
                 # Store the transition
-                self.replay_buffer.store_transition(episode_step, obs_n, s, v_n, avail_a_n, a_n, a_logprob_n, r, done, dw)
+                self.replay_buffer.store_transition(episode_step-self.env.start_time, obs_n, s, v_n, avail_a_n, a_n, a_logprob_n, fixed_act, r, done, dw)
 
             if all(done):
                 break
@@ -136,7 +144,7 @@ class Runner_MAPPO_AIGC:
             obs_n = self.env.get_obs()
             s = self.env.get_state()
             v_n = self.agent_n.get_value(s, obs_n)
-            self.replay_buffer.store_last_value(episode_step + 1, v_n)
+            self.replay_buffer.store_last_value(episode_step + 1-self.env.start_time, v_n)
 
         return win_tag, episode_reward, episode_step + 1
 

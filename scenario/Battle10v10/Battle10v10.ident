@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GB18030"?>
+<DataList Type="TSTopicArchiveHelper" TypeFlag="0">
+	<主题列表 Type="TSVariantArray" TypeFlag="0" Count="1">
+		<Item_0 Type="TSTopicDataDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="0">
+			<主题名称 Type="TSString" TypeFlag="0">Huaru_Simulation_Scenario_IdentMgr</主题名称>
+			<主题数据 Type="Huaru::Simulation::Scenario::IdentMgr::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="1">
+				<标识列表 Name="Profiles" Type="TSVariantArray" TypeFlag="0" Count="2">
+					<Item_0 Type="Huaru::Simulation::Scenario::IdentProfile::DataType" TypeFlag="0">
+						<标识名称 Name="IdentName" Type="TSString" TypeFlag="0">红方</标识名称>
+						<标识颜色 Name="Color" Type="UINT32" TypeFlag="0">4278190244</标识颜色>
+					</Item_0>
+					<Item_1 Type="Huaru::Simulation::Scenario::IdentProfile::DataType" TypeFlag="0">
+						<标识名称 Name="IdentName" Type="TSString" TypeFlag="0">蓝方</标识名称>
+						<标识颜色 Name="Color" Type="UINT32" TypeFlag="0">4286983936</标识颜色>
+					</Item_1>
+				</标识列表>
+				<关系列表 Name="Relationships" Type="TSVariantArray" TypeFlag="0" Count="1">
+					<Item_0 Type="Huaru::Simulation::Scenario::IdentRelationship::DataType" TypeFlag="0">
+						<标识名称1 Name="IdentName1" Type="TSString" TypeFlag="0">红方</标识名称1>
+						<标识名称2 Name="IdentName2" Type="TSString" TypeFlag="0">蓝方</标识名称2>
+						<关系 Name="Relation" Type="UINT32" TypeFlag="0">1</关系>
+					</Item_0>
+				</关系列表>
+			</主题数据>
+		</Item_0>
+	</主题列表>
+</DataList>

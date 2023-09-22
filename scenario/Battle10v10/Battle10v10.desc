@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GB18030"?>
+<Desc Type="HRScenarioDesc" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="0">
+	<BasicInfo Name="BasicInfo" Type="Huaru::Simulation::Scenario::BasicInfo::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="1">
+		<名称 Name="Name" Type="TSString" TypeFlag="0">Battle10v10</名称>
+		<描述 Name="Description" Type="TSString" TypeFlag="0">点此编辑想定描述...</描述>
+		<作战开始时间 Name="BattleStartTime" Type="DOUBLE" TypeFlag="0">1620979024</作战开始时间>
+		<作战结束时间 Name="BattleEndTime" Type="DOUBLE" TypeFlag="0">1620980224</作战结束时间>
+		<仿真步长 Name="SimInterval" Type="DOUBLE" TypeFlag="0">1</仿真步长>
+		<地图范围 Name="Region" Type="Huaru::Simulation::MapRegion::DataType" TypeFlag="0">
+			<南纬 Name="SLat" Type="DOUBLE" TypeFlag="0">0.21547529853365696</南纬>
+			<北纬 Name="NLat" Type="DOUBLE" TypeFlag="0">0.29361244491592731</北纬>
+			<东经 Name="ELon" Type="DOUBLE" TypeFlag="0">2.0666364417201724</东经>
+			<西经 Name="WLon" Type="DOUBLE" TypeFlag="0">1.9561898249924061</西经>
+		</地图范围>
+		<场景地形信息 Name="TerrainOfScene" Type="TSString" TypeFlag="0"></场景地形信息>
+		<内码 Name="ISN" Type="TSString" TypeFlag="0">2356103817</内码>
+		<部署层名称列表 Name="LayerNameList" Type="TSVariantArray" TypeFlag="0" Count="1">
+			<Item_0 Type="TSString" TypeFlag="0">基础层</Item_0>
+		</部署层名称列表>
+	</BasicInfo>
+	<IdentMgr Name="IdentMgr" Type="Huaru::Simulation::Scenario::IdentMgr::DataType" TypeFlag="2" IsNull="false" IsRef="0" PointerIndex="2">
+		<标识列表 Name="Profiles" Type="TSVariantArray" TypeFlag="0" Count="2">
+			<Item_0 Type="Huaru::Simulation::Scenario::IdentProfile::DataType" TypeFlag="0">
+				<标识名称 Name="IdentName" Type="TSString" TypeFlag="0">红方</标识名称>
+				<标识颜色 Name="Color" Type="UINT32" TypeFlag="0">4278190244</标识颜色>
+			</Item_0>
+			<Item_1 Type="Huaru::Simulation::Scenario::IdentProfile::DataType" TypeFlag="0">
+				<标识名称 Name="IdentName" Type="TSString" TypeFlag="0">蓝方</标识名称>
+				<标识颜色 Name="Color" Type="UINT32" TypeFlag="0">4286983936</标识颜色>
+			</Item_1>
+		</标识列表>
+		<关系列表 Name="Relationships" Type="TSVariantArray" TypeFlag="0" Count="1">
+			<Item_0 Type="Huaru::Simulation::Scenario::IdentRelationship::DataType" TypeFlag="0">
+				<标识名称1 Name="IdentName1" Type="TSString" TypeFlag="0">红方</标识名称1>
+				<标识名称2 Name="IdentName2" Type="TSString" TypeFlag="0">蓝方</标识名称2>
+				<关系 Name="Relation" Type="UINT32" TypeFlag="0">1</关系>
+			</Item_0>
+		</关系列表>
+	</IdentMgr>
+	<ResourceList Name="ResourceList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+	<ForceDescList Name="ForceDescList" Type="TSVariantArray" TypeFlag="0" Count="4">
+		<Item_0 Type="TSString" TypeFlag="0">红方:无人机:8:4081544091</Item_0>
+		<Item_1 Type="TSString" TypeFlag="0">红方:有人机:2:2390275515</Item_1>
+		<Item_2 Type="TSString" TypeFlag="0">蓝方:无人机:8:4081544091</Item_2>
+		<Item_3 Type="TSString" TypeFlag="0">蓝方:有人机:2:2390275515</Item_3>
+	</ForceDescList>
+	<ComTPLNameList Name="ComTPLNameList" Type="TSVariantArray" TypeFlag="0" Count="9">
+		<Item_0 Type="TSString" TypeFlag="0">指令响应任务能力</Item_0>
+		<Item_1 Type="TSString" TypeFlag="0">武器系统</Item_1>
+		<Item_2 Type="TSString" TypeFlag="0">默认资产</Item_2>
+		<Item_3 Type="TSString" TypeFlag="0">有人机机动组件</Item_3>
+		<Item_4 Type="TSString" TypeFlag="0">无人机机动组件</Item_4>
+		<Item_5 Type="TSString" TypeFlag="0">有人机雷达</Item_5>
+		<Item_6 Type="TSString" TypeFlag="0">无人机雷达</Item_6>
+		<Item_7 Type="TSString" TypeFlag="0">干扰器</Item_7>
+		<Item_8 Type="TSString" TypeFlag="0">Play策略</Item_8>
+	</ComTPLNameList>
+	<ComFSMNameList Name="ComFSMNameList" Type="TSVariantArray" TypeFlag="0" Count="0" />
+</Desc>
